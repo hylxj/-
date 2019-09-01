@@ -10,7 +10,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2019-08-30-16:42
  */
 @Controller
+@RequestMapping("/login")
 public class LoginController {
+
+    @RequestMapping("/loginPage")
+    public String loginPage(){
+        return "login";
+    }
+
     @RequestMapping("/login")
     @ResponseBody
     public ResultData login(String username, String userpassword){
@@ -20,9 +27,5 @@ public class LoginController {
             resultData= new ResultData(200,"login success");
         }
         return resultData;
-    }
-    @RequestMapping("/index")
-    public String indexPage(){
-        return "";
     }
 }

@@ -13,5 +13,9 @@ public class IndexController {
     public String mainPage(){
         return "main";
     }
+    @RequestMapping("/news/newsListPage")
+    public String newListPage(){
+        return "news/newsList";
+    }
 }
 
