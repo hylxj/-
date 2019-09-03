@@ -2,6 +2,10 @@ package com.zlt.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author shushu
@@ -9,13 +13,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class IndexController {
+
     @RequestMapping("/mainPage")
     public String mainPage(){
         return "main";
     }
+
     @RequestMapping("/news/newsListPage")
     public String newListPage(){
         return "news/newsList";
+    }
+
+    @RequestMapping("/index")
+    public String  indexPage(){
+        return "index";
     }
 }
 

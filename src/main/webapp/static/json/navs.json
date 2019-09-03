@@ -9,25 +9,39 @@
 		{
 			"title": "图片管理",
 			"icon": "&#xe634;",
-			"href": "page/img/images.html",
+			"href": "/img/imagesPage",
 			"spread": false
 		},
 		{
-			"title": "其他页面",
+			"title": "权限管理",
 			"icon": "&#xe630;",
 			"href": "",
 			"spread": false,
 			"children": [
 				{
-					"title": "404页面",
+					"title": "用户管理",
 					"icon": "&#xe61c;",
-					"href": "page/404.html",
+					"href": "/auth/user",
 					"spread": false
 				},
 				{
-					"title": "登录",
+					"title": "权限设置",
 					"icon": "&#xe609;",
-					"href": "page/login/login.html",
+					"href": "/auth/distribute",
+					"spread": false,
+					"target": "_blank"
+				},
+				{
+					"title": "角色管理",
+					"icon": "&#xe609;",
+					"href": "/auth/role",
+					"spread": false,
+					"target": "_blank"
+				},
+				{
+					"title": "菜单管理",
+					"icon": "&#xe609;",
+					"href": "/auth/menu",
 					"spread": false,
 					"target": "_blank"
 				}

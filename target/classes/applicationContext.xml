@@ -22,7 +22,7 @@
     <!-- 配置连接池-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql:///ssm"/>
+        <property name="jdbcUrl" value="jdbc:mysql:///lv3"/>
         <property name="user" value="root"/>
         <property name="password" value="root"/>
     </bean>
@@ -31,6 +31,8 @@
         <property name="dataSource" ref="dataSource"/>
         <!--配置mapper映射文件的位置-->
         <property name="mapperLocations" value="classpath:mapper/*/*.xml"/>
+        <!--配置别名-->
+        <property name="typeAliasesPackage" value="com.zlt.pojo"/>
     </bean>
     <!-- 配置AccountDao接口所在包-->
     <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -51,5 +53,5 @@
     <!-- 配置AOP增强-->
     <aop:config>
         <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.zlt.service.impl.*ServiceImpl.*(..))"/>
-     </aop:config>
+    </aop:config>
 </beans>

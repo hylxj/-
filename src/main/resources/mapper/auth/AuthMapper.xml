@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zlt.dao.AuthDao">
+    <!-- 根据用户信息查询对应权限-->
+    <select id="getAuthUserFunction" parameterType="AuthUser" resultType="Map">
+        SELECT usercode, url FROM sys_user, sys_user_role, sys_role_permission,sys_permission
+        WHERE sys_user. id=sys_user_role. sys_user_id
+        AND sys_user_role. sys_role_id=sys_role_permission. sys_role_id
+        AND sys_role_permission. sys_permission_id=sys_permission. id
+        AND usercode=#{usercode}
+    </select>
+</mapper>
