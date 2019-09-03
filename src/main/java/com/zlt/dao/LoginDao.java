@@ -1,21 +1,12 @@
 package com.zlt.dao;
 
-import com.zlt.pojo.AuthUser;
-
-import java.util.List;
-import java.util.Map;
+import com.zlt.pojo.User;
 
 /**
  * @author shushu
- * @date 2019-09-02-9:08
+ * @date 2019-09-03-15:39
  */
 
 public interface LoginDao {
-    /**
-     * 根据用户名查找密码
-     * @return
-     */
-    AuthUser findPwdByName(AuthUser authUser);
-
-
+    User findByUsername(String username);
 }

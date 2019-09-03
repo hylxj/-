@@ -54,4 +54,83 @@
     <aop:config>
         <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.zlt.service.impl.*ServiceImpl.*(..))"/>
     </aop:config>
+
+    <!-- ====================================shiro配置内容============================================-->
+    <!-- 1.配置 SecurityManager！-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="cacheManager" ref="cacheManager"/>
+        <!-- Single realm app.  If you have multiple realms, use the 'realms' property instead. -->
+        <property name="sessionMode" value="native"/>
+        <property name="realm" ref="jdbcRealm"/>
+        <!-- 配置记住我的时间-->
+        <property name="rememberMeManager.cookie.maxAge" value="10"/>
+    </bean>
+
+    <!-- 2.配置 CacheManager！
+         2.1配置ehcache的配置文件-->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
+
+    <!-- 3.配置 Realm
+         3.1直接配置实现了 org.apache.shiro.realm.Realm接口的bean-->
+    <bean id="jdbcRealm" class="com.zlt.shiro.realms.ShiroRealm">
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <property name="hashAlgorithmName" value="MD5"/>
+                <property name="hashIterations" value="1024"/>
+            </bean>
+        </property>
+    </bean>
+
+
+    <!-- 4.配置LifecycleBeanPostProcessor . 可以自定的来调用配置在Spring IOC容器中shiro bean的生命周期方法。-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 5.启用IOC容器中使用shiro的注解，但必须在配置了LifecycleBeanPostProcessor之后才可以使用。-->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!-- 6.配置ShiroFilter.
+         6.1 id 必须和web.xml文件中配置的DeleqatingFilterproxy的<filter-name>一致。
+         若不一致抛出异常：NoSuchBeanDefinitionException.因为Shiro会来IOC 容器中查找和<filter-name>名字对应的filter bean.
+    -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/index.jsp"/>
+        <property name="successUrl" value="/index"/>
+        <property name="unauthorizedUrl" value="/errorPage"/>
+        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"/>
+        <!-- 6.2 配置哪些页面需要受保护。
+             以及访问这些页面需要的权限。
+             1）.anon 可以被名访问
+             2）.authc 必须认证（即登录）才可以访问
+             3）.logout 登出
+             4）.roles 角色过滤器
+             3）URL 权限采取第一次匹配优先的方式
+        <property name="filterChainDefinitions">
+            <value>
+                /login.jsp = anon
+                /shiro/login = anon
+                /shrio/logout = logout
+
+                /user.jsp = roles[user]
+                /admin.jsp = roles[admin]
+
+                # everything else requires authentication:
+                /** = authc
+            </value>
+        </property>
+            -->
+    </bean>
+
+    <!--配置一个bean，该bean 实际上是一个Map.通过实例工厂方法的方式-->
+    <bean id="filterChainDefinitionMap" factory-bean="filterChainDefinitionMapBuilder"
+          factory-method="buildFilterChainDefinitionMap"/>
+    <bean id="filterChainDefinitionMapBuilder" class="com.zlt.shiro.factory.FilterChainDefinitionMapBuilder"/>
+
+<!--    <bean id="shrioService" class="com.zlt.shiro.services.ShiroService"/>-->
 </beans>

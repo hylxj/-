@@ -28,7 +28,7 @@
 		<div class="layui-form-item input-item" id="imgCode">
 			<label for="code">验证码</label>
 			<input type="text" placeholder="请输入验证码" autocomplete="off" id="code" class="layui-input">
-			<img src="${pageContext.request.contextPath}/static/images/code.jpg">
+			<img src="${pageContext.request.contextPath}/shiro/getVCode">
 		</div>
 		<div class="layui-form-item">
 			<button id="btn" class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
@@ -46,9 +46,9 @@
 			form.on("submit(login)",function(data){
 				$(this).text("登录中...").attr("disabled","disabled").addClass("layui-disabled");
 				$.ajax({
-					url:"/login",
+					url:"/shiro/login",
 					type:"post",
-					data:{"usercode":$('#userName').val(),"password":$('#password').val()},
+					data:{"username":$('#userName').val(),"password":$('#password').val(),"verifyCode":$("#code").val()},
 					dataType:"json",
 					success:function (data) {
 						if (data.code==200){
@@ -56,6 +56,9 @@
 						}else {
 							$("#btn").text("登录").removeAttr("disabled").removeClass("layui-disabled");
 							layer.msg(data.msg);
+							if (data.code==1003) {
+								window.location.reload();
+							}
 						}
 					}
 				});

@@ -28,5 +28,9 @@ public class IndexController {
     public String  indexPage(){
         return "index";
     }
+    @RequestMapping("/errorPage")
+    public String errorPage(){
+        return "404";
+    }
 }
 
