@@ -45,7 +45,7 @@
         <if test="realName!=null and realName!=''">
             realName=#{realName},
         </if>
-        <if test="sex!=null and sex!=''">
+        <if test="sex!=null">
             sex=#{sex}
         </if>
            where id=#{id}

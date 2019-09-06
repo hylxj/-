@@ -9,8 +9,6 @@ import com.zlt.pojo.ResultTable;
 import com.zlt.pojo.User;
 import com.zlt.service.UserService;
 import com.zlt.utils.PasswordUtil;
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
