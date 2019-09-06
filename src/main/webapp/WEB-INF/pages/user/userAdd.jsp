@@ -91,7 +91,7 @@
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<div class="layui-input-block">
 			<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addUser">立即添加</button>
-			<button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+			<button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
 		</div>
 	</div>
 </form>

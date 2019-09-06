@@ -59,17 +59,22 @@
 				laytpl = layui.laytpl,
 				table = layui.table;
 		//添加验证规则
+		var bool=false;
+		$("#oldPwd").blur(function () {
+			$.get("/user/verifyOldPwd", {
+				username:"${username}",
+				password:$(this).val()
+			},function (data) {
+				if(data.code===200){
+					bool=true;
+				}
+			});
+		});
 		form.verify({
 			oldPwd : function(value, item){
-				$.get("/user/verifyOldPwd", {
-					username:"${username}",
-					password:value
-				},function (data) {
-					console.log("--->验证旧密码"+data);
-					if(value != data.msg){
-						return "密码错误，请重新输入！";
-					}
-				});
+				if (!bool){
+					return "旧密码错误,请重新输入";
+				}
 			},
 			newPwd : function(value, item){
 				if(value.length < 6){

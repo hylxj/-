@@ -40,16 +40,16 @@
 			    <!-- 顶部右侧菜单 -->
 			    <ul class="layui-nav top_menu">
 					<li class="layui-nav-item" pc>
-						<a href="javascript:;" class="clearCache"><i class="layui-icon" data-icon="&#xe640;">&#xe640;</i><cite>清除缓存</cite><span class="layui-badge-dot"></span></a>
+						<a href="javascript:;" class="clearCache"><i class="layui-icon" data-icon="&#xe640;">&#xe640;</i><cite>清除缓存</cite></a>
 					</li>
 					<li class="layui-nav-item lockcms" pc>
 						<a href="javascript:;"><i class="seraph icon-lock"></i><cite>锁屏</cite></a>
 					</li>
 					<li class="layui-nav-item" id="userInfo">
-						<a href="javascript:;"><img src="${pageContext.request.contextPath}/static/images/face.jpg" class="layui-nav-img userAvatar" width="35" height="35"><cite class="adminName">${username}</cite></a>
+						<a href="javascript:;"><img src="http://localhost:9090/uploads/${user.icon}" class="layui-nav-img userAvatar" width="35" height="35"><cite class="adminName">${user.username}</cite></a>
 						<dl class="layui-nav-child">
-							<dd><a href="javascript:;" data-url="page/user/userInfo.html"><i class="seraph icon-ziliao" data-icon="icon-ziliao"></i><cite>个人资料</cite></a></dd>
-							<dd><a href="javascript:;" data-url="/user/changePwdPage?username=${username}"><i class="seraph icon-xiugai" data-icon="icon-xiugai"></i><cite>修改密码</cite></a></dd>
+							<dd><a href="javascript:;" data-url="/user/userInfoPage?username=${user.username}"><i class="seraph icon-ziliao" data-icon="icon-ziliao"></i><cite>个人资料</cite></a></dd>
+							<dd><a href="javascript:;" data-url="/user/changePwdPage?username=${user.username}"><i class="seraph icon-xiugai" data-icon="icon-xiugai"></i><cite>修改密码</cite></a></dd>
 							<dd pc><a href="javascript:;" class="functionSetting"><i class="layui-icon">&#xe620;</i><cite>功能设定</cite></a></dd>
 							<dd pc><a href="javascript:;" class="changeSkin"><i class="layui-icon">&#xe61b;</i><cite>更换皮肤</cite></a></dd>
 							<dd><a href="${pageContext.request.contextPath}/shiro/logout" class="signOut"><i class="seraph icon-tuichu"></i><cite>退出</cite></a></dd>
@@ -61,22 +61,22 @@
 		<!-- 左侧导航 -->
 		<div class="layui-side layui-bg-black">
 			<div class="user-photo">
-				<a class="img" title="我的头像" ><img src="${pageContext.request.contextPath}/static/images/face.jpg" class="userAvatar"></a>
-				<p>你好！<span class="userName">${username}</span>, 欢迎登录</p>
+				<a class="img" title="我的头像" ><img src="http://localhost:9090/uploads/${user.icon}" class="userAvatar"></a>
+				<p>你好！<span class="userName">${user.username}</span>, 欢迎登录</p>
 			</div>
 			<!-- 搜索 -->
 			<div class="layui-form component">
-				<select name="search" id="search" lay-search lay-filter="searchPage">
-					<option value="">搜索页面或功能</option>
-					<option value="1">layer</option>
-					<option value="2">form</option>
-				</select>
-				<i class="layui-icon">&#xe615;</i>
+<%--				<select name="search" id="search" lay-search lay-filter="searchPage">--%>
+<%--					<option value="">搜索页面或功能</option>--%>
+<%--					<option value="1">layer</option>--%>
+<%--					<option value="2">form</option>--%>
+<%--				</select>--%>
+<%--				<i class="layui-icon">&#xe615;</i>--%>
 			</div>
 			<div class="navBar layui-side-scroll" id="navBar">
 				<ul class="layui-nav layui-nav-tree">
 					<li class="layui-nav-item layui-this">
-						<a href="javascript:;" data-url="${pageContext.request.contextPath}/mainPage?username=${username}"><i class="layui-icon" data-icon=""></i><cite>后台首页</cite></a>
+						<a href="javascript:;" data-url="${pageContext.request.contextPath}/mainPage?username=${user.username}"><i class="layui-icon" data-icon=""></i><cite>后台首页</cite></a>
 					</li>
 				</ul>
 			</div>
@@ -99,7 +99,7 @@
 				</ul>
 				<div class="layui-tab-content clildFrame">
 					<div class="layui-tab-item layui-show">
-						<iframe src="${pageContext.request.contextPath}/mainPage"></iframe>
+						<iframe src="${pageContext.request.contextPath}/mainPage?username=${user.username}"></iframe>
 					</div>
 				</div>
 			</div>

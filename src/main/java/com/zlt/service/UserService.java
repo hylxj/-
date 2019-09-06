@@ -38,4 +38,6 @@ public interface UserService {
     ResultData verifyOldPwd(String username,String password);
 
     void updatePwd(String username, String password);
+
+    void saveIcon(Integer id, String filename);
 }

@@ -20,7 +20,35 @@
         select * from user where id=#{id}
     </select>
     <update id="userEdit" parameterType="User">
-        update user set username=#{username},locked=#{locked},birthday=#{birthday},sex=#{sex},phone=#{phone},type=#{type},belongId=#{belongId},userDesc=#{userDesc} where id=#{id}
+        update user set
+        <if test="username!=null and username!=''">
+            username=#{username},
+        </if>
+        <if test="locked!=null and locked!=''">
+            locked=#{locked},
+        </if>
+        <if test="birthday!=null">
+            birthday=#{birthday},
+        </if>
+        <if test="phone!=null and phone!=''">
+            phone=#{phone},
+        </if>
+        <if test="type!=null and type!=''">
+            type=#{type},
+        </if>
+        <if test="belongId!=null and belongId!=''">
+            belongId=#{belongId},
+        </if>
+        <if test="userDesc!=null and userDesc!=''">
+            userDesc=#{userDesc},
+        </if>
+        <if test="realName!=null and realName!=''">
+            realName=#{realName},
+        </if>
+        <if test="sex!=null and sex!=''">
+            sex=#{sex}
+        </if>
+           where id=#{id}
     </update>
     <update id="delUser" parameterType="int">
         update user set userStatus=4 where id=#{id}
@@ -36,5 +64,8 @@
     </update>
     <update id="changePwd" parameterType="string">
         update user set password=#{newPwd} where username=#{username}
+    </update>
+    <update id="saveIcon">
+        update user set icon=#{icon} where id=#{id}
     </update>
 </mapper>

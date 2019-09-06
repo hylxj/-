@@ -32,6 +32,12 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
+    /**
+     * 分页显示用户列表
+     * @param page
+     * @param pageSize
+     * @return
+     */
     @Override
     public PageInfo<User> findAllUser(Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
@@ -39,6 +45,11 @@ public class UserServiceImpl implements UserService{
         return new PageInfo<>(users);
     }
 
+    /**
+     * 根据用户名模糊搜索
+     * @param key
+     * @return
+     */
     @Override
     public ResultTable searchUserList(String key) {
         char[] chars = key.toCharArray();
@@ -58,8 +69,15 @@ public class UserServiceImpl implements UserService{
         return userDao.findAllBusCenName();
     }
 
+    /**
+     * 添加用户
+     * @param user
+     * @throws DataAccessException
+     */
     @Override
     public void userAdd(User user)throws DataAccessException {
+        user.setSalt(user.getUsername());
+        user.setPassword(PasswordUtil.getMd5Passwword(user.getPassword(),user.getSalt()));//密码加密后存储
         userDao.insertUser(user);
     }
 
@@ -68,6 +86,10 @@ public class UserServiceImpl implements UserService{
         return userDao.findAllById(id);
     }
 
+    /**
+     * 用户编辑
+     * @param user
+     */
     @Override
     public void userEdit(User user) {
         userDao.userEdit(user);
@@ -83,24 +105,45 @@ public class UserServiceImpl implements UserService{
         userDao.batchDelUser(userId);
     }
 
+    /**
+     * 更新锁定状态
+     * @param id
+     * @param isLocked
+     */
     @Override
     public void updateLocked(Integer id, Integer isLocked) {
         userDao.updateLocked(id,isLocked);
     }
 
+    /**
+     * 验证旧密码
+     * @param username
+     * @param password
+     * @return
+     */
     @Override
     public ResultData verifyOldPwd(String username,String password) {
         User user=userDao.findByUsername(username);
-        if (user.getPassword().equals(PasswordUtil.getMd5Passwword(password,user.getSalt()))){
+        if (!user.getPassword().equals(PasswordUtil.getMd5Passwword(password,user.getSalt()))){
             return new ResultData(5001,"旧密码错误");
         }
         return new ResultData(200,"密码正确");
     }
 
+    /**
+     * 更新密码
+     * @param username
+     * @param password
+     */
     @Override
     public void updatePwd(String username, String password) {
         User user=userDao.findByUsername(username);
         String newPwd = PasswordUtil.getMd5Passwword(password, user.getSalt());//新密码
         userDao.changePwd(username,newPwd);
+    }
+
+    @Override
+    public void saveIcon(Integer id, String filename) {
+        userDao.saveIcon(id,filename);
     }
 }

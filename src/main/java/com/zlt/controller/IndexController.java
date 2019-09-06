@@ -1,5 +1,8 @@
 package com.zlt.controller;
 
+import com.zlt.pojo.User;
+import com.zlt.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class IndexController {
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/mainPage")
     public String mainPage(String username, Model model){
@@ -19,7 +24,8 @@ public class IndexController {
 
     @RequestMapping("/index")
     public String  indexPage(String username, Model model){
-        model.addAttribute("username",username);
+        User user = userService.findByUsername(username);
+        model.addAttribute("user",user);
         return "index";
     }
     @RequestMapping("/errorPage")

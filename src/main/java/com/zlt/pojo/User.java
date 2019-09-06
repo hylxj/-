@@ -15,6 +15,7 @@ public class User implements Serializable {
     private String salt;
     private Integer locked;
     private Date birthday;
+    private String realName;
     private String icon;
     private Integer sex;
     private String phone;
@@ -23,6 +24,13 @@ public class User implements Serializable {
     private String userDesc;
     private String userStatus;
 
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
 
     public String getUserStatus() {
         return userStatus;
@@ -138,6 +146,7 @@ public class User implements Serializable {
                 ", salt='" + salt + '\'' +
                 ", locked=" + locked +
                 ", birthday=" + birthday +
+                ", realName='" + realName + '\'' +
                 ", icon='" + icon + '\'' +
                 ", sex=" + sex +
                 ", phone='" + phone + '\'' +

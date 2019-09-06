@@ -33,4 +33,6 @@ public interface UserDao {
     void updateLocked(@Param("id") Integer id,@Param("isLocked") Integer isLocked);
 
     void changePwd(@Param("username") String username,@Param("newPwd") String newPwd);
+
+    void saveIcon(@Param("id") Integer id, @Param("icon") String filename);
 }

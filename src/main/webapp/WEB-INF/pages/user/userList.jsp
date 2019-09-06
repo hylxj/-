@@ -108,7 +108,7 @@
 			url : '${pageContext.request.contextPath}/user/list',
             page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
             layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']//自定义分页布局
-                    ,limit:5
+                    ,limit:10
 					,limits:[5,10,15]
                     ,first: true //不显示首页
                     ,last: true //不显示尾页
