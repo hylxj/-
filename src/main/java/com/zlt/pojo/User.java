@@ -1,6 +1,7 @@
 package com.zlt.pojo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author shushu
@@ -13,6 +14,80 @@ public class User implements Serializable {
     private String password;
     private String salt;
     private Integer locked;
+    private Date birthday;
+    private String icon;
+    private Integer sex;
+    private String phone;
+    private Integer type;
+    private Integer belongId;
+    private String userDesc;
+    private String userStatus;
+
+
+    public String getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
+    }
+
+    public String getUserDesc() {
+        return userDesc;
+    }
+
+    public void setUserDesc(String userDesc) {
+        this.userDesc = userDesc;
+    }
+
+    public Integer getBelongId() {
+        return belongId;
+    }
+
+    public void setBelongId(Integer belongId) {
+        this.belongId = belongId;
+    }
+
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
     public Integer getId() {
         return id;
@@ -62,6 +137,14 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", salt='" + salt + '\'' +
                 ", locked=" + locked +
+                ", birthday=" + birthday +
+                ", icon='" + icon + '\'' +
+                ", sex=" + sex +
+                ", phone='" + phone + '\'' +
+                ", type=" + type +
+                ", belongId=" + belongId +
+                ", userDesc='" + userDesc + '\'' +
+                ", userStatus='" + userStatus + '\'' +
                 '}';
     }
 }

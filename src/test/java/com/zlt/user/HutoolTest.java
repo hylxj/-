@@ -14,4 +14,18 @@ public class HutoolTest {
         String pwd= SecureUtil.md5("1");
         System.out.println(pwd);
     }
+    @Test
+    public void m02(){
+        String key="us";
+        char[] chars = key.toCharArray();
+        String username="%";
+        for (char c:chars){
+            username+=c+"%";
+        }
+        System.out.println(username);
+    }
+    @Test
+    public void m03(){
+
+    }
 }

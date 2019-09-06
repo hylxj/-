@@ -23,18 +23,6 @@
 				<a href="#" class="logo" style="font-size: 11px">成都市公共交通信息管理平台</a>
 				<!-- 显示/隐藏菜单 -->
 				<a href="javascript:;" class="seraph hideMenu icon-caidan"></a>
-				<!-- 顶级菜单 -->
-				<ul class="layui-nav mobileTopLevelMenus" mobile>
-					<li class="layui-nav-item" data-menu="contentManagement">
-						<a href="javascript:;"><i class="seraph icon-caidan"></i><cite>layuiCMS</cite></a>
-						<dl class="layui-nav-child">
-							<dd class="layui-this" data-menu="contentManagement"><a href="javascript:;"><i class="layui-icon" data-icon="&#xe63c;">&#xe63c;</i><cite>内容管理</cite></a></dd>
-							<dd data-menu="memberCenter"><a href="javascript:;"><i class="seraph icon-icon10" data-icon="icon-icon10"></i><cite>用户中心</cite></a></dd>
-							<dd data-menu="systemeSttings"><a href="javascript:;"><i class="layui-icon" data-icon="&#xe620;">&#xe620;</i><cite>系统设置</cite></a></dd>
-							<dd data-menu="seraphApi"><a href="javascript:;"><i class="layui-icon" data-icon="&#xe705;">&#xe705;</i><cite>使用文档</cite></a></dd>
-						</dl>
-					</li>
-				</ul>
 				<ul class="layui-nav topLevelMenus" pc>
 					<li class="layui-nav-item layui-this" data-menu="contentManagement">
 						<a href="javascript:;"><i class="layui-icon" data-icon="&#xe63c;">&#xe63c;</i><cite>内容管理</cite></a>
@@ -58,12 +46,11 @@
 						<a href="javascript:;"><i class="seraph icon-lock"></i><cite>锁屏</cite></a>
 					</li>
 					<li class="layui-nav-item" id="userInfo">
-						<a href="javascript:;"><img src="${pageContext.request.contextPath}/static/images/face.jpg" class="layui-nav-img userAvatar" width="35" height="35"><cite class="adminName">超级管理员</cite></a>
+						<a href="javascript:;"><img src="${pageContext.request.contextPath}/static/images/face.jpg" class="layui-nav-img userAvatar" width="35" height="35"><cite class="adminName">${username}</cite></a>
 						<dl class="layui-nav-child">
 							<dd><a href="javascript:;" data-url="page/user/userInfo.html"><i class="seraph icon-ziliao" data-icon="icon-ziliao"></i><cite>个人资料</cite></a></dd>
-							<dd><a href="javascript:;" data-url="page/user/changePwd.html"><i class="seraph icon-xiugai" data-icon="icon-xiugai"></i><cite>修改密码</cite></a></dd>
-							<dd><a href="javascript:;" class="showNotice"><i class="layui-icon">&#xe645;</i><cite>系统公告</cite><span class="layui-badge-dot"></span></a></dd>
-							<dd pc><a href="javascript:;" class="functionSetting"><i class="layui-icon">&#xe620;</i><cite>功能设定</cite><span class="layui-badge-dot"></span></a></dd>
+							<dd><a href="javascript:;" data-url="/user/changePwdPage?username=${username}"><i class="seraph icon-xiugai" data-icon="icon-xiugai"></i><cite>修改密码</cite></a></dd>
+							<dd pc><a href="javascript:;" class="functionSetting"><i class="layui-icon">&#xe620;</i><cite>功能设定</cite></a></dd>
 							<dd pc><a href="javascript:;" class="changeSkin"><i class="layui-icon">&#xe61b;</i><cite>更换皮肤</cite></a></dd>
 							<dd><a href="${pageContext.request.contextPath}/shiro/logout" class="signOut"><i class="seraph icon-tuichu"></i><cite>退出</cite></a></dd>
 						</dl>
@@ -75,7 +62,7 @@
 		<div class="layui-side layui-bg-black">
 			<div class="user-photo">
 				<a class="img" title="我的头像" ><img src="${pageContext.request.contextPath}/static/images/face.jpg" class="userAvatar"></a>
-				<p>你好！<span class="userName">超级管理员</span>, 欢迎登录</p>
+				<p>你好！<span class="userName">${username}</span>, 欢迎登录</p>
 			</div>
 			<!-- 搜索 -->
 			<div class="layui-form component">
@@ -89,7 +76,7 @@
 			<div class="navBar layui-side-scroll" id="navBar">
 				<ul class="layui-nav layui-nav-tree">
 					<li class="layui-nav-item layui-this">
-						<a href="javascript:;" data-url="${pageContext.request.contextPath}/mainPage"><i class="layui-icon" data-icon=""></i><cite>后台首页</cite></a>
+						<a href="javascript:;" data-url="${pageContext.request.contextPath}/mainPage?username=${username}"><i class="layui-icon" data-icon=""></i><cite>后台首页</cite></a>
 					</li>
 				</ul>
 			</div>

@@ -1,9 +1,9 @@
 {
 	"contentManagement": [
 		{
-			"title": "文章列表",
+			"title": "用户列表",
 			"icon": "icon-text",
-			"href": "/news/newsListPage",
+			"href": "/user/userList",
 			"spread": false
 		},
 		{

@@ -1,11 +1,16 @@
 package com.zlt.user;
 
-import cn.hutool.crypto.SecureUtil;
+import com.zlt.dao.UserDao;
+import com.zlt.pojo.ResultData;
+import com.zlt.pojo.User;
+import com.zlt.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+
+import javax.annotation.Resource;
 
 /**
  * @author shushu
@@ -13,11 +18,12 @@ import org.springframework.test.context.web.WebAppConfiguration;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-@WebAppConfiguration
 public class userTest {
+    @Resource
+    private UserDao userDao;
+    @Autowired
+    private UserService userService;
     @Test
     public void m01(){
-        String pwd= String.valueOf(SecureUtil.md5("1"));
-        System.out.println(pwd);
     }
 }

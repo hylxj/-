@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zlt.dao.UserDao" >
+    <select id="findByUsername" parameterType="string" resultType="User">
+        select * from user where username=#{username} and userStatus!=4
+    </select>
+    <select id="findAllUser" resultType="User">
+        select * from user where userStatus!=4
+    </select>
+    <select id="searchUserList" parameterType="string" resultType="User">
+        select * from user where username like #{key} and userStatus!=4
+    </select>
+    <select id="findAllBusCenName" resultType="BusCen">
+        select buscenId,buscenName from buscenter
+    </select>
+    <insert id="insertUser" parameterType="User">
+        insert into user(username,password,salt,locked,birthday,sex,phone,type,belongId,userDesc) values (#{username},#{password},#{salt},#{locked},#{birthday},#{sex},#{phone},#{type},#{belongId},#{userDesc})
+    </insert>
+    <select id="findAllById" parameterType="int" resultType="User">
+        select * from user where id=#{id}
+    </select>
+    <update id="userEdit" parameterType="User">
+        update user set username=#{username},locked=#{locked},birthday=#{birthday},sex=#{sex},phone=#{phone},type=#{type},belongId=#{belongId},userDesc=#{userDesc} where id=#{id}
+    </update>
+    <update id="delUser" parameterType="int">
+        update user set userStatus=4 where id=#{id}
+    </update>
+    <update id="batchDelUser" parameterType="long">
+        update user set userStatus=4 where id in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <update id="updateLocked" parameterType="int">
+        update user set locked=#{isLocked} where id=#{id}
+    </update>
+    <update id="changePwd" parameterType="string">
+        update user set password=#{newPwd} where username=#{username}
+    </update>
+</mapper>

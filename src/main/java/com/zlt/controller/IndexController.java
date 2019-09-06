@@ -1,11 +1,8 @@
 package com.zlt.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * @author shushu
@@ -15,17 +12,14 @@ import java.io.IOException;
 public class IndexController {
 
     @RequestMapping("/mainPage")
-    public String mainPage(){
+    public String mainPage(String username, Model model){
+        model.addAttribute("username",username);
         return "main";
     }
 
-    @RequestMapping("/news/newsListPage")
-    public String newListPage(){
-        return "news/newsList";
-    }
-
     @RequestMapping("/index")
-    public String  indexPage(){
+    public String  indexPage(String username, Model model){
+        model.addAttribute("username",username);
         return "index";
     }
     @RequestMapping("/errorPage")

@@ -1,9 +1,11 @@
 package com.zlt.pojo;
 
+import java.io.Serializable;
+
 /**
  * 角色
  */
-public class SysRole {
+public class SysRole implements Serializable {
     private String id;
 
     private String name;

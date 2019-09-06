@@ -52,7 +52,7 @@
 					dataType:"json",
 					success:function (data) {
 						if (data.code==200){
-							window.location.href = "/index";
+							window.location.href = "/index?username="+data.msg;
 						}else {
 							$("#btn").text("登录").removeAttr("disabled").removeClass("layui-disabled");
 							layer.msg(data.msg);
