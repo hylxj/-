@@ -10,6 +10,8 @@ import java.util.LinkedHashMap;
 public class FilterChainDefinitionMapBuilder {
     public LinkedHashMap<String,String> buildFilterChainDefinitionMap(){
         LinkedHashMap<String,String> map=new LinkedHashMap<>();
+        map.put("/static/**","anon");
+        map.put(("/http://localhost:9090/uploads/**"),"anon");
         map.put("/index.jsp","anon");
         map.put("/shiro/login","anon");
         map.put("/shiro/getVCode","anon");
@@ -19,7 +21,7 @@ public class FilterChainDefinitionMapBuilder {
         map.put("/admin.jsp","authc,roles[admin]");
         map.put("/list.jsp","user");
 
-//        map.put("/**","authc");
+        map.put("/**","authc");
         return map;
     }
 }

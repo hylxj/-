@@ -25,26 +25,26 @@ public class LoginController {
     @RequestMapping("/login")
     @ResponseBody
     public ResultData login(String username, String password,String verifyCode) {
-//        //获取当前的用户
-//        Subject currentUser = SecurityUtils.getSubject();
-//        String vCode = (String) currentUser.getSession().getAttribute("verifyCode");
-//        if (!vCode.equalsIgnoreCase(verifyCode)){
-//            return new ResultData(1003,"验证码不正确，请重新输入");
-//        }
-//        if (!currentUser.isAuthenticated()) {
-//            //把用户名和密码封装为UsernamePasswordToken对象
-//            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-//            //rememberMe
-//            token.setRememberMe(true);
-//            try {
-//                //执行登录
-//                currentUser.login(token);
-//            } catch (IncorrectCredentialsException ice) {//若账户存在，但密码不匹配，则shiro 会抛出IncorrectcredentialsException 异常。
-//                return new ResultData(1001, "登陆失败,密码错误");
-//            } catch (AuthenticationException ae) {//所有以上异常的父类
-//                return new ResultData(1002, "登陆失败" + ae.getMessage());
-//            }
-//        }
+        //获取当前的用户
+        Subject currentUser = SecurityUtils.getSubject();
+        String vCode = (String) currentUser.getSession().getAttribute("verifyCode");
+        if (!vCode.equalsIgnoreCase(verifyCode)){
+            return new ResultData(1003,"验证码不正确，请重新输入");
+        }
+        if (!currentUser.isAuthenticated()) {
+            //把用户名和密码封装为UsernamePasswordToken对象
+            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+            //rememberMe
+            token.setRememberMe(true);
+            try {
+                //执行登录
+                currentUser.login(token);
+            } catch (IncorrectCredentialsException ice) {//若账户存在，但密码不匹配，则shiro 会抛出IncorrectcredentialsException 异常。
+                return new ResultData(1001, "登陆失败,密码错误");
+            } catch (AuthenticationException ae) {//所有以上异常的父类
+                return new ResultData(1002, "登陆失败" + ae.getMessage());
+            }
+        }
         return new ResultData(200, username);
     }
 

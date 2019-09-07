@@ -59,12 +59,12 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //1.从Principalcollection中来获取登录用户的信息
-        Object principal = principals.getPrimaryPrincipal();
+        User principal = (User) principals.getPrimaryPrincipal();
 
         //2.利用登录的用户的信息来用户当前用户的角色或权限（可能需要查询数据库）
         Set<String> roles = new HashSet<>();
         roles.add("user");
-        if ("admin".equals(principal)){
+        if ("admin".equals(principal.getUsername())){
             roles.add("admin");
         }
 
