@@ -146,4 +146,15 @@ public class UserServiceImpl implements UserService{
     public List<Role> findRolesByUserId(Integer id) {
         return userDao.findRolesByUserId(id);
     }
+
+    @Override
+    public ResultTable listByType(Integer page,Integer pageSize,Integer type) {
+        PageHelper.startPage(page,pageSize);
+        List<User> users=userDao.listByType(type);
+        if (users==null){
+            return new ResultTable(6001,"数据为空");
+        }
+        PageInfo<User> pageInfo=new PageInfo<>(users);
+        return new ResultTable(0,"查找成功",(int)pageInfo.getTotal(),pageInfo.getList());
+    }
 }

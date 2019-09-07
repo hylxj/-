@@ -213,4 +213,16 @@ public class UserController {
         userService.saveIcon(id,filename);
         return new ResultData(0,"上传头像成功",filename);
     }
+    @RequestMapping("/listByType")
+    @ResponseBody
+    public ResultTable listByType(Integer page,Integer limit,Integer type){
+        ResultTable resultTable=null;
+        if (type==0){//查找所有的调度中心
+            PageInfo<User> pageInfo = userService.findAllUser(page, limit);
+            return new ResultTable(0,"",(int)pageInfo.getTotal(),pageInfo.getList());
+        }else {
+            resultTable=userService.listByType(page,limit,type);
+        }
+        return resultTable;
+    }
 }

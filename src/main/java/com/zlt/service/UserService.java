@@ -39,4 +39,6 @@ public interface UserService {
     void saveIcon(Integer id, String filename);
 
     List<Role> findRolesByUserId(Integer id);
+
+    ResultTable listByType(Integer page,Integer pageSize,Integer type);
 }

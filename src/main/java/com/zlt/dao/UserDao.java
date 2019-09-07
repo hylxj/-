@@ -38,4 +38,6 @@ public interface UserDao {
     void saveIcon(@Param("id") Integer id, @Param("icon") String filename);
 
     List<Role> findRolesByUserId(Integer id);
+
+    List<User> listByType(Integer type);
 }

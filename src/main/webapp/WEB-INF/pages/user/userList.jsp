@@ -12,8 +12,19 @@
 	<meta name="format-detection" content="telephone=no">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css" media="all" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/public.css" media="all" />
+	<style>
+		#treeDiv{
+			float: left;
+			padding: 100px 0px;
+			width: 180px;
+		}
+		#layui-table-page1{
+			margin-left: 200px;
+		}
+	</style>
 </head>
 <body class="childrenBody">
+<div id="treeDiv"></div>
 <form class="layui-form">
 	<blockquote class="layui-elem-quote quoteBox">
 		<form class="layui-form">
@@ -95,23 +106,52 @@
 		// second = minute < 10 ? ('0' + second) : second;
 		return y + '-' + m + '-' + d/*+' '+h+':'+minute+':'+ second*/;
 	}
-	layui.use(['form','layer','laydate','table','laytpl'],function(){
+	layui.use(['form','layer','tree','table','laytpl'],function(){
 		var form = layui.form,
 				layer = parent.layer === undefined ? layui.layer : top.layer,
 				$ = layui.jquery,
-				laydate = layui.laydate,
+				tree = layui.tree,
 				laytpl = layui.laytpl,
 				table = layui.table;
+		//树形图
+		var treeIns=tree.render({
+			elem:"#treeDiv",
+			accordion: true,
+			showLine:false,
+			isJump:true,
+			data:[{
+				title: '全部调度中心' //一级菜单
+				,spread:true
+				,id:0
+				,children: [{
+					title: '双流区调度中心'
+					,id:1
+				},{
+					title: '高新区调度中心'
+					,id:2
+				}]
+			}]
+			,click:function (item) {
+				table.reload("userListTable",{
+					url:"/user/listByType",
+					page: {
+						curr: 1 //重新从第 1 页开始
+					},
+					where: {
+						type:item.data.id
+					}
+				})
+			}
+		});
 		//用户列表
 		var tableIns = table.render({
 			elem: '#userList',
 			url : '${pageContext.request.contextPath}/user/list',
+			height:480,
             page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
             layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']//自定义分页布局
                     ,limit:10
 					,limits:[5,10,15]
-                    ,first: true //不显示首页
-                    ,last: true //不显示尾页
             },
             title: '用户表',
 			id : "userListTable",

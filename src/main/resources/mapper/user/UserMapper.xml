@@ -71,4 +71,7 @@
     <select id="findRolesByUserId" parameterType="int" resultType="Role">
         select r.* from role r,userRole where r.roleId=userrole.roleId and userrole.userId=#{id}
     </select>
+    <select id="listByType" parameterType="int" resultType="User">
+        select * from user where type=#{type}
+    </select>
 </mapper>
