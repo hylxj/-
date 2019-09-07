@@ -1,10 +1,7 @@
 package com.zlt.service;
 
 import com.github.pagehelper.PageInfo;
-import com.zlt.pojo.BusCen;
-import com.zlt.pojo.ResultData;
-import com.zlt.pojo.ResultTable;
-import com.zlt.pojo.User;
+import com.zlt.pojo.*;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -40,4 +37,6 @@ public interface UserService {
     void updatePwd(String username, String password);
 
     void saveIcon(Integer id, String filename);
+
+    List<Role> findRolesByUserId(Integer id);
 }

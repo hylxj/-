@@ -1,5 +1,6 @@
 package com.zlt.shiro.realms;
 
+import com.zlt.pojo.Role;
 import com.zlt.pojo.User;
 import com.zlt.service.UserService;
 import org.apache.shiro.authc.*;
@@ -11,6 +12,7 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -63,9 +65,9 @@ public class ShiroRealm extends AuthorizingRealm {
 
         //2.利用登录的用户的信息来用户当前用户的角色或权限（可能需要查询数据库）
         Set<String> roles = new HashSet<>();
-        roles.add("user");
-        if ("admin".equals(principal.getUsername())){
-            roles.add("admin");
+        List<Role> dbroles= userService.findRolesByUserId(principal.getId());
+        for (Role role:dbroles){
+            roles.add(role.getRoleName());
         }
 
         //3.创建simpleAuthorizationInfo，并设留其roles 属性。

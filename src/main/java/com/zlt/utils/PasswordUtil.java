@@ -16,6 +16,7 @@ public class PasswordUtil {
     }
 
     public static void main(String[] args) {
+        System.out.println(getMd5Passwword("123456","gx user"));
         System.out.println("43b9d50f0cf241aefebff60f4436d4b9".equals(getMd5Passwword("111111","user")));
     }
 }

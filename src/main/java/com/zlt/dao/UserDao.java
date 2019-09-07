@@ -1,6 +1,7 @@
 package com.zlt.dao;
 
 import com.zlt.pojo.BusCen;
+import com.zlt.pojo.Role;
 import com.zlt.pojo.User;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,4 +36,6 @@ public interface UserDao {
     void changePwd(@Param("username") String username,@Param("newPwd") String newPwd);
 
     void saveIcon(@Param("id") Integer id, @Param("icon") String filename);
+
+    List<Role> findRolesByUserId(Integer id);
 }

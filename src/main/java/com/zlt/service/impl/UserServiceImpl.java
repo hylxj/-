@@ -3,10 +3,7 @@ package com.zlt.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zlt.dao.UserDao;
-import com.zlt.pojo.BusCen;
-import com.zlt.pojo.ResultData;
-import com.zlt.pojo.ResultTable;
-import com.zlt.pojo.User;
+import com.zlt.pojo.*;
 import com.zlt.service.UserService;
 import com.zlt.utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,5 +140,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public void saveIcon(Integer id, String filename) {
         userDao.saveIcon(id,filename);
+    }
+
+    @Override
+    public List<Role> findRolesByUserId(Integer id) {
+        return userDao.findRolesByUserId(id);
     }
 }
