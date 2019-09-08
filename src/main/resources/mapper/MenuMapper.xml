@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zlt.dao.MenuDao" >
+    <select id="findAllMenuByRole" parameterType="int" resultType="Menu">
+        select menu.menuId,parentid,title,icon,href,spread from menu,rolemenu where rolemenu.menuId=menu.menuId and roleId in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        group by menu.menuId
+    </select>
+    <select id="findAllMenu" resultType="Menu">
+        select * from menu where available!=3
+    </select>
+    <select id="searchAllMenu" parameterType="String" resultType="Menu">
+        select * from menu where title like #{title} and available!=3
+    </select>
+    <update id="deleteByMenuId" parameterType="int">
+        update menu set available=3 where menuId=#{menuId}
+    </update>
+    <insert id="insertMenu" parameterType="Menu">
+        insert into menu(parentId, title, icon, href) values(#{parentId},#{title},#{icon},#{href})
+    </insert>
+    <update id="updateMenu" parameterType="Menu">
+        update menu
+        <trim prefix="set" suffixOverrides=",">
+            <if test="available!=null">available=#{available},</if>
+            <if test="parentId!=null">parentId=#{parentId},</if>
+            <if test="title!=null">title=#{title},</if>
+            <if test="icon!=null">icon=#{icon},</if>
+            <if test="href!=null">href=#{href},</if>
+            <if test="spread!=null">spread=#{spread},</if>
+        </trim>
+        where menuId=#{menuId}
+    </update>
+    <select id="findMenuById" parameterType="int" resultType="Menu">
+        select * from menu where menuId=#{menuId} and available!=3
+    </select>
+    <select id="findRoleByMenuId" parameterType="int" resultType="Role">
+        select `role`.* from `role`,rolemenu where `role`.roleId=rolemenu.roleId and rolemenu.menuId=#{menuId} and role.available!=3
+    </select>
+    <delete id="deleteRoleByMenuId">
+        delete from rolemenu where menuId=#{menuId} and roleId=#{roleId}
+    </delete>
+    <insert id="insertMenuRole">
+        insert into rolemenu(menuId, roleId) values(#{menuId},#{roleId})
+    </insert>
+</mapper>

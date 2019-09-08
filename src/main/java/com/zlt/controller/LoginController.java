@@ -1,12 +1,15 @@
 package com.zlt.controller;
 
 import com.zlt.pojo.ResultData;
+import com.zlt.service.UserService;
 import com.zlt.utils.VerifyCodeUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/shiro")
 public class LoginController {
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -39,6 +44,8 @@ public class LoginController {
             try {
                 //执行登录
                 currentUser.login(token);
+                Session session=currentUser.getSession();
+                session.setAttribute("sessionUser",userService.findByUsername(token.getUsername()));
             } catch (IncorrectCredentialsException ice) {//若账户存在，但密码不匹配，则shiro 会抛出IncorrectcredentialsException 异常。
                 return new ResultData(1001, "登陆失败,密码错误");
             } catch (AuthenticationException ae) {//所有以上异常的父类

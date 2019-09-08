@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>文章列表--layui后台管理模板 2.0</title>
+	<title>用户列表</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -157,10 +157,9 @@
 			id : "userListTable",
 			cols : [[
 				{type: "checkbox", fixed:"left", width:50},
-				{field: 'id', title: 'ID', align:"center"},
+				{field: 'id', title: 'ID', align:"center",width:50},
 				{field: 'username', title: '用户名称',align:'center'},
-				{field: 'password', title: '用户密码', align:'center'},
-				{field: 'salt', title: '密码盐值',  align:'center'},
+				{field: 'userDesc',width:200, title: '用户描述', align:'center'},
 				{field: 'locked', title: '是否锁定', align:'center', templet:function(d){
 						var status=d.locked==1?"":"checked";
 						return '<input type="checkbox" name="locked" lay-filter="locked" lay-skin="switch" lay-text="是|否" '+status+'>'

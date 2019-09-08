@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -23,20 +24,6 @@
 				<a href="#" class="logo" style="font-size: 11px">成都市公共交通信息管理平台</a>
 				<!-- 显示/隐藏菜单 -->
 				<a href="javascript:;" class="seraph hideMenu icon-caidan"></a>
-				<ul class="layui-nav topLevelMenus" pc>
-					<li class="layui-nav-item layui-this" data-menu="contentManagement">
-						<a href="javascript:;"><i class="layui-icon" data-icon="&#xe63c;">&#xe63c;</i><cite>内容管理</cite></a>
-					</li>
-					<li class="layui-nav-item" data-menu="memberCenter" pc>
-						<a href="javascript:;"><i class="seraph icon-icon10" data-icon="icon-icon10"></i><cite>用户中心</cite></a>
-					</li>
-					<li class="layui-nav-item" data-menu="systemeSttings" pc>
-						<a href="javascript:;"><i class="layui-icon" data-icon="&#xe620;">&#xe620;</i><cite>系统设置</cite></a>
-					</li>
-					<li class="layui-nav-item" data-menu="seraphApi" pc>
-						<a href="javascript:;"><i class="layui-icon" data-icon="&#xe705;">&#xe705;</i><cite>使用文档</cite></a>
-					</li>
-				</ul>
 			    <!-- 顶部右侧菜单 -->
 			    <ul class="layui-nav top_menu">
 					<li class="layui-nav-item" pc>
@@ -122,37 +109,27 @@
 			base : "static/js/"
 		}).extend({
 			"bodyTab" : "bodyTab"
-		})
+		});
 		layui.use(['bodyTab','form','element','layer','jquery'],function(){
 			var form = layui.form,
 					element = layui.element;
 			$ = layui.$;
 			layer = parent.layer === undefined ? layui.layer : top.layer;
+			var ids="";
+			<c:forEach items="${roles}" var="role">
+				ids+=("roleIds="+${role.getRoleId()})+"&";
+			</c:forEach>
 			tab = layui.bodyTab({
 				openTabNum : "50",  //最大可打开窗口数量
-				url : "static/json/navs.json" //获取菜单json地址
+				url : "/menu/findAllMenuByRole?"+ids.substr(0,ids.length-1)//获取菜单json地址
 			});
 
 			//通过顶部菜单获取左侧二三级菜单   注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
 			function getData(json){
 				$.getJSON(tab.tabConfig.url,function(data){
-					if(json == "contentManagement"){
-						dataStr = data.contentManagement;
-						//重新渲染左侧菜单
-						tab.render();
-					}else if(json == "memberCenter"){
-						dataStr = data.memberCenter;
-						//重新渲染左侧菜单
-						tab.render();
-					}else if(json == "systemeSttings"){
-						dataStr = data.systemeSttings;
-						//重新渲染左侧菜单
-						tab.render();
-					}else if(json == "seraphApi"){
-						dataStr = data.seraphApi;
-						//重新渲染左侧菜单
-						tab.render();
-					}
+					dataStr = data;
+					//重新渲染左侧菜单
+					tab.render();
 				})
 			}
 			//页面加载时判断左侧菜单是否显示
@@ -258,17 +235,6 @@
 		//打开新窗口
 		function addTab(_this){
 			tab.tabAdd(_this);
-		}
-
-		//图片管理弹窗
-		function showImg(){
-			$.getJSON('static/json/images.json', function(json){
-				var res = json;
-				layer.photos({
-					photos: res,
-					anim: 5
-				});
-			});
 		}
 	</script>
 </body>

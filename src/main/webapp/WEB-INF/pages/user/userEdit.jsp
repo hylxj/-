@@ -114,7 +114,7 @@
 				birthday : $(".birthday").val(),
 				phone:$(".phone").val(),
 				belongId:data.field.busCen,
-			    userDesc : $(".userDesc").text()   //用户简介
+			    userDesc : $(".userDesc").val()   //用户简介
 			},function(res){
 				top.layer.close(index);
 				if (res.code===200){

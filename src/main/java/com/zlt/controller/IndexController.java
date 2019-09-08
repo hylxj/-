@@ -1,11 +1,14 @@
 package com.zlt.controller;
 
+import com.zlt.pojo.Role;
 import com.zlt.pojo.User;
 import com.zlt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /**
  * @author shushu
@@ -25,6 +28,8 @@ public class IndexController {
     @RequestMapping("/index")
     public String  indexPage(String username, Model model){
         User user = userService.findByUsername(username);
+        List<Role> roles=userService.findRolesByUserId(user.getId());
+        model.addAttribute("roles",roles);
         model.addAttribute("user",user);
         return "index";
     }

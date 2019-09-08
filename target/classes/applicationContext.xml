@@ -19,18 +19,18 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
     <!-- Spring整合Mybatis框架-->
-    <!-- 配置连接池-->
+    <!-- 配置连接池101.201.232.97:3306-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://101.201.232.97:3306/lv3"/>
+        <property name="jdbcUrl" value="jdbc:mysql:///lv3"/>
         <property name="user" value="root"/>
-        <property name="password" value="123456"/>
+        <property name="password" value="root"/>
     </bean>
     <!-- 配置SqlSessionFactory工厂-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <!--配置mapper映射文件的位置-->
-        <property name="mapperLocations" value="classpath:mapper/*/*.xml"/>
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
         <!--pageHelper-->
         <property name="plugins">
             <array>
