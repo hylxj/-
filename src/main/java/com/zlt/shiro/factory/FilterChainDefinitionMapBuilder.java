@@ -16,6 +16,8 @@ public class FilterChainDefinitionMapBuilder {
         map.put("/shiro/getVCode","anon");
         map.put("/shiro/logout","logout");
 
+        map.put("/busCen/treeLoad","authc");
+        map.put("/menu/findAllMenuByRole","authc");
         map.put("/role/**","authc,roles[admin]");
         map.put("/menu/**","authc,roles[admin]");
         map.put("/busCen/**","authc,roles[admin]");

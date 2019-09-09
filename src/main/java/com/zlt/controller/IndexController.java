@@ -33,7 +33,7 @@ public class IndexController {
         model.addAttribute("user",user);
         return "index";
     }
-    @RequestMapping("/errorPage")
+    @RequestMapping("/unauthorizedPage")
     public String errorPage(){
         return "unauthorized";
     }
