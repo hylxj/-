@@ -8,7 +8,6 @@ import com.zlt.pojo.ResultData;
 import com.zlt.pojo.ResultTable;
 import com.zlt.pojo.User;
 import com.zlt.service.UserService;
-import com.zlt.shiro.realms.ShiroRealm;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -194,12 +194,16 @@ public class UserController {
     /**
      * 头像上传
      * layui上传文件名字默认是file
-     * @param file
+     * @param request
      * @return
      */
     @RequestMapping("/uploadIcon")
     @ResponseBody
-    public ResultData uploadIcon(HttpServletRequest request, MultipartFile file,Integer id){
+    public ResultData uploadIcon(HttpServletRequest request,Integer id){
+        // 转型为MultipartHttpRequest：解决shiroHttpServletRequest问题
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        // 获得文件：
+        MultipartFile file = multipartRequest.getFile("file");
         //定义上传文件服务器路径
         String path="http://localhost:9090/uploads/";
         //获取文件名称
