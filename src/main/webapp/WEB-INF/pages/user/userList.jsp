@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -113,24 +114,30 @@
 				tree = layui.tree,
 				laytpl = layui.laytpl,
 				table = layui.table;
+		//获取菜单树
+		function getData(ids){
+			var data = [];
+			$.ajax({
+				url: "/busCen/treeLoad?"+ids,    //后台数据请求地址
+				async:false,
+				success: function(res){
+					data = res;
+				}
+			});
+			return data;
+		}
+		var ids="";
+		<c:forEach items="${roles}" var="role">
+			ids+=("roleIds="+${role.roleId})+"&";
+		</c:forEach>
+		ids=ids.substr(0,ids.length-1);
 		//树形图
 		var treeIns=tree.render({
 			elem:"#treeDiv",
 			accordion: true,
 			showLine:false,
 			isJump:true,
-			data:[{
-				title: '全部调度中心' //一级菜单
-				,spread:true
-				,id:0
-				,children: [{
-					title: '双流区调度中心'
-					,id:1
-				},{
-					title: '高新区调度中心'
-					,id:2
-				}]
-			}]
+			data:getData(ids)
 			,click:function (item) {
 				table.reload("userListTable",{
 					url:"/user/listByType",

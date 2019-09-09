@@ -35,7 +35,7 @@ public class IndexController {
     }
     @RequestMapping("/errorPage")
     public String errorPage(){
-        return "404";
+        return "unauthorized";
     }
 }
 

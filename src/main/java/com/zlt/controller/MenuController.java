@@ -40,7 +40,7 @@ public class MenuController {
     @ResponseBody
     public ResultTable menuList(Integer page,Integer limit){
         PageInfo<Menu> pageInfo = menuService.findAllMenu(page, limit);
-        if (pageInfo.getTotal()>=0){
+        if (pageInfo.getTotal()>0){
             return new ResultTable(0,"",(int)pageInfo.getTotal(),pageInfo.getList());
         }
         return new ResultTable(6001,"没有找到数据");

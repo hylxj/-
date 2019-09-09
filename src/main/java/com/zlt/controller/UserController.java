@@ -8,7 +8,11 @@ import com.zlt.pojo.ResultData;
 import com.zlt.pojo.ResultTable;
 import com.zlt.pojo.User;
 import com.zlt.service.UserService;
+import com.zlt.shiro.realms.ShiroRealm;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
@@ -34,9 +38,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequiresRoles({"admin"})
+    @RequiresRoles(value = {"admin","gxadmin","sladmin"},logical = Logical.OR)
     @RequestMapping("/userList")
-    public String newListPage() {
+    public String newListPage(Model model) {
+        Subject currentUser= SecurityUtils.getSubject();
+        User user=(User)currentUser.getPrincipal();
+        System.out.println(user);
+        model.addAttribute("roles",userService.findRolesByUserId(user.getId()));
         return "user/userList";
     }
 

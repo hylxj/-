@@ -3,6 +3,7 @@ package com.zlt.pojo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 调度中心
@@ -11,6 +12,12 @@ import java.io.Serializable;
  */
 @Data
 public class BusCen implements Serializable {
-    private Integer buscenId;
-    private String buscenName;
+    private Integer id;
+    private Integer parentId;
+    private String title;
+    private String buscenDistrict;
+    private Integer buscenManagerId;
+    private Integer buscenStatus;
+    private Integer spread;
+    private List<BusCen> children;
 }

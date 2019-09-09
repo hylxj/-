@@ -11,7 +11,7 @@
         select * from user where username like #{key} and userStatus!=4
     </select>
     <select id="findAllBusCenName" resultType="BusCen">
-        select buscenId,buscenName from buscenter
+        select buscenId as id,buscenName as title from buscenter
     </select>
     <insert id="insertUser" parameterType="User">
         insert into user(username,password,salt,locked,birthday,sex,phone,type,belongId,userDesc) values (#{username},#{password},#{salt},#{locked},#{birthday},#{sex},#{phone},#{type},#{belongId},#{userDesc})

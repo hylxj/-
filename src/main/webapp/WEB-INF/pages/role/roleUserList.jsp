@@ -51,7 +51,7 @@
 				{field: 'username', title: '用户名称',align:'center'},
 				{field: 'userDesc',width:400, title: '用户描述', align:'center'},
 				{field: 'locked', title: '用户状态', align:'center', templet:function(d){
-						return d.locked==1?"锁定":"正常";
+						return d.locked==0?"锁定":"正常";
 				}},
 				{title: '操作', width:200, templet:'#roleListBar',fixed:"right",align:"center"}
 			]]

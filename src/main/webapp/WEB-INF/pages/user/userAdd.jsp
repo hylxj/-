@@ -72,12 +72,11 @@
 		</div>
 	</div>
 	<div class="magb15 layui-col-md4 layui-col-xs12">
-		<label class="layui-form-label">用户所在调度中心</label>
+		<label class="layui-form-label">用户所在组织机构</label>
 		<div class="layui-input-block">
 			<select name="busCen" class="busCen" lay-filter="busCen">
-				<option value="0">超级管理员</option>
 				<c:forEach items="${busCens}" var="busCen">
-					<option value="${busCen.buscenId}">${busCen.buscenName}</option>
+					<option value="${busCen.id}">${busCen.title}</option>
 				</c:forEach>
 			</select>
 		</div>

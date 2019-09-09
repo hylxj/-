@@ -16,32 +16,32 @@
 <body class="childrenBody">
 <form class="layui-form" style="width:80%;">
 	<div class="layui-form-item layui-row layui-col-xs12">
-		<label class="layui-form-label">菜单名称</label>
+		<label class="layui-form-label">机构名称</label>
 		<div class="layui-input-block">
-			<input type="text" class="layui-input title" lay-verify="required" placeholder="请输入菜单名称" value="${menu.title}">
+			<input type="text" class="layui-input title" lay-verify="required" placeholder="请输入机构名称" value="${busCen.title}">
 		</div>
 	</div>
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">上级目录</label>
 		<div class="layui-input-block">
-			<input type="text" placeholder="请输入上级目录" lay-verify="required" class="layui-input parentId" value="${menu.parentId}">
+			<input type="text" placeholder="请输入上级目录" lay-verify="required" class="layui-input parentId" value="${busCen.parentId}">
 		</div>
 	</div>
 	<div class="layui-form-item layui-row layui-col-xs12">
-        <label class="layui-form-label">菜单图标</label>
-        <div class="layui-input-block">
-            <input type="text" class="layui-input icon" lay-verify="" placeholder="请输入菜单图标" value="">
-        </div>
+		<label class="layui-form-label">机构所在地</label>
+		<div class="layui-input-block">
+			<input type="text" class="layui-input buscenDistrict" lay-verify="required" placeholder="请输入机构所在地" value="${busCen.buscenDistrict}">
+		</div>
 	</div>
 	<div class="layui-form-item layui-row layui-col-xs12">
-		<label class="layui-form-label">菜单地址</label>
+		<label class="layui-form-label">机构管理者</label>
 		<div class="layui-input-block">
-			<input type="text" class="layui-input href" lay-verify="required" placeholder="请输入菜单地址" value="${menu.href}">
+			<input type="text" class="layui-input buscenManagerId" lay-verify="required" placeholder="请输入机构管理者" value="${busCen.buscenManagerId}">
 		</div>
 	</div>
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<div class="layui-input-block">
-			<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="editMenu">立即更新</button>
+			<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="editBusCen">立即更新</button>
 			<button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
 		</div>
 	</div>
@@ -53,15 +53,16 @@
 		layer = parent.layer === undefined ? layui.layer : top.layer,
 		$ = layui.jquery;
 
-		form.on("submit(editMenu)",function(data){
+		form.on("submit(editBusCen)",function(data){
 			//弹出loading
 			var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
 			// 实际使用时的提交信息
-			$.post("/menu/updateMenu",{
-				menuId:${menu.menuId},
+			$.post("/busCen/updateBusCen",{
+				id:${busCen.id},
 				title : $(".title").val(),
-				parentId : $(".parentId").val(),
-				href:$(".href").val()
+				parentId:$(".parentId").val(),
+				buscenManagerId: $(".buscenManagerId").val(),
+				buscenDistrict:$(".buscenDistrict").val()
 			},function(res){
 				top.layer.close(index);
 				if (res.code===200){

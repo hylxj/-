@@ -2,7 +2,6 @@ package com.zlt.dao;
 
 import com.zlt.pojo.Menu;
 import com.zlt.pojo.Role;
-import com.zlt.pojo.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

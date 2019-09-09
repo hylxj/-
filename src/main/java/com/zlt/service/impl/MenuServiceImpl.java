@@ -43,7 +43,7 @@ public class MenuServiceImpl implements MenuService {
         for (Menu item : menus) {
             if (menu.getMenuId()==item.getParentId()){
                 if (menu.getChildren()==null){
-                    menu.setChildren(new ArrayList<Menu>());
+                    menu.setChildren(new ArrayList<>());
                 }
                 menu.getChildren().add(findChildren(item,menus));
             }

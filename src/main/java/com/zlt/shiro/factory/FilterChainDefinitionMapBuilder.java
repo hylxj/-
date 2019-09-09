@@ -12,14 +12,15 @@ public class FilterChainDefinitionMapBuilder {
         LinkedHashMap<String,String> map=new LinkedHashMap<>();
         map.put("/static/**","anon");
         map.put(("/http://localhost:9090/uploads/**"),"anon");
-        map.put("/index.jsp","anon");
         map.put("/shiro/login","anon");
         map.put("/shiro/getVCode","anon");
         map.put("/shiro/logout","logout");
 
-        map.put("/user.jsp","authc,roles[user]");
-        map.put("/admin.jsp","authc,roles[admin]");
-        map.put("/list.jsp","user");
+        map.put("/role/**","authc,roles[admin]");
+        map.put("/menu/**","authc,roles[admin]");
+        map.put("/busCen/**","authc,roles[admin]");
+//        map.put("/user.jsp","authc,roles[user]");
+//        map.put("/admin.jsp","authc,roles[admin]");
 
         map.put("/**","authc");
         return map;
