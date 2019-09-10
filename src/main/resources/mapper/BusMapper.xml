@@ -38,11 +38,11 @@
     </update>
     <!--查询线路的名称-->
     <select id="findLineName"  resultType="IdAndName">
-        select lineId as id,lineName as name from busline
+        select lineId as id,lineName as name from busline where lineStatus!=3
     </select>
     <!--查询所有的驾驶员的姓名-->
     <select id="findDriverName"  resultType="IdAndName">
-        select busdriverId as id,busdriverName as name from busdriver
+        select busdriverId as id,busdriverName as name from busdriver where busdriverStatus!=4 and driverStatus!=2
     </select>
     <!--通过线路的Id查找线路信息-->
     <select id="findByBusId" parameterType="int" resultType="Bus">

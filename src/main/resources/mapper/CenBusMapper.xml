@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlt.dao.CenBusDao">
+    <!--查询总站人员信息-->
+    <select id="selectCenWorkerNum" resultType="com.zlt.pojo.BarBean">
+        select  count(*) as value,buscenName as name from employee,centerbus where empBelongid=buscenid group by empBelongid
+    </select>
+
+    <!--查询公交总站信息-->
+    <select id="selectBusCenter" resultType="com.zlt.pojo.BusCenter">
+        select * from centerbus where busTermStatus=1
+    </select>
+
+    <!--删除总站信息-->
+    <update id="termDel" parameterType="com.zlt.pojo.BusCenter">
+        update centerbus set busTermStatus=2 where buscenId=#{buscenId}
+    </update>
+
+    <!--搜索总站信息-->
+    <select id="termSearch" resultType="com.zlt.pojo.BusCenter" parameterType="String">
+        select * from centerbus where buscenId like #{buscenId} and busTermStatus=1
+    </select>
+
+    <!--添加总站信息-->
+    <insert id="busTerminusAdd" parameterType="com.zlt.pojo.BusCenter">
+        insert into centerbus(buscenName,buscenDistrict,buscenManagerid,buscenCreatetime,buscenStatus) values
+        (#{buscenName},#{buscenDistrict},${buscenManagerid},#{buscenCreatetime},#{buscenStatus})
+    </insert>
+
+    <!--查询更新页面并有数据-->
+    <select id="busTerminusUpdatePage" resultType="com.zlt.pojo.BusCenter" parameterType="int">
+        select * from centerbus where buscenId=#{buscenId}
+    </select>
+
+    <!--将查询出来的数据更新-->
+    <update id="busTerminusUpdate" parameterType="com.zlt.pojo.BusCenter">
+        update centerbus set buscenName=#{buscenName},buscenDistrict=#{buscenDistrict},buscenManagerid=#{buscenManagerid},
+        buscenCreatetime=#{buscenCreatetime},buscenStatus=#{buscenStatus} where buscenId=#{buscenId}
+    </update>
+</mapper>

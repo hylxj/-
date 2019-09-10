@@ -26,7 +26,6 @@ public class ShiroRealm extends AuthorizingRealm {
     //用于认证的方法
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("doGetAuthenticationInfo：" + token);
         //1.把AuthenticationToken 转换为UsernamePasswordToken
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         //2.从UsernamePasswordToken 中未获取username

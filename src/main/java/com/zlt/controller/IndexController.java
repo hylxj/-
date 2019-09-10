@@ -37,5 +37,16 @@ public class IndexController {
     public String errorPage(){
         return "unauthorized";
     }
+
+/*------------------xiao'ci'yang-------------------*/
+    /**
+     * 查找地址信息
+     * @return
+     */
+    @RequestMapping("/all")
+    public String  all(){
+        return "statistics/all";
+    }
+
 }
 

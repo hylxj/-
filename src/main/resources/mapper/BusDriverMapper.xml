@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlt.dao.BusDriverDao">
+    <!--查询司机信息-->
+    <select id="selectDriver" resultType="com.zlt.pojo.BusDriver">
+        select * from busdriver where driverStatus=1
+    </select>
+
+    <!--搜索司机信息，模糊搜索-->
+    <select id="driverSel" resultType="com.zlt.pojo.BusDriver" parameterType="String">
+        select * from busdriver where busdriverName like #{busdriverName} and driverStatus=1
+    </select>
+
+    <!--添加司机信息-->
+    <insert id="driverAdd" parameterType="com.zlt.pojo.BusDriver">
+        insert into busdriver (busdriverName,busdriverAge,busdriverSex,busdriverPhone,busdriverBusid,busdriverBelongid,busdriverInitime,busdriverStatus) values
+        (#{busdriverName},#{busdriverAge},#{busdriverSex},#{busdriverPhone},#{busdriverBusid},#{busdriverBelongid},#{busdriverInitime},#{busdriverStatus})
+    </insert>
+
+    <!--批量删除-->
+    <update id="driverDels" parameterType="com.zlt.pojo.BusDriver">
+        update busdriver set driverStatus=2 where busdriverId in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--编辑司机信息，包含一条信息-->
+    <select id="selectOneDriver" resultType="com.zlt.pojo.BusDriver" parameterType="int">
+        select * from busdriver where busdriverId=#{id}
+    </select>
+
+    <!--更新司机某条记录-->
+    <update id="driverUpdate" parameterType="com.zlt.pojo.BusDriver">
+        update busdriver set busdriverName=#{busdriverName},busdriverAge=#{busdriverAge},busdriverSex=#{busdriverSex},
+        busdriverPhone=#{busdriverPhone},busdriverBusid=#{busdriverBusid},busdriverBelongid=#{busdriverBelongid},
+         busdriverInitime=#{busdriverInitime},busdriverStatus=#{busdriverStatus} where busdriverId=#{busdriverId}
+    </update>
+
+    <!--删除数据-->
+    <update id="driverDel" parameterType="com.zlt.pojo.BusDriver">
+        update busdriver set driverStatus=2  where busdriverId=#{busdriverId}
+    </update>
+</mapper>

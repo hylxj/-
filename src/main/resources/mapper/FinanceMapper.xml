@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlt.dao.FinanceDao">
+    <!--查询支出表-->
+    <select id="selectExpense" resultType="com.zlt.pojo.Expense">
+        select * from expense where expenseStatus=1
+    </select>
+
+    <!--查询收入表-->
+    <select id="selectIncome" resultType="com.zlt.pojo.Income">
+        select * from income where incomeStatus=1
+    </select>
+
+    <!--添加支出数据-->
+    <insert id="expenseAdd" parameterType="com.zlt.pojo.Expense">
+        insert into expense(expenseSalary,expenseFix,expenseDaily,expenseTime,expenseStaId,expenseHendler,expanseTotal)
+        values(#{expenseSalary},#{expenseFix},#{expenseDaily},#{expenseTime},#{expenseStaId},#{expenseHendler},#{expanseTotal})
+    </insert>
+
+    <!--添加收入数据-->
+    <insert id="incomeAdd" parameterType="com.zlt.pojo.Income">
+        insert into income(busPlate,incomeTime,incomeCash,incomeOnline,incomeCard,incomedayTotal)
+        values (#{busPlate},#{incomeTime},#{incomeCash},#{incomeOnline},#{incomeCard},#{incomedayTotal})
+    </insert>
+
+    <!--查询收入表某条记录-->
+    <select id="selectOneIncome" resultType="com.zlt.pojo.Income" parameterType="int">
+        select * from income where incomeId=#{id}
+    </select>
+
+    <!--更新收入表某条记录-->
+    <update id="incomeUpdate" parameterType="com.zlt.pojo.Income">
+        update income set busPlate=#{busPlate},incomeTime=#{incomeTime},incomeCash=#{incomeCash},
+        incomeOnline=#{incomeOnline},incomeCard=#{incomeCard},incomedayTotal=#{incomedayTotal} where incomeId=#{incomeId}
+    </update>
+
+    <!--删除数据某条-->
+    <update id="incomeDel" parameterType="com.zlt.pojo.Income">
+        update income set incomeStatus=2  where incomeId=#{incomeId}
+    </update>
+
+    <!--收入表查询-->
+    <select id="incomeSel" resultType="com.zlt.pojo.Income" parameterType="String">
+        select * from income where busPlate like #{busPlate}
+    </select>
+
+    <!--收入表批量删除-->
+    <update id="incomeDels" parameterType="Long">
+        update income set incomeStatus=2  where incomeId in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--支出表查询-->
+    <select id="expenseSel" resultType="com.zlt.pojo.Expense" parameterType="int">
+        select * from expense where  expenseId=#{expenseId}
+    </select>
+
+    <!--支出表批量删除-->
+    <update id="expenseDels" parameterType="Long">
+        update expense set expenseStatus=2  where expenseId in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--查询支出表 某条记录-->
+    <select id="selectOneExpense" resultType="com.zlt.pojo.Expense" parameterType="int">
+        select * from expense where expenseId=#{id}
+    </select>
+
+    <!--更新支出表 某条记录-->
+    <update id="expenseUpdate" parameterType="com.zlt.pojo.Expense">
+        update expense set expenseSalary=#{expenseSalary},expenseFix=#{expenseFix},expenseDaily=#{expenseDaily},
+        expenseTime=#{expenseTime},expenseStaId=#{expenseStaId},expenseHendler=#{expenseHendler},expanseTotal=#{expanseTotal} where expenseId=#{expenseId}
+    </update>
+
+    <!--删除支出表信息-->
+    <update id="expenseDel" parameterType="com.zlt.pojo.Expense">
+        update expense set expenseStatus=2 where expenseId=#{expenseId}
+    </update>
+
+</mapper>
