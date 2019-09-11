@@ -2,6 +2,7 @@ package com.zlt.dao;
 
 
 import com.zlt.pojo.Bus;
+import com.zlt.pojo.BusLineDriver;
 import com.zlt.pojo.IdAndName;
 
 import java.util.List;
@@ -28,4 +29,10 @@ public interface BusDao {
     List<IdAndName> findDriverName();
     //查找线路的名称
     List<IdAndName> findLineName();
+    //找到驾驶员的ID和名字
+    List<IdAndName> findAllIdAndName();
+    //通过线路的Id查询线路的名称
+    List<IdAndName> findAllLineIdAndName();
+    //获得buslinedriver视图
+    List<BusLineDriver> getBusList();
 }

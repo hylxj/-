@@ -78,6 +78,7 @@ public class UserController {
     }
 
     @RequestMapping("/userAddPage")
+    @RequiresRoles({"admin"})
     public ModelAndView userAddPage(ModelAndView mv) {
         List<BusCen> busCens = userService.findAllBusCenName();
         mv.addObject("busCens", busCens);
@@ -103,6 +104,7 @@ public class UserController {
     }
 
     @RequestMapping("/userEditPage")
+    @RequiresRoles({"admin"})
     public ModelAndView userEditPage(@RequestParam Integer id, ModelAndView mv) {
         List<BusCen> busCens = userService.findAllBusCenName();
         User user = userService.findAllById(id);
@@ -130,6 +132,7 @@ public class UserController {
 
     @RequestMapping("/delUser")
     @ResponseBody
+    @RequiresRoles({"admin"})
     public ResultData delUser(Integer id) {
         userService.delUser(id);
         return new ResultData(200, "删除成功");
@@ -137,6 +140,7 @@ public class UserController {
 
     @RequestMapping("/batchDelUser")
     @ResponseBody
+    @RequiresRoles({"admin"})
     public ResultData batchDelUser(@RequestParam("userId[]") Long[] userId) {
         userService.batchDelUser(userId);
         return new ResultData(200, "批量删除成功");

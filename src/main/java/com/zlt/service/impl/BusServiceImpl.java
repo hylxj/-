@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.zlt.dao.BusDao;
 
 import com.zlt.pojo.Bus;
+import com.zlt.pojo.BusLineDriver;
 import com.zlt.pojo.IdAndName;
 import com.zlt.pojo.TableData;
 import com.zlt.service.BusService;
@@ -67,8 +68,8 @@ public class BusServiceImpl implements BusService {
     }
     //获取所有的公交车信息
     @Override
-    public List<Bus> getBusList() {
-        return busDao.findAll();
+    public List<BusLineDriver> getBusList() {
+        return busDao.getBusList();
     }
     //查询所有驾驶员的姓名
     @Override
@@ -81,6 +82,16 @@ public class BusServiceImpl implements BusService {
         return busDao.findLineName();
     }
 
+    //通过线路的Id查询线路的名称
+    @Override
+    public List<IdAndName> findAllLineIdAndName() {
+        return busDao.findAllLineIdAndName();
+    }
+    //找到驾驶员的ID和名字
+    @Override
+    public List<IdAndName> findAllIdAndName() {
+        return busDao.findAllIdAndName();
+    }
 
 
 }

@@ -19,7 +19,7 @@
 		<form class="layui-form">
 			<div class="layui-inline">
 				<div class="layui-input-inline">
-					<input type="text" class="layui-input searchVal" placeholder="请输入公交车名称" />
+					<input type="text" class="layui-input searchVal" placeholder="请输入搜索的内容" />
 				</div>
 				<a class="layui-btn search_btn" data-type="reload">搜索</a>
 			</div>
@@ -59,6 +59,8 @@
         // second = minute < 10 ? ('0' + second) : second;
         return y + '-' + m + '-' + d/*+' '+h+':'+minute+':'+ second*/;
     }
+    var idandname;//全局变量 驾驶员姓名
+    var lineN;//全局变量 线路的名称
 
     layui.use(['form','layer','laydate','table','laytpl'],function(){
 		var form = layui.form,
@@ -67,7 +69,21 @@
 				laydate = layui.laydate,
 				laytpl = layui.laytpl,
 				table = layui.table;
-
+        $.ajax({
+			url:"/bus/findDriverName",
+            async:false,
+			success:function (data) {
+                idandname = data.data;
+            }
+        });
+        $.ajax({
+            url:"/bus/findLineName",
+            async:false,
+            success:function (data) {
+                lineN = data.data;
+            }
+        });
+        console.log(idandname);
 		//公交车列表
 		var tableIns = table.render({
 			elem: '#newsList',
@@ -75,7 +91,7 @@
 			cellMinWidth : 95,
 			page : true,
 			height : "full-125",
-			limit : 10,
+			limit : 5,
 			limits : [5,10,15],
 			id : "newsListTable",
 			cols : [[
@@ -83,8 +99,12 @@
 				{field: "busId", title:"ID", width:50,hide:true},
 				{field: 'busPlate', title: '车牌号', width:150, align:"center"},
 				{field: 'busName', title: '公交车名称', width:100},
-				{field: 'busDriverId', title: '驾驶员', align:'center'},
-				{field: 'busLineId', title: '线路ID',  align:'center'},
+				{field: 'busDriverId', title: '驾驶员', align:'center',templet:function (d) {
+							return idandname[d.busDriverId];
+                    }},
+				{field: 'busLineId', title: '线路',  align:'center',templet:function(d){
+							return lineN[d.busLineId];
+					}},
 				{field: 'busCreateTime', title: '公交车服役时间', align:'center',templet:function (d) {
 						if(d.busCreateTime!=null){
 						    var date = new Date(d.busCreateTime);
@@ -118,7 +138,7 @@
 					}
 				})
 			}else{
-				layer.msg("请输入公交车名称");
+				layer.msg("请输入搜索的内容");
 			}
 		});
 

@@ -1,6 +1,7 @@
 package com.zlt.utils;
 
 import com.zlt.pojo.Bus;
+import com.zlt.pojo.BusLineDriver;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -90,7 +91,7 @@ public class ExcelUtil {
      * @param busList
      * @return
      */
-    public static Workbook exportExcel(List<Bus> busList){
+    public static Workbook exportExcel(List<BusLineDriver> busList){
         // 1. 创建workbook对象
         Workbook workbook = new XSSFWorkbook();
         // 2. 创建sheet
@@ -101,20 +102,20 @@ public class ExcelUtil {
         // 依次创建列
         row.createCell(0).setCellValue("车牌号");
         row.createCell(1).setCellValue("公交车名称");
-        row.createCell(2).setCellValue("驾驶员编号");
-        row.createCell(3).setCellValue("线路编号");
+        row.createCell(2).setCellValue("驾驶员");
+        row.createCell(3).setCellValue("线路");
         row.createCell(4).setCellValue("公交车服役时间");
         row.createCell(5).setCellValue("公交车的状态");
         // 遍历数据创建对应的行
         int create = 1;
-        for (Bus bus : busList) {
+        for (BusLineDriver bus : busList) {
             Row row1 = sheet.createRow(create);
             // 依次创建列
             row1.createCell(0).setCellValue(bus.getBusPlate());
             row1.createCell(1).setCellValue(bus.getBusName());
-            row1.createCell(2).setCellValue(bus.getBusDriverId());
-            row1.createCell(3).setCellValue(bus.getBusLineId());
-            row1.createCell(4).setCellValue((new SimpleDateFormat("yyyy/MM/dd").format(bus.getBusCreateTime())));
+            row1.createCell(2).setCellValue(bus.getBusdriverName());
+            row1.createCell(3).setCellValue(bus.getLineName());
+            row1.createCell(4).setCellValue((new SimpleDateFormat("yyyy/MM/dd").format(bus.getBusCreatetime())));
             row1.createCell(5).setCellValue(bus.getBusStatus() == 1 ? "正常" : "维修");
             // 行数+1
             create++;

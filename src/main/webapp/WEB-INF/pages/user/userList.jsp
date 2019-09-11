@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -38,9 +39,11 @@
 			<div class="layui-inline">
 				<a class="layui-btn layui-btn-normal addUser_btn">添加用户</a>
 			</div>
-			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
-			</div>
+            <shiro:hasRole name="admin">
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
+                </div>
+            </shiro:hasRole>
 		</form>
 	</blockquote>
 	<table id="userList" lay-filter="userList"></table>
@@ -48,7 +51,9 @@
 	<!--操作-->
 	<script type="text/html" id="userListBar">
 		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+        <shiro:hasRole name="admin">
+            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+        </shiro:hasRole>
 	</script>
 </form>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>

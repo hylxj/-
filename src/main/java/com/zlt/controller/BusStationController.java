@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
+
 /**
  * 站点管理
  */
@@ -88,5 +91,20 @@ public class BusStationController {
         System.out.println(busStation.getStaName());
         busStationService.updateStation(busStation);
         return new ResultData(200, "修改成功");
+    }
+    //显示站台对应的线路信息页面
+    @RequestMapping("/showLines")
+    public String showLinesPage(HttpServletRequest request,int staId){
+        request.getSession().setAttribute("staId",staId);
+        return "busStation/showLines";
+    }
+    //查看站点的线路
+    @RequestMapping("showLinesTable")
+    @ResponseBody
+    public TableData showLinesTable (HttpServletRequest request,int page, int limit){
+        int staId = (int)request.getSession().getAttribute("staId");
+        System.out.println("============================================"+staId);
+        TableData resultData = busStationService.findLines(staId,page, limit);
+        return resultData;
     }
 }

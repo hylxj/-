@@ -125,12 +125,6 @@
             </tbody>
         </table>
     </div>
-    <div class="layui-col-lg6 layui-col-md6">
-        <blockquote class="layui-elem-quote title">系统公告 <i class="layui-icon layui-red">&#xe756;</i></blockquote>
-        <table class="layui-table mag0" lay-skin="line">
-            <tbody class="hot_news"></tbody>
-        </table>
-    </div>
 </div>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
@@ -214,19 +208,6 @@
             $(".maxUpload").text(nullData(data.maxUpload));    //最大上传限制
             $(".userRights").text(nullData(data.userRights));//当前用户权限
         }
-
-        //最新文章列表
-        $.get("../../static/json/newsList.json", function (data) {
-            var hotNewsHtml = '';
-            for (var i = 0; i < 5; i++) {
-                hotNewsHtml += '<tr>'
-                    + '<td align="left"><a href="javascript:;"> ' + data.data[i].newsName + '</a></td>'
-                    + '<td>' + data.data[i].newsTime.substring(0, 10) + '</td>'
-                    + '</tr>';
-            }
-            $(".hot_news").html(hotNewsHtml);
-            $(".userAll span").text(data.length);
-        })
 
         //用户数量
         $.get("../../static/	json/userList.json", function (data) {

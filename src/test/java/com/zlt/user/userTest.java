@@ -1,8 +1,6 @@
 package com.zlt.user;
 
 import com.zlt.dao.UserDao;
-import com.zlt.pojo.ResultData;
-import com.zlt.pojo.User;
 import com.zlt.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * @author shushu
@@ -25,5 +25,11 @@ public class userTest {
     private UserService userService;
     @Test
     public void m01(){
+        try {
+            URL url=new URL("www.baidu.com");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
 }

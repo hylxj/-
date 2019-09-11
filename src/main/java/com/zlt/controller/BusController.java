@@ -1,10 +1,7 @@
 package com.zlt.controller;
 
 import cn.hutool.core.lang.UUID;
-import com.zlt.pojo.Bus;
-import com.zlt.pojo.IdAndName;
-import com.zlt.pojo.ResultData;
-import com.zlt.pojo.TableData;
+import com.zlt.pojo.*;
 import com.zlt.service.BusService;
 import com.zlt.utils.ExcelUtil;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -24,7 +21,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -155,7 +154,6 @@ public class BusController {
         List<List<String>> lists = ExcelUtil.parseExcel(inputStream);
         for (List<String> list : lists) {
             Bus bus = new Bus(list.get(0), list.get(1), Integer.valueOf(list.get(2)), Integer.valueOf(list.get(3)), (new SimpleDateFormat("yyyy/MM/dd")).parse(list.get(4)), "正常".equals(list.get(5)) ? 1 : 2);
-            System.out.println(bus);
             addBus(bus);
         }
         return new ResultData(200, "上传成功");
@@ -165,7 +163,7 @@ public class BusController {
     @RequestMapping("/excelExport")
     public void excelExport(HttpServletResponse response) throws IOException {
         //获取公交车数据
-        List<Bus> list = busService.getBusList();
+        List<BusLineDriver> list = busService.getBusList();
         //创建导出工具
         Workbook workbook = ExcelUtil.exportExcel(list);
         //告诉浏览器需要下载文件
@@ -177,5 +175,28 @@ public class BusController {
         //关闭流
         outputStream.close();
         workbook.close();
+    }
+    //通过公交车Id查询公交车名称
+    @RequestMapping("/findDriverName")
+    @ResponseBody
+    public ResultData findDriverName (){
+        List<IdAndName> idAndNames=busService.findAllIdAndName();
+        Map<Integer,String> idAndName=new HashMap<>();
+        for (IdAndName andName : idAndNames) {
+            idAndName.put(andName.getId(),andName.getName());
+        }
+        return  new ResultData(200,"ok",idAndName);
+    }
+
+    //通过线路的Id查询线路的名称
+    @RequestMapping("/findLineName")
+    @ResponseBody
+    public ResultData findLineName (){
+        List<IdAndName> idAndNames=busService.findAllLineIdAndName();
+        Map<Integer,String> idAndName=new HashMap<>();
+        for (IdAndName andName : idAndNames) {
+            idAndName.put(andName.getId(),andName.getName());
+        }
+        return  new ResultData(200,"ok",idAndName);
     }
 }
