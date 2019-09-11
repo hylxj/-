@@ -3,6 +3,8 @@ package com.zlt.service;
 import com.zlt.pojo.BusStation;
 import com.zlt.pojo.TableData;
 
+import java.util.List;
+
 /**
  * z站台管理业务层的接口
  */
@@ -48,4 +50,12 @@ public interface BusStationService {
      * @param busStation
      */
     void updateStation(BusStation busStation);
+
+    /**
+     * 查看经过站台的线路
+     * @param page
+     * @param limit
+     * @return
+     */
+    TableData findLines(int staId, int page, int limit);
 }

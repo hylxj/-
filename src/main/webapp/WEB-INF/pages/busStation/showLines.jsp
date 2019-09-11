@@ -19,12 +19,12 @@
 		<form class="layui-form">
 			<div class="layui-inline">
 				<div class="layui-input-inline">
-					<input type="text" class="layui-input searchVal" placeholder="请输入站点的名称" />
+					<input type="text" class="layui-input searchVal" placeholder="请输入搜索的内容" />
 				</div>
 				<a class="layui-btn search_btn" data-type="reload">搜索</a>
 			</div>
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-normal addNews_btn">添加站点</a>
+				<a class="layui-btn layui-btn-normal addNews_btn">添加路线</a>
 			</div>
 		</form>
 	</blockquote>
@@ -42,8 +42,8 @@
 
 	<!--操作-->
 	<script type="text/html" id="newsListBar">
-		<a class="layui-btn layui-btn-xs showLine" lay-event="showLine">查看线路</a>
-		<a class="layui-btn layui-btn-xs editStation" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-xs showStation" lay-event="show">查看站台</a>
+		<a class="layui-btn layui-btn-xs editBus" lay-event="edit">编辑</a>
 		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
 	</script>
 </form>
@@ -74,7 +74,7 @@
 		//公交车列表
 		var tableIns = table.render({
 			elem: '#newsList',
-			url : '/BusStation/tableData',
+			url : '/BusStation/showLinesTable',
 			cellMinWidth : 95,
 			page : true,
 			height : "full-125",
@@ -83,10 +83,20 @@
 			id : "newsListTable",
 			cols : [[
 			    {type: "checkbox", fixed:"left", width:50},
-				{field: "staId", title:"ID", width:80,hide:true},
-				{field: 'staName', title: '站点的名称', align:"center"},
-				{field: 'staStatus', title: '线路的状态', align:'center', templet:function(d){
-						if(d.staStatus==1){
+				{field: "lineId", title:"ID", width:80,hide:true},
+				{field: 'lineName', title: '线路的名称', width:150, align:"center"},
+				{field: 'lineTime', title: '线路的时间', width:200,align:"center"},
+				{field: 'linePrice', title: '票价', align:'center',width:200},
+				{field: 'lineCreatetime', title: '线路的创建时间',width:200, align:'center',templet:function (d) {
+                        if(d.lineCreatetime!=null){
+                            var date = new Date(d.lineCreatetime	);
+                            var  str = formatDate(date);
+                            return str;
+                        }
+                        return "没有数据";
+                    }},
+				{field: 'lineStatus', title: '线路的状态', align:'center', templet:function(d){
+						if(d.lineStatus==1){
 						    return "正常";
 						}else {
 						    return "异常";
@@ -101,7 +111,7 @@
 		$(".search_btn").on("click",function(){
 			if($(".searchVal").val() != ''){
 				table.reload("newsListTable",{
-				    url:'/BusStation/search',
+				    url:'/busLine/search',
 					page: {
 						curr: 1 //重新从第 1 页开始
 					},
@@ -114,14 +124,14 @@
 			}
 		});
 
+		//添加车辆
 
-
-		//增加站台
+		//增加线路
 		$(".addNews_btn").click(function(){
                 var index = layui.layer.open({
                     title : "添加线路",
                     type : 2,
-                    content : "/BusStation/addPage",
+                    content : "/busLine/addPage",
                     success : function(layero, index){
                         setTimeout(function(){
                             layui.layer.tips('点击此处返回线路列表', '.layui-layer-setwin .layui-layer-close', {
@@ -186,9 +196,9 @@
 
 			if(layEvent === 'edit'){ //编辑
                 var index = layui.layer.open({
-                    title : "修改站台",
+                    title : "修改线路",
                     type : 2,
-                    content : "/BusStation/editPage?id="+data.staId,
+                    content : "/busLine/editPage?id="+data.lineId,
                     success : function(){
                         setTimeout(function(){
                             layui.layer.tips('点击此处返回文章列表', '.layui-layer-setwin .layui-layer-close', {
@@ -204,18 +214,18 @@
                 })
 			} else if(layEvent === 'del'){ //删除
 				layer.confirm('确定删除此线路？',{icon:3, title:'提示信息'},function(index){
-					$.get("/BusStation/del",{
-                        staId : data.staId  //将需要删除的newsId作为参数传入
+					$.get("/busLine/del",{
+					    lineId : data.lineId  //将需要删除的newsId作为参数传入
 					},function(data){
 					tableIns.reload();
 					layer.close(index);
 					})
 				});
-			} else if(layEvent === 'showLine'){ //查看站台信息
+			} else if(layEvent === 'show'){ //查看站台信息
                 var index = layui.layer.open({
-                    title : "查看经过该站台的线路",
+                    title : "查看线路站台",
                     type : 2,
-                    content : "/BusStation/showLines?staId="+data.staId,
+                    content : "/busLine/showStaPage?lineName="+data.lineName,
                     success : function(){
                         setTimeout(function(){
                             layui.layer.tips('点击此处返回线路信息列表', '.layui-layer-setwin .layui-layer-close', {

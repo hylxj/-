@@ -1,5 +1,6 @@
 package com.zlt.dao;
 
+import com.zlt.pojo.BusLine;
 import com.zlt.pojo.BusStation;
 
 import java.util.List;
@@ -45,4 +46,11 @@ public interface BusStationDao {
      * @param busStation
      */
     void updateStation(BusStation busStation);
+
+    /**
+     * 查看经过站台的线路
+     * @param staId
+     * @return
+     */
+    List<BusLine> findLines(int staId);
 }

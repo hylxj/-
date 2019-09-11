@@ -3,6 +3,7 @@ package com.zlt.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zlt.dao.BusStationDao;
+import com.zlt.pojo.BusLine;
 import com.zlt.pojo.BusStation;
 import com.zlt.pojo.TableData;
 import com.zlt.service.BusStationService;
@@ -82,5 +83,19 @@ public class BusStationServiceImpl  implements BusStationService {
     @Override
     public void updateStation(BusStation busStation) {
         busStationDao.updateStation(busStation);
+    }
+
+    /**
+     * 查看经过站台的线路
+     * @param page limit staId
+     * @return
+     */
+    @Override
+    public TableData findLines(int staId,int page,int limit) {
+        PageHelper.startPage(page,limit);
+        List<BusLine> busLines = busStationDao.findLines(staId);
+        PageInfo<BusLine> pageInfo = new PageInfo<>(busLines);
+        System.out.println("========"+pageInfo.getList());
+        return new TableData(0,"查询数据成功",(int)pageInfo.getTotal(),pageInfo.getList());
     }
 }

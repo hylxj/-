@@ -3,7 +3,7 @@
 <mapper namespace="com.zlt.dao.BusStationDao">
     <!--查询所有的站台-->
     <select id="findAll" resultType="BusStation">
-        select * from bustation where staStatus in (1,2)
+        select * from bustation where staStatus in (1,2) order by staId desc
     </select>
     <!--添加站台-->
     <insert id="saveStation" parameterType="String">
@@ -48,4 +48,8 @@
             (#{item.lineId},#{item.staId},#{item.orderId})
         </foreach>
     </insert>
+    <!--查看经过该站台的线路信息-->
+    <select id="findLines" parameterType="int" resultType="BusLine">
+        SELECT  *  FROM busline  WHERE lineId in (SELECT DISTINCT lineId from linesta WHERE staId =#{staId})
+    </select>
 </mapper>
