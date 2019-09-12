@@ -18,10 +18,10 @@
         GROUP BY buscenId
     </select>
     <select id="findAllBusCen" resultMap="BusCenMap">
-        select * from buscenter where buscenStatus!=3
+        select * from buscenter where buscenStatus=1
     </select>
     <select id="searchAllBusCen" parameterType="String" resultMap="BusCenMap">
-        select * from buscenter where buscenName like #{title} and buscenStatus!=3
+        select * from buscenter where buscenName like #{title} and buscenStatus=1
     </select>
     <update id="deleteByBusCenId" parameterType="int">
         update buscenter set buscenStatus=3 where buscenId=#{buscenId}
@@ -42,10 +42,10 @@
         where buscenId=#{id}
     </update>
     <select id="findBusCenById" parameterType="int" resultMap="BusCenMap">
-        select * from buscenter where buscenId=#{buscenId} and buscenStatus!=3
+        select * from buscenter where buscenId=#{buscenId} and buscenStatus=1
     </select>
     <select id="findRoleByBusCenId" parameterType="int" resultType="Role">
-        select `role`.* from `role`,buscenrole where `role`.roleId=buscenrole.roleId and buscenrole.buscenId=#{buscenId} and role.available!=3
+        select `role`.* from `role`,buscenrole where `role`.roleId=buscenrole.roleId and buscenrole.buscenId=#{buscenId} and role.available=1
     </select>
     <delete id="deleteRoleByBusCenId">
         delete from buscenrole where buscenId=#{buscenId} and roleId=#{roleId}

@@ -13,8 +13,11 @@
     <select id="findAllBusCenName" resultType="BusCen">
         select buscenId as id,buscenName as title from buscenter
     </select>
-    <insert id="insertUser" parameterType="User">
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true">
         insert into user(username,password,salt,locked,birthday,sex,phone,type,belongId,userDesc) values (#{username},#{password},#{salt},#{locked},#{birthday},#{sex},#{phone},#{type},#{belongId},#{userDesc})
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
     </insert>
     <select id="findAllById" parameterType="int" resultType="User">
         select * from user where id=#{id}

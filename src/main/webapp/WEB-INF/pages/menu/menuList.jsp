@@ -76,7 +76,7 @@
 		form.on('switch(available)', function(data){
 			var isAvailable;
 			if(data.elem.checked){
-				isAvailable=0;
+				isAvailable=2;
 			}else {
 				isAvailable=1;
 			}

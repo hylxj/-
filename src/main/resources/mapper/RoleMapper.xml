@@ -5,7 +5,7 @@
         select * from role where available!=3
     </select>
     <select id="searchAllRole" parameterType="String" resultType="Role">
-        select * from role where roleName like #{roleName} and available!=3
+        select * from role where roleName like #{roleName} and available=1
     </select>
     <update id="deleteByRoleId" parameterType="int">
         update role set available=3 where roleId=#{roleId}
@@ -23,7 +23,7 @@
         where roleId=#{roleId}
     </update>
     <select id="findRoleById" parameterType="int" resultType="Role">
-        select * from role where roleId=#{roleId} and available!=3
+        select * from role where roleId=#{roleId} and available=1
     </select>
     <select id="findUserByRoleId" parameterType="int" resultType="User">
         select `user`.* from `user`,userrole where `user`.id=userId and roleId=#{roleId} and `user`.userStatus!=4

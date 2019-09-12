@@ -25,7 +25,7 @@
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">初始密码</label>
 		<div class="layui-input-block">
-			<input type="text" class="layui-input password" lay-verify="password" placeholder="请输入初始密码">
+			<input type="password" class="layui-input password" lay-verify="password" placeholder="请输入初始密码">
 		</div>
 	</div>
 	<div class="layui-form-item layui-row layui-col-xs12">
@@ -53,11 +53,9 @@
 			<label class="layui-form-label">用户类型</label>
 			<div class="layui-input-block">
 				<select name="userType" class="userType" lay-filter="userType">
-					<option value="0">超级管理员</option>
-					<option value="1">调度中心管理员</option>
-					<option value="2">调度中心外勤人员</option>
-					<option value="3">调度中心财务人员</option>
-					<option value="4">调度中心调度人员</option>
+					<c:forEach items="${roles}" var="role">
+						<option value="${role.roleId}">${role.roleDesc}</option>
+					</c:forEach>
 				</select>
 			</div>
 		</div>
@@ -119,7 +117,7 @@
 				birthday : $(".birthday").val(),
 				phone:$(".phone").val(),
 				belongId:data.field.busCen,
-			    userDesc : $(".userDesc").text()   //用户简介
+			    userDesc : $(".userDesc").val()   //用户简介
 			},function(res){
 				top.layer.close(index);
 				if (res.code===200){

@@ -3,10 +3,9 @@ package com.zlt.controller;
 import com.github.pagehelper.PageInfo;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
-import com.zlt.pojo.BusCen;
-import com.zlt.pojo.ResultData;
-import com.zlt.pojo.ResultTable;
-import com.zlt.pojo.User;
+import com.zlt.dao.RoleDao;
+import com.zlt.pojo.*;
+import com.zlt.service.RoleService;
 import com.zlt.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
@@ -37,6 +36,8 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleDao roleDao;
 
     @RequiresRoles(value = {"admin","gxadmin","sladmin"},logical = Logical.OR)
     @RequestMapping("/userList")
@@ -78,9 +79,10 @@ public class UserController {
     }
 
     @RequestMapping("/userAddPage")
-    @RequiresRoles({"admin"})
     public ModelAndView userAddPage(ModelAndView mv) {
         List<BusCen> busCens = userService.findAllBusCenName();
+        List<Role> roles = roleDao.findAllRole();
+        mv.addObject("roles",roles);
         mv.addObject("busCens", busCens);
         mv.setViewName("user/userAdd");
         return mv;
@@ -97,6 +99,7 @@ public class UserController {
     public ResultData userAdd(User user) {
         try {
             userService.userAdd(user);
+            roleDao.insertRoleUser(user.getType(),user.getId());
         } catch (DataAccessException e) {
             return new ResultData(4001, "用户名重复了");
         }
@@ -104,7 +107,6 @@ public class UserController {
     }
 
     @RequestMapping("/userEditPage")
-    @RequiresRoles({"admin"})
     public ModelAndView userEditPage(@RequestParam Integer id, ModelAndView mv) {
         List<BusCen> busCens = userService.findAllBusCenName();
         User user = userService.findAllById(id);
