@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sun.misc.BASE64Encoder;
 
 import java.util.List;
 
@@ -28,9 +29,15 @@ public class IndexController {
     @RequestMapping("/index")
     public String  indexPage(String username, Model model){
         User user = userService.findByUsername(username);
+        BASE64Encoder encoder = new BASE64Encoder();
+        String icon = "";
+        if(user.getIcon()!=null){
+            icon = encoder.encode(user.getIcon());
+        }
         List<Role> roles=userService.findRolesByUserId(user.getId());
         model.addAttribute("roles",roles);
         model.addAttribute("user",user);
+        model.addAttribute("icon",icon);
         return "index";
     }
     @RequestMapping("/unauthorizedPage")
@@ -38,7 +45,6 @@ public class IndexController {
         return "unauthorized";
     }
 
-/*------------------xiao'ci'yang-------------------*/
     /**
      * 查找地址信息
      * @return

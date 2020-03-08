@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlt.dao.BusDao">
+    <!--查询所有的bus-->
+    <select id="findAll" resultType="com.zlt.pojo.BusLineDriver">
+        select * from bus_line_driver_1
+    </select>
+    <!--查询所有的buslinedriver-->
+    <select id="getBusList" resultType="com.zlt.pojo.BusLineDriver">
+        select * from bus_line_driver_1
+    </select>
+
+    <!--添加bus-->
+    <insert id="saveBus" parameterType="com.zlt.pojo.Bus">
+        insert into bus (busPlate,busName,busDriverId,busLineId,busCreateTime) values (#{busPlate},#{busName},#{busDriverId},#{busLineId},#{busCreateTime})
+    </insert>
+    <!--通过公交车的名称查找公交车-->
+    <select id="findByBusName" parameterType="String" resultType="com.zlt.pojo.Bus">
+        select * from bus  where  busName like #{key}
+    </select>
+    <!--通过公交车的id删除公交车-->
+    <update id="delBus" parameterType="Integer">
+        update bus set busStatus = 3 where busId  =#{busId}
+    </update>
+    <!--//通过公交车的id数组批量删除公交车-->
+    <update id="delAllBus" parameterType="long">
+        update bus  set busStatus = 3  where busId  in
+        <!-- 动态SQL语句-->
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <!--修改车辆信息的保存-->
+    <update id="updateBus" parameterType="com.zlt.pojo.Bus">
+        update bus set busName=#{busName},busDriverId=#{busDriverId},busLineId=#{busLineId},busStatus=#{busStatus} where busId=#{busId}
+    </update>
+    <!--查询线路的名称-->
+    <select id="findLineName"  resultType="IdAndName">
+        select lineId as id,lineName as name from busline
+    </select>
+    <!--查询所有的驾驶员的姓名-->
+    <select id="findDriverName"  resultType="IdAndName">
+        select busdriverId as id,busdriverName as name from busdriver
+    </select>
+    <!--通过线路的Id查找线路信息-->
+    <select id="findByBusId" parameterType="int" resultType="Bus">
+        select * from bus  where  busId =#{busId}
+    </select>
+    <!--根据驾驶员ID查询驾驶员的姓名-->
+    <select id="findDriverNameById"  parameterType="int" resultType="String">
+        select busdriverName  from busdriver where busdriverId = #{busDriverId}
+    </select>
+
+    <!--根据线路ID查询线路的名称-->
+    <select id="findAllLineIdAndName"  resultType="IdAndName">
+        select lineId as id,lineName as name from busline
+    </select>
+
+    <!--根据线路ID查询线路的名称-->
+    <select id="findAllIdAndName"   resultType="IdAndName">
+        select busdriverId as id,busdriverName as name  from busdriver
+    </select>
+</mapper>

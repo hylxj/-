@@ -22,9 +22,9 @@
     <!-- 配置连接池101.201.232.97:3306-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql:///lv3"/>
+        <property name="jdbcUrl" value="jdbc:mysql:///public_transport"/>
         <property name="user" value="root"/>
-        <property name="password" value="root"/>
+        <property name="password" value="meijia123"/>
     </bean>
     <!-- 配置SqlSessionFactory工厂-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -38,7 +38,7 @@
                     <property name="properties">
                         <!--使用下面的方式配置参数，一行配置一个 -->
                         <value>
-                            helperDialect=postgresql
+                            helperDialect=mysql
                             reasonable=true
                             supportMethodsArguments=true
                             params=count=countSql

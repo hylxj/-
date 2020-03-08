@@ -19,7 +19,7 @@ public class User implements Serializable {
     private Integer locked;
     private Date birthday;
     private String realName;
-    private String icon;
+    private byte [] icon;
     private Integer sex;
     private String phone;
     private Integer type;

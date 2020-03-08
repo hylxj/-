@@ -1,7 +1,7 @@
 package com.zlt.utils;
 
-import com.zlt.pojo.Bus;
 import com.zlt.pojo.BusLineDriver;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,8 +56,13 @@ public class ExcelUtil {
                     // 验证单元格的类型
                     switch (cell.getCellType()) {
                         case NUMERIC:
+                            if(HSSFDateUtil.isCellDateFormatted(cell)){
+                                Date date = cell.getDateCellValue();
+                                value = new SimpleDateFormat("yyyy/MM/dd").format(date);
+                            }else {
+                                value = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+                            }
                             // 表格中返回的数字类型是科学计数法因此不能直接转换成字符串格式
-                            value = new BigDecimal(cell.getNumericCellValue()).toPlainString();
                             break;
                         case FORMULA:
                             // 和数字类似
@@ -102,10 +108,12 @@ public class ExcelUtil {
         // 依次创建列
         row.createCell(0).setCellValue("车牌号");
         row.createCell(1).setCellValue("公交车名称");
-        row.createCell(2).setCellValue("驾驶员");
-        row.createCell(3).setCellValue("线路");
-        row.createCell(4).setCellValue("公交车服役时间");
-        row.createCell(5).setCellValue("公交车的状态");
+        row.createCell(2).setCellValue("驾驶员id");
+        row.createCell(3).setCellValue("驾驶员");
+        row.createCell(4).setCellValue("线路id");
+        row.createCell(5).setCellValue("线路");
+        row.createCell(6).setCellValue("公交车服役时间");
+        row.createCell(7).setCellValue("公交车的状态");
         // 遍历数据创建对应的行
         int create = 1;
         for (BusLineDriver bus : busList) {
@@ -113,10 +121,12 @@ public class ExcelUtil {
             // 依次创建列
             row1.createCell(0).setCellValue(bus.getBusPlate());
             row1.createCell(1).setCellValue(bus.getBusName());
-            row1.createCell(2).setCellValue(bus.getBusdriverName());
-            row1.createCell(3).setCellValue(bus.getLineName());
-            row1.createCell(4).setCellValue((new SimpleDateFormat("yyyy/MM/dd").format(bus.getBusCreatetime())));
-            row1.createCell(5).setCellValue(bus.getBusStatus() == 1 ? "正常" : "维修");
+            row1.createCell(2).setCellValue(bus.getBusdriverId());
+            row1.createCell(3).setCellValue(bus.getBusdriverName());
+            row1.createCell(4).setCellValue(bus.getBusLineId());
+            row1.createCell(5).setCellValue(bus.getLineName());
+            row1.createCell(6).setCellValue((new SimpleDateFormat("yyyy/MM/dd").format(bus.getBusCreatetime())));
+            row1.createCell(7).setCellValue(bus.getBusStatus() == 1 ? "正常" : "维修");
             // 行数+1
             create++;
         }

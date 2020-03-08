@@ -27,29 +27,28 @@
 <div class="map-box" id="map"></div>
 <div class="layui-tab mag0" lay-filter="bodyTab" id="top_tabs_box"></div>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
-<script src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${pageContext.request.contextPath}/static/layui/echarts.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     $(function () {
-        var $, tab, dataStr, layer;
-        layui.config({
-            base: "static/js/"
-        }).extend({
-            "bodyTab": "bodyTab"
-        })
-        layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
-            var form = layui.form,
-                element = layui.element;
-            $ = layui.$;
-            layer = parent.layer === undefined ? layui.layer : top.layer;
-            tab = layui.bodyTab({
-                openTabNum: "50",  //最大可打开窗口数量
-                url: "static/json/navs.json" //获取菜单json地址
-            });
-            //打开新窗口
-            function addTab(_this){
-                tab.tabAdd(_this);
-            }
+        // var $, tab, dataStr, layer;
+        // layui.config({
+        //     base: "static/js/"
+        // }).extend({
+        //     "bodyTab": "bodyTab"
+        // })
+        // layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery','echarts'], function () {
+        //     var form = layui.form,
+        //         element = layui.element;
+        //     $ = layui.$;
+        //     layer = parent.layer === undefined ? layui.layer : top.layer;
+        //     tab = layui.bodyTab({
+        //         openTabNum: "50",  //最大可打开窗口数量
+        //         url: "static/json/navs.json" //获取菜单json地址
+        //     });
+        //     //打开新窗口
+        //     function addTab(_this){
+        //         tab.tabAdd(_this);
+        //     }
 
 
         //散点相关信息
@@ -135,7 +134,9 @@
         ]
 
         var dom = document.getElementById("map");
+        console.log(dom);
         var myChart = echarts.init(dom);
+        console.log(myChart)
         var option1 = null;
         myChart.showLoading(); //加载动画
 
@@ -247,7 +248,7 @@
         });
 
         })
-    })
+    // })
 </script>
 </body>
 </html>

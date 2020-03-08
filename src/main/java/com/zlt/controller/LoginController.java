@@ -18,14 +18,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author shushu
- * @date 2019-09-02-23:50
- */
+ * @Description: 登陆页面
+ * @Param:
+ * @Return:
+ * @Author: huangyu
+ * @Date: 2020/3/7
+**/
 @Controller
 @RequestMapping("/shiro")
 public class LoginController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public LoginController(UserService userService) {
+        this.userService = userService;
+    }
 
     @RequestMapping("/login")
     @ResponseBody
@@ -36,6 +42,7 @@ public class LoginController {
         if (!vCode.equalsIgnoreCase(verifyCode)){
             return new ResultData(1003,"验证码不正确，请重新输入");
         }
+        //验证用户是否登录
         if (!currentUser.isAuthenticated()) {
             //把用户名和密码封装为UsernamePasswordToken对象
             UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -46,10 +53,8 @@ public class LoginController {
                 currentUser.login(token);
                 Session session=currentUser.getSession();
                 session.setAttribute("sessionUser",userService.findByUsername(token.getUsername()));
-            } catch (IncorrectCredentialsException ice) {//若账户存在，但密码不匹配，则shiro 会抛出IncorrectcredentialsException 异常。
-                return new ResultData(1001, "登陆失败,密码错误");
-            } catch (AuthenticationException ae) {//所有以上异常的父类
-                return new ResultData(1002, "登陆失败" + ae.getMessage());
+            }catch (AuthenticationException ae) {//所有以上异常的父类
+                return new ResultData(1002, "用户名或者密码错误，登录失败");
             }
         }
         return new ResultData(200, username);

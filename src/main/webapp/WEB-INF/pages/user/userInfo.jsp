@@ -18,7 +18,7 @@
 <form class="layui-form layui-row">
 	<div class="layui-col-md3 layui-col-xs12 user_right">
 		<div class="layui-upload-list">
-			<img class="layui-upload-img layui-circle userFaceBtn userAvatar" id="userFace" src="http://localhost:9090/uploads/${user.icon}">
+			<img class="layui-upload-img layui-circle userFaceBtn userAvatar" id="userFace" src="data:image/jpg;base64,${icon}">
 		</div>
 		<button type="button" class="layui-btn layui-btn-primary userFaceBtn"><i class="layui-icon">&#xe67c;</i> 掐指一算，我要换一个头像了</button>
 	</div>
@@ -88,14 +88,14 @@
 		//上传头像
 		upload.render({
 			elem: '.userFaceBtn',
-			url: '${pageContext.request.contextPath}/user/uploadIcon',
+			url: '/user/uploadIcon',
 			method : "post",
 			data: {
 				id: "${user.id}"
 			},
 			done: function(res, index, upload){
 				layer.msg(res.msg);
-				$('#userFace').attr('src',"http://localhost:9090/uploads/"+res.data);
+				$('#userFace').attr('src',"data:image/jpg;base64,"+res.data);
 			}
 		});
 

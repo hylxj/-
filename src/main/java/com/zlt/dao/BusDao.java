@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface BusDao {
     //查询所有的bus
-    List<Bus> findAll();
+    List<BusLineDriver> findAll();
     //添加一个bus
     void saveBus(Bus bus);
     //通过公交车名字查询bus

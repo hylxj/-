@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlt.dao.BusLineDao">
+    <!--查询所有的线路-->
+    <select id="findAll" resultType="BusLine">
+        select * from busline where lineStatus in (1,2)
+    </select>
+    <!--添加线路-->
+    <insert id="saveLine" parameterType="BusLine">
+        insert into busline (lineId,lineName,lineTime,linePrice,lineCreatetime) values (#{lineId},#{lineName},#{lineTime},#{linePrice},NOW())
+    </insert>
+    <!--通过线路的名称查找线路信息-->
+    <select id="findByLineName" parameterType="String" resultType="BusLine">
+        select * from busline  where  lineName like #{key}
+    </select>
+    <!--通过线路的id删除线路-->
+    <update id="delLine" parameterType="Integer">
+        update busline set lineStatus = 3 where lineId  =#{lineId}
+    </update>
+    <!--//通过公交车的id数组批量删除公交车-->
+    <!--<delete id="delAllBus" parameterType="long">-->
+        <!--delete from bus where busId  in-->
+        <!--&lt;!&ndash; 动态SQL语句&ndash;&gt;-->
+        <!--<foreach collection="array" item="id" open="(" separator="," close=")">-->
+            <!--#{id}-->
+        <!--</foreach>-->
+    <!--</delete>-->
+    <!--修改线路信息的保存-->
+    <update id="updateLine" parameterType="BusLine">
+        update busline set lineName=#{lineName},lineTime=#{lineTime},linePrice=#{linePrice},lineStatus=#{lineStatus} where lineId=#{lineId}
+    </update>
+    <!--通过线路的Id查找线路信息-->
+    <select id="findByLineId" parameterType="int" resultType="BusLine">
+        select * from busline  where  lineId =#{lineId}
+    </select>
+    <!--通过线路名称查询站台信息-->
+    <select id="findStaByLineName" parameterType="String" resultType="LineStaView">
+        select * from linesta_view  where  lineName =#{lineName}
+    </select>
+    <!--查询所有的站台信息-->
+    <select id="findAllStation"  resultType="BusStation">
+        select * from bustation  where  staStatus = 1
+    </select>
+    <!--添加线路站台-->
+    <insert id="saveLineSta" parameterType="LineSta">
+        insert into linesta (lineId,staId,orderId) values 
+        <foreach collection="list" item="item"  separator=",">
+            (#{item.lineId},#{item.staId},#{item.orderId})
+        </foreach>
+    </insert>
+</mapper>

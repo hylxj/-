@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void saveIcon(Integer id, String filename) {
+    public void saveIcon(Integer id, byte [] filename) {
         userDao.saveIcon(id,filename);
     }
 

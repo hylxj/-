@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zlt.dao.BusDao">
     <!--查询所有的bus-->
-    <select id="findAll" resultType="com.zlt.pojo.Bus">
-        select * from bus where busStatus in (1,2) order by busId desc
+    <select id="findAll" resultType="com.zlt.pojo.BusLineDriver">
+        select * from bus_line_driver_1
     </select>
     <!--查询所有的buslinedriver-->
     <select id="getBusList" resultType="com.zlt.pojo.BusLineDriver">
-        select * from bus_line_driver
+        select * from bus_line_driver_1
     </select>
 
     <!--添加bus-->

@@ -28,8 +28,8 @@ public class BusServiceImpl implements BusService {
     @Override
     public TableData findAll(int page, int pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<Bus> buses = busDao.findAll();
-        PageInfo<Bus> pageInfo = new PageInfo<>(buses);
+        List<BusLineDriver> buses = busDao.findAll();
+        PageInfo<BusLineDriver> pageInfo = new PageInfo<>(buses);
         return new TableData(0,"查询数据成功",(int)pageInfo.getTotal(),pageInfo.getList());
     }
     //添加bus

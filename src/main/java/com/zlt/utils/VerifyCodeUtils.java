@@ -50,7 +50,7 @@ public class VerifyCodeUtils {
   
     /** 
      * 使用系统默认字符源生成验证码 
-     * @param verifySize    验证码长度 
+     * @param
      * @return 
      */  
     public static Verify generateVerify(){  
@@ -296,16 +296,6 @@ public class VerifyCodeUtils {
   
         }  
   
-    }  
-    public static void main(String[] args) throws IOException{  
-        File dir = new File("F:/verifies");  
-        int w = 200, h = 80;  
-        for(int i = 0; i < 50; i++){  
-            String verifyCode = generateVerifyCode(4);  
-            File file = new File(dir, verifyCode + ".jpg");  
-            outputImage(w, h, file, verifyCode);  
-        }  
-    }  
-    
+    }
    
 }  

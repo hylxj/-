@@ -1,0 +1,67 @@
+[
+	{
+		"title": "调度中心",
+		"icon": "icon-text",
+		"href": "",
+		"spread": false,
+		"children": [
+			{
+				"title": "用户管理",
+				"icon": "&#xe61c;",
+				"href": "/user/userList",
+				"spread": false
+			},
+			{
+				"title": "角色管理",
+				"icon": "&#xe609;",
+				"href": "/user/userList",
+				"spread": false
+			},
+			{
+				"title": "菜单管理",
+				"icon": "&#xe609;",
+				"href": "/user/userList",
+				"spread": false
+			},
+			{
+				"title": "部门管理",
+				"icon": "&#xe609;",
+				"href": "/user/userList",
+				"spread": false
+			}
+		]
+	},
+	{
+		"title": "系统管理",
+		"icon": "&#xe630;",
+		"href": "",
+		"spread": false,
+		"children": [
+			{
+				"title": "用户管理",
+				"icon": "&#xe61c;",
+				"href": "/user/userList",
+				"spread": false
+			},
+			{
+				"title": "角色管理",
+				"icon": "&#xe609;",
+				"href": "/user/userList",
+				"spread": false
+			},
+			{
+				"title": "菜单管理",
+				"icon": "&#xe609;",
+				"href": "/user/userList",
+				"spread": false
+			},
+			{
+				"title": "部门管理",
+				"icon": "&#xe609;",
+				"href": "/user/userList",
+				"spread": false
+			}
+		]
+	}
+]
+

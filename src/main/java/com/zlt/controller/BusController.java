@@ -134,26 +134,26 @@ public class BusController {
     //文件上传
     @RequestMapping("/fileUpload")
     @ResponseBody
-    public ResultData fileUpload(HttpServletRequest request, MultipartFile upload) throws IOException, ParseException {
+    public ResultData fileUpload(HttpServletRequest request, MultipartFile file) throws IOException, ParseException {
         String path = request.getSession().getServletContext().getRealPath("/loads/");//指定文件上传到服务器的位置
-        File file = new File(path);//
-        if (!file.exists()) {//目录不存在，则创建目录
-            file.mkdirs();
+        File file1 = new File(path);//
+        if (!file1.exists()) {//目录不存在，则创建目录
+            file1.mkdirs();
         }
-        String fileName = upload.getOriginalFilename();//获取文件的文件的名字
+        String fileName = file.getOriginalFilename();//获取文件的文件的名字
         String ext = fileName.substring(fileName.lastIndexOf("."));
         if (".xlsx.xls".indexOf(ext) == -1) {
             return new ResultData(600, "上传文件格式不对");
         }
         String uuid = UUID.randomUUID().toString().replace("-", "");//设置文件上传名字唯一
         fileName = uuid + "_" + fileName;
-        upload.transferTo(new File(path, fileName));//把文件写入服务器
-        File file1 = new File(path, fileName);
+        file.transferTo(new File(path, fileName));//把文件写入服务器
+        File file2 = new File(path, fileName);
         //数据导入
-        FileInputStream inputStream = new FileInputStream(file1);
+        FileInputStream inputStream = new FileInputStream(file2);
         List<List<String>> lists = ExcelUtil.parseExcel(inputStream);
         for (List<String> list : lists) {
-            Bus bus = new Bus(list.get(0), list.get(1), Integer.valueOf(list.get(2)), Integer.valueOf(list.get(3)), (new SimpleDateFormat("yyyy/MM/dd")).parse(list.get(4)), "正常".equals(list.get(5)) ? 1 : 2);
+            Bus bus = new Bus(list.get(0), list.get(1), Integer.valueOf(list.get(2)), Integer.valueOf(list.get(4)), (new SimpleDateFormat("yyyy/MM/dd")).parse(list.get(6)), "正常".equals(list.get(7)) ? 1 : 2);
             addBus(bus);
         }
         return new ResultData(200, "上传成功");

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zlt.dao.UserDao" >
+    <select id="findByUsername" parameterType="string" resultType="User">
+        select * from user where username=#{username} and userStatus!=4
+    </select>
+    <select id="findAllUser" resultType="User">
+        select * from user where userStatus!=4
+    </select>
+    <select id="searchUserList" parameterType="string" resultType="User">
+        select * from user where username like #{key} and userStatus!=4
+    </select>
+    <select id="findAllBusCenName" resultType="BusCen">
+        select buscenId as id,buscenName as title from buscenter
+    </select>
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true">
+        insert into user(username,password,salt,locked,birthday,sex,phone,type,belongId,userDesc) values (#{username},#{password},#{salt},#{locked},#{birthday},#{sex},#{phone},#{type},#{belongId},#{userDesc})
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+    <select id="findAllById" parameterType="int" resultType="User">
+        select * from user where id=#{id}
+    </select>
+    <update id="userEdit" parameterType="User">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+        <if test="username!=null and username!=''">username=#{username},</if>
+        <if test="locked!=null and locked!=''">locked=#{locked},</if>
+        <if test="birthday!=null">birthday=#{birthday},</if>
+        <if test="phone!=null and phone!=''">phone=#{phone},</if>
+        <if test="type!=null and type!=''">type=#{type},</if>
+        <if test="belongId!=null and belongId!=''">belongId=#{belongId},</if>
+        <if test="userDesc!=null and userDesc!=''">userDesc=#{userDesc},</if>
+        <if test="realName!=null and realName!=''">realName=#{realName},</if>
+        <if test="sex!=null">sex=#{sex}</if>
+        </trim>
+        where id=#{id}
+    </update>
+    <update id="delUser" parameterType="int">
+        update user set userStatus=4 where id=#{id}
+    </update>
+    <update id="batchDelUser" parameterType="long">
+        update user set userStatus=4 where id in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <update id="updateLocked" parameterType="int">
+        update user set locked=#{isLocked} where id=#{id}
+    </update>
+    <update id="changePwd" parameterType="string">
+        update user set password=#{newPwd} where username=#{username}
+    </update>
+    <update id="saveIcon">
+        update user set icon=#{icon} where id=#{id}
+    </update>
+    <select id="findRolesByUserId" parameterType="int" resultType="Role">
+        select r.* from role r,userrole where r.roleId=userrole.roleId and userrole.userId=#{id}
+    </select>
+    <select id="listByType" parameterType="int" resultType="User">
+        select * from user where type=#{type}
+    </select>
+</mapper>

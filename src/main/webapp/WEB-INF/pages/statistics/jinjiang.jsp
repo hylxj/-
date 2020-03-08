@@ -7,7 +7,7 @@
     <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
     <div id="main" style="width: 1300px;height:620px;"></div>
     <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-    <script src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${pageContext.request.contextPath}/static/layui/echarts.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
         var myChart = echarts.init(document.getElementById('main'));
 

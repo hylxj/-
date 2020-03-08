@@ -35,7 +35,7 @@ public interface UserDao {
 
     void changePwd(@Param("username") String username,@Param("newPwd") String newPwd);
 
-    void saveIcon(@Param("id") Integer id, @Param("icon") String filename);
+    void saveIcon(@Param("id") Integer id, @Param("icon") byte [] filename);
 
     List<Role> findRolesByUserId(Integer id);
 

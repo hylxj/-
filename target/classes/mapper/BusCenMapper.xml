@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zlt.dao.BusCenDao" >
+    <resultMap id="BusCenMap" type="BusCen">
+        <result column="buscenId" property="id"/>
+        <result column="parentId" property="parentId"/>
+        <result column="buscenName" property="title"/>
+        <result column="buscenDistrict" property="buscenDistrict"/>
+        <result column="buscenManagerId" property="buscenManagerId"/>
+        <result column="buscenStatus" property="buscenStatus"/>
+        <result column="spread" property="spread"/>
+    </resultMap>
+    <select id="findAllBusCenByRole" parameterType="int" resultMap="BusCenMap">
+        SELECT bc.* from buscenRole br,buscenter bc WHERE br.buscenId=bc.buscenId and br.roleId in
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY buscenId
+    </select>
+    <select id="findAllBusCen" resultMap="BusCenMap">
+        select * from buscenter where buscenStatus=1
+    </select>
+    <select id="searchAllBusCen" parameterType="String" resultMap="BusCenMap">
+        select * from buscenter where buscenName like #{title} and buscenStatus=1
+    </select>
+    <update id="deleteByBusCenId" parameterType="int">
+        update buscenter set buscenStatus=3 where buscenId=#{buscenId}
+    </update>
+    <insert id="insertBusCen" parameterType="BusCen">
+        insert into buscenter(parentId, buscenName, buscenDistrict, spread) values(#{parentId},#{title},#{buscenDistrict},#{spread})
+    </insert>
+    <update id="updateBusCen" parameterType="BusCen">
+        update buscenter
+        <trim prefix="set" suffixOverrides=",">
+            <if test="buscenStatus!=null">buscenStatus=#{buscenStatus},</if>
+            <if test="parentId!=null">parentId=#{parentId},</if>
+            <if test="title!=null">buscenName=#{title},</if>
+            <if test="buscenDistrict!=null">buscenDistrict=#{buscenDistrict},</if>
+            <if test="buscenManagerId!=null">buscenManagerId=#{buscenManagerId},</if>
+            <if test="spread!=null">spread=#{spread},</if>
+        </trim>
+        where buscenId=#{id}
+    </update>
+    <select id="findBusCenById" parameterType="int" resultMap="BusCenMap">
+        select * from buscenter where buscenId=#{buscenId} and buscenStatus=1
+    </select>
+    <select id="findRoleByBusCenId" parameterType="int" resultType="Role">
+        select `role`.* from `role`,buscenrole where `role`.roleId=buscenrole.roleId and buscenrole.buscenId=#{buscenId} and role.available=1
+    </select>
+    <delete id="deleteRoleByBusCenId">
+        delete from buscenrole where buscenId=#{buscenId} and roleId=#{roleId}
+    </delete>
+    <insert id="insertBusCenRole">
+        insert into buscenrole(buscenId, roleId) values(#{buscenId},#{roleId})
+    </insert>
+</mapper>

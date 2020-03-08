@@ -33,7 +33,7 @@
 						<a href="javascript:;"><i class="seraph icon-lock"></i><cite>锁屏</cite></a>
 					</li>
 					<li class="layui-nav-item" id="userInfo">
-						<a href="javascript:;"><img src="http://localhost:9090/uploads/${user.icon}" class="layui-nav-img userAvatar" width="35" height="35"><cite class="adminName">${user.username}</cite></a>
+						<a href="javascript:;"><img src="data:image/jpg;base64,${icon}" class="layui-nav-img userAvatar" width="35" height="35"><cite class="adminName">${user.username}</cite></a>
 						<dl class="layui-nav-child">
 							<dd><a href="javascript:;" data-url="/user/userInfoPage?username=${user.username}"><i class="seraph icon-ziliao" data-icon="icon-ziliao"></i><cite>个人资料</cite></a></dd>
 							<dd><a href="javascript:;" data-url="/user/changePwdPage?username=${user.username}"><i class="seraph icon-xiugai" data-icon="icon-xiugai"></i><cite>修改密码</cite></a></dd>
@@ -48,7 +48,7 @@
 		<!-- 左侧导航 -->
 		<div class="layui-side layui-bg-black">
 			<div class="user-photo">
-				<a class="img" title="我的头像" ><img src="http://localhost:9090/uploads/${user.icon}" class="userAvatar"></a>
+				<a class="img" title="我的头像" ><img src="data:image/jpg;base64,${icon}" class="userAvatar"></a>
 				<p>你好！<span class="userName">${user.username}</span>, 欢迎登录</p>
 			</div>
 			<!-- 搜索 -->
@@ -93,7 +93,7 @@
 		</div>
 		<!-- 底部 -->
 		<div class="layui-footer footer">
-			<p><span>copyright @2018 成都市公共交通信息管理平台</span></p>
+			<p><span>copyright @2020 公共交通信息管理平台</span></p>
 		</div>
 	</div>
 

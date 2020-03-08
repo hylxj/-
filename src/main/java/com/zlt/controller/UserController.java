@@ -5,7 +5,6 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.zlt.dao.RoleDao;
 import com.zlt.pojo.*;
-import com.zlt.service.RoleService;
 import com.zlt.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -168,7 +168,14 @@ public class UserController {
     }
     @RequestMapping("/userInfoPage")
     public String userInfoPage(String username,Model model){
+        User user = userService.findByUsername(username);
+        BASE64Encoder encoder = new BASE64Encoder();
+        String icon = "";
+        if(user.getIcon()!=null){
+            icon = encoder.encode(user.getIcon());
+        }
         model.addAttribute("user",userService.findByUsername(username));
+        model.addAttribute("icon",icon);
         return "user/userInfo";
     }
     /**
@@ -203,33 +210,35 @@ public class UserController {
      * @param request
      * @return
      */
-    @RequestMapping("/uploadIcon")
+    @RequestMapping(value = "/uploadIcon")
     @ResponseBody
-    public ResultData uploadIcon(HttpServletRequest request,Integer id){
+    public ResultData uploadIcon(HttpServletRequest request,Integer id) throws IOException {
         // 转型为MultipartHttpRequest：解决shiroHttpServletRequest问题
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
         // 获得文件：
         MultipartFile file = multipartRequest.getFile("file");
+        byte [] fileByte = file.getBytes();
         //定义上传文件服务器路径
-        String path="http://localhost:9090/uploads/";
-        //获取文件名称
-        String filename = file.getOriginalFilename();
-        //把文件的名称设置唯一值，uuid
-        String uuid = UUID.randomUUID().toString().replace("-", "");
-        filename=uuid+"_"+filename;
-        try {
-            //完成文件上传,跨服务器文件
-            //创建客户端的对象
-            Client client= Client.create();
-            //和图片服务器进行连接
-            WebResource webResource = client.resource(path + filename);
-            //上传文件
-            webResource.put(file.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        userService.saveIcon(id,filename);
-        return new ResultData(0,"上传头像成功",filename);
+//        String path="http://localhost:8090/upload/";
+//        //获取文件名称
+//        String filename = file.getOriginalFilename();
+//        //把文件的名称设置唯一值，uuid
+//        String uuid = UUID.randomUUID().toString().replace("-", "");
+//        filename=uuid+"_"+filename;
+//        try {
+//            //完成文件上传,跨服务器文件
+//            //创建客户端的对象
+//            Client client= Client.create();
+//            //和图片服务器进行连接
+//            WebResource webResource = client.resource(path + filename);
+//            //上传文件
+//            webResource.put(file.getBytes());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        userService.saveIcon(id,fileByte);
+        return new ResultData(0,"上传头像成功",fileByte);
     }
     @RequestMapping("/listByType")
     @ResponseBody

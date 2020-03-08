@@ -29,9 +29,15 @@
 			<div class="layui-inline">
 				<a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
 			</div>
-			<div class="layui-upload layui-inline">
-				<input type="file" id="fileUpload" class="layui-btn" value="Excel导入">
-				<a class="layui-btn layui-btn-normal " href="/bus/excelExport">Excel导出</a>
+<%--			<div class=" layui-inline">--%>
+<%--				<input type="file" id="fileUpload" class="layui-btn" value="Excel导入" style="width: 109px">--%>
+<%--				<a class="layui-btn layui-btn-normal " href="/bus/excelExport">Excel导出</a>--%>
+<%--			</div>--%>
+			<div class=" layui-inline">
+				<button type="button" class="layui-btn" id="fileUpload">
+					<i class="layui-icon">&#xe67c;</i>Excel导入
+				</button>
+				<a class="layui-btn layui-btn-normal " href="/bus/excelExport" style="margin-left: 2px">Excel导出</a>
 			</div>
 		</form>
 	</blockquote>
@@ -62,7 +68,7 @@
     var idandname;//全局变量 驾驶员姓名
     var lineN;//全局变量 线路的名称
 
-    layui.use(['form','layer','laydate','table','laytpl'],function(){
+    layui.use(['form','layer','laydate','table','laytpl','upload'],function(){
 		var form = layui.form,
 				layer = parent.layer === undefined ? layui.layer : top.layer,
 				$ = layui.jquery,
@@ -99,15 +105,16 @@
 				{field: "busId", title:"ID", width:50,hide:true},
 				{field: 'busPlate', title: '车牌号', width:150, align:"center"},
 				{field: 'busName', title: '公交车名称', width:100},
-				{field: 'busDriverId', title: '驾驶员', align:'center',templet:function (d) {
-							return idandname[d.busDriverId];
+				{field: 'busdriverName', title: '驾驶员', align:'center',templet:function (d) {
+					console.log(d)
+							return d.busdriverName;
                     }},
 				{field: 'busLineId', title: '线路',  align:'center',templet:function(d){
 							return lineN[d.busLineId];
 					}},
-				{field: 'busCreateTime', title: '公交车服役时间', align:'center',templet:function (d) {
-						if(d.busCreateTime!=null){
-						    var date = new Date(d.busCreateTime);
+				{field: 'busCreatetime', title: '公交车服役时间', align:'center',templet:function (d) {
+						if(d.busCreatetime!=null){
+						    var date = new Date(d.busCreatetime);
 						    var  str = formatDate(date);
 						    return str;
 						}
@@ -244,23 +251,38 @@
 			}
 		});
 		//文件上传
-        $("#fileUpload").change(function () {
-            var fileData = this.files[0];
-            var formData = new FormData();
-            formData.append("upload",fileData);
-            $.ajax({
-                type:"POST",
-                url:'/bus/fileUpload',
-                data:formData,
-                cache:false,//不缓存
-                processData:false,
-                contentType:false,
-                dataType:'json',
-                success:function (data) {
-                    layer.msg(data.msg,{icon:1});
-                }
-            })
-        })
+        // $("#fileUpload").change(function () {
+        //     var fileData = this.files[0];
+        //     var formData = new FormData();
+        //     formData.append("upload",fileData);
+        //     $.ajax({
+        //         type:"POST",
+        //         url:'/bus/fileUpload',
+        //         data:formData,
+        //         cache:false,//不缓存
+        //         processData:false,
+        //         contentType:false,
+        //         dataType:'json',
+        //         success:function (data) {
+        //             layer.msg(data.msg,{icon:1});
+        //         }
+        //     })
+        // })
+
+		//layui 文件上传
+		var upload = layui.upload;
+		//执行实例
+		var uploadInst = upload.render({
+			elem: '#fileUpload' //绑定元素
+			,url: '/bus/fileUpload' //上传接口
+			,accept: 'file'
+			,done: function(data){
+				layer.msg(data.msg,{icon:1});
+			}
+			,error: function(){
+				layer.msg(data.msg,{icon:2});
+			}
+		});
 	})
 
 

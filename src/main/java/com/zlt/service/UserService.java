@@ -36,7 +36,7 @@ public interface UserService {
 
     void updatePwd(String username, String password);
 
-    void saveIcon(Integer id, String filename);
+    void saveIcon(Integer id, byte []  filename);
 
     List<Role> findRolesByUserId(Integer id);
 

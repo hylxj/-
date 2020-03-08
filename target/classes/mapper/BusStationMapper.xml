@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlt.dao.BusStationDao">
+    <!--查询所有的站台-->
+    <select id="findAll" resultType="BusStation">
+        select * from bustation where staStatus in (1,2) order by staId desc
+    </select>
+    <!--添加站台-->
+    <insert id="saveStation" parameterType="String">
+        insert into bustation (staName) values (#{staName})
+    </insert>
+    <!--通过站台的名称查找站台信息-->
+    <select id="findByStationName" parameterType="String" resultType="BusStation">
+        select * from bustation  where  staName like #{key}
+    </select>
+    <!--通过站台的id删除站台-->
+    <update id="delStation" parameterType="Integer">
+        update bustation set staStatus = 3 where staId  =#{staId}
+    </update>
+    <!--//通过公交车的id数组批量删除公交车-->
+    <!--<delete id="delAllBus" parameterType="long">-->
+        <!--delete from bus where busId  in-->
+        <!--&lt;!&ndash; 动态SQL语句&ndash;&gt;-->
+        <!--<foreach collection="array" item="id" open="(" separator="," close=")">-->
+            <!--#{id}-->
+        <!--</foreach>-->
+    <!--</delete>-->
+    <!--修改站点信息的保存-->
+    <update id="updateStation" parameterType="BusStation">
+        update bustation set staName=#{staName},staStatus=#{staStatus} where staId=#{staId}
+    </update>
+    <!--通过站台的Id查找站台信息-->
+    <select id="findByStationId" parameterType="int" resultType="BusStation">
+        select * from bustation  where  staId =#{id}
+    </select>
+    <!--通过线路名称查询站台信息-->
+    <select id="findStaByLineName" parameterType="String" resultType="LineStaView">
+        select * from linesta_view  where  lineName =#{lineName}
+    </select>
+    <!--查询所有的站台信息-->
+    <select id="findAllStation"  resultType="BusStation">
+        select * from bustation  where  staStatus = 1
+    </select>
+    <!--添加线路站台-->
+    <insert id="saveLineSta" parameterType="LineSta">
+        insert into linesta (lineId,staId,orderId) values 
+        <foreach collection="list" item="item"  separator=",">
+            (#{item.lineId},#{item.staId},#{item.orderId})
+        </foreach>
+    </insert>
+    <!--查看经过该站台的线路信息-->
+    <select id="findLines" parameterType="int" resultType="BusLine">
+        SELECT  *  FROM busline  WHERE lineId in (SELECT DISTINCT lineId from linesta WHERE staId =#{staId})
+    </select>
+</mapper>
