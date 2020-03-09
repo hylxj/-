@@ -219,24 +219,6 @@ public class UserController {
         // 获得文件：
         MultipartFile file = multipartRequest.getFile("file");
         byte [] fileByte = file.getBytes();
-        //定义上传文件服务器路径
-//        String path="http://localhost:8090/upload/";
-//        //获取文件名称
-//        String filename = file.getOriginalFilename();
-//        //把文件的名称设置唯一值，uuid
-//        String uuid = UUID.randomUUID().toString().replace("-", "");
-//        filename=uuid+"_"+filename;
-//        try {
-//            //完成文件上传,跨服务器文件
-//            //创建客户端的对象
-//            Client client= Client.create();
-//            //和图片服务器进行连接
-//            WebResource webResource = client.resource(path + filename);
-//            //上传文件
-//            webResource.put(file.getBytes());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         userService.saveIcon(id,fileByte);
         return new ResultData(0,"上传头像成功",fileByte);
     }
