@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 全局异常处理类
- * @author shushu
+ * @author huangyu
  * @date 2019-09-07-10:38
  */
 

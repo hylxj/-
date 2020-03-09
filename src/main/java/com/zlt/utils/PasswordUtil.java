@@ -4,7 +4,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 
 /**
- * @author shushu
+ * @author huangyu
  * @date 2019-09-05-23:20
  */
 

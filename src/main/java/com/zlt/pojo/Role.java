@@ -3,7 +3,7 @@ package com.zlt.pojo;
 import lombok.Data;
 
 /**
- * @author shushu
+ * @author huangyu
  * @date 2019-09-07-11:44
  */
 @Data
