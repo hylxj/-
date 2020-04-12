@@ -50,21 +50,21 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script type="text/javascript">
     function formatDate(date) {
-        var y = date.getFullYear();
-        var m = date.getMonth() + 1;
+        let y = date.getFullYear();
+        let m = date.getMonth() + 1;
         m = m < 10 ? ('0' + m) : m;
-        var d = date.getDate();
+        let d = date.getDate();
         d = d < 10 ? ('0' + d) : d;
-        // var h = date.getHours();
-        // var minute = date.getMinutes();
+        // let h = date.getHours();
+        // let minute = date.getMinutes();
         // minute = minute < 10 ? ('0' + minute) : minute;
-        // var second= date.getSeconds();
+        // let second= date.getSeconds();
         // second = minute < 10 ? ('0' + second) : second;
         return y + '-' + m + '-' + d/*+' '+h+':'+minute+':'+ second*/;
     }
 
     layui.use(['form','layer','laydate','table','laytpl'],function(){
-		var form = layui.form,
+		let form = layui.form,
 				layer = parent.layer === undefined ? layui.layer : top.layer,
 				$ = layui.jquery,
 				laydate = layui.laydate,
@@ -72,7 +72,7 @@
 				table = layui.table;
 
 		//公交车列表
-		var tableIns = table.render({
+		let tableIns = table.render({
 			elem: '#newsList',
 			url : '/busLine/tableData',
 			cellMinWidth : 95,
@@ -88,8 +88,8 @@
 				{field: 'linePrice', title: '票价', align:'center',width:200},
 				{field: 'lineCreatetime', title: '线路的创建时间',width:200, align:'center',templet:function (d) {
                         if(d.lineCreatetime!=null){
-                            var date = new Date(d.lineCreatetime	);
-                            var  str = formatDate(date);
+                            let date = new Date(d.lineCreatetime	);
+                            let  str = formatDate(date);
                             return str;
                         }
                         return "没有数据";
@@ -127,7 +127,7 @@
 
 		//增加线路
 		$(".addNews_btn").click(function(){
-                var index = layui.layer.open({
+                let index = layui.layer.open({
                     title : "添加线路",
                     type : 2,
                     content : "/busLine/addPage",
@@ -147,7 +147,7 @@
 		})
         //修改线路
         $(".editBus").click(function(){
-            var index = layui.layer.open({
+            let index = layui.layer.open({
                 title : "添加车辆",
                 type : 2,
                 content : "/busLine/editPage",
@@ -167,11 +167,11 @@
         })
 		//批量删除
 		$(".delAll_btn").click(function(){
-			var checkStatus = table.checkStatus('newsListTable'),
+			let checkStatus = table.checkStatus('newsListTable'),
 				data = checkStatus.data,
                 busIds = [];
 			if(data.length > 0) {
-				for (var i in data) {
+				for (let i in data) {
                     busIds.push(data[i].busId);
 				}
 				alert(busIds);
@@ -190,11 +190,11 @@
 
 		//列表操作
 		table.on('tool(newsList)', function(obj){
-			var layEvent = obj.event,
+			let layEvent = obj.event,
 					data = obj.data;
 
 			if(layEvent === 'edit'){ //编辑
-                var index = layui.layer.open({
+                let index = layui.layer.open({
                     title : "修改线路",
                     type : 2,
                     content : "/busLine/editPage?id="+data.lineId,
@@ -221,7 +221,7 @@
 					})
 				});
 			} else if(layEvent === 'show'){ //查看站台信息
-                var index = layui.layer.open({
+                let index = layui.layer.open({
                     title : "查看线路站台",
                     type : 2,
                     content : "/busLine/showStaPage?lineName="+data.lineName,

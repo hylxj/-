@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zlt.dao.FinanceDao">
     <!--查询支出表-->
-    <select id="selectExpense" resultType="com.zlt.pojo.Expense">
-        select * from expense where expenseStatus=1
+    <select id="selectExpense" resultType="com.zlt.pojo.FundOut">
+        select * from fundOut where status=1
     </select>
 
     <!--查询收入表-->
@@ -80,5 +80,27 @@
     <update id="expenseDel" parameterType="com.zlt.pojo.Expense">
         update expense set expenseStatus=2 where expenseId=#{expenseId}
     </update>
+    <insert id="insertOutFund" parameterType="com.zlt.pojo.FundOut">
+        insert into FundOut(type,fundOutTime,fundOutMoney,status,operator,department,harmId)
+         values (#{type},#{fundOutTime},#{fundOutMoney},#{status},#{operator},#{department},#{fixId})
+    </insert>
 
+    <select id="fundDetail" parameterType="string" resultType="java.util.Map">
+    select
+            a.*,
+            b.*,
+            c.*,
+            d.*,
+            e.busdriverName,
+            f.lineName
+     from fundOut a
+     LEFT JOIN fixLog b ON   a.harmId = b.harmId
+     LEFT JOIN harmBus c on b.harmId = c.fixId
+     LEFT JOIN bus d on c.busId = d.busId
+     LEFT JOIN busdriver e ON e.busDriverid = d.busdriverId
+     LEFT JOIN busline f ON f.lineId = d.busLineid
+     WHERE
+        a.status = '1'
+        and a.fundOutId = #{fundId}
+    </select>
 </mapper>

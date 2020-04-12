@@ -77,11 +77,11 @@
 </form>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script type="text/javascript">
-	var form, $;
+	let form, $;
 	layui.use(['form','layer','upload','laydate'],function(){
 		form = layui.form;
 		$ = layui.jquery;
-		var layer = parent.layer === undefined ? layui.layer : top.layer,
+		let layer = parent.layer === undefined ? layui.layer : top.layer,
 				upload = layui.upload,
 				laydate = layui.laydate;
 
@@ -115,7 +115,7 @@
 		});
 		//提交个人资料
 		form.on("submit(changeUser)",function(data){
-			var index = layer.msg('提交中，请稍候',{icon: 16,time:false,shade:0.8});
+			let index = layer.msg('提交中，请稍候',{icon: 16,time:false,shade:0.8});
 			$.post("/user/userEdit",{
 				id:${user.id},
 				realName:$(".realName").val(),

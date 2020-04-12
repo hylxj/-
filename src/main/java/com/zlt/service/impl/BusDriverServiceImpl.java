@@ -6,6 +6,7 @@ import com.zlt.service.BusDriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,6 +38,8 @@ public class BusDriverServiceImpl implements BusDriverService {
      */
     @Override
     public void driverAdd(BusDriver busDriver) {
+        busDriver.setBusdriverInitime(new Date());
+        busDriver.setBusdriverStatus(1);
         busDriverDao.driverAdd(busDriver);
     }
 

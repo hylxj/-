@@ -21,10 +21,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/menu")
 public class MenuController {
-    @Autowired
-    private MenuService menuService;
-    @Autowired
-    private RoleDao roleDao;
+    private final MenuService menuService;
+    private final RoleDao roleDao;
+
+    public MenuController(MenuService menuService, RoleDao roleDao) {
+        this.menuService = menuService;
+        this.roleDao = roleDao;
+    }
 
     @RequestMapping("/findAllMenuByRole")
     @ResponseBody

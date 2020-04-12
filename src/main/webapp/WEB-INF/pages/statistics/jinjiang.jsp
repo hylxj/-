@@ -9,7 +9,7 @@
     <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/static/layui/echarts.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
-        var myChart = echarts.init(document.getElementById('main'));
+        let myChart = echarts.init(document.getElementById('main'));
 
         $.get('/CenWorkerNum').done(function (data) {
             myChart.setOption({

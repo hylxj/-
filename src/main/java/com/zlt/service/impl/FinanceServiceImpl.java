@@ -2,12 +2,14 @@ package com.zlt.service.impl;
 
 import com.zlt.dao.FinanceDao;
 import com.zlt.pojo.Expense;
+import com.zlt.pojo.FundOut;
 import com.zlt.pojo.Income;
 import com.zlt.service.FinanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -138,6 +140,20 @@ public class FinanceServiceImpl implements FinanceService {
     @Override
     public void expenseDel(Integer id) {
         financeDao.expenseDel(id);
+    }
+
+    @Override
+    public void insertOutFund(FundOut fundOut) {
+        financeDao.insertOutFund(fundOut);
+    }
+    /**
+     * @Description: 查询支出的详情
+     * @Param: [fundId]
+     * @Return: java.util.Map<java.lang.String,java.lang.String>
+    **/
+    @Override
+    public Map<String, Object> fundDetail(String fundId) {
+        return financeDao.fundDetail(fundId);
     }
 
 

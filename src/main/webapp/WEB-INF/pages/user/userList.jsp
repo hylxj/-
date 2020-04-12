@@ -60,31 +60,31 @@
 <script type="text/javascript">
 	/*根据出生日期算出年龄*/
 	function jsGetAge(strBirthday) {
-		var returnAge;
-		var strBirthdayArr = strBirthday.split("-");
-		var birthYear = strBirthdayArr[0];
-		var birthMonth = strBirthdayArr[1];
-		var birthDay = strBirthdayArr[2];
+		let returnAge;
+		let strBirthdayArr = strBirthday.split("-");
+		let birthYear = strBirthdayArr[0];
+		let birthMonth = strBirthdayArr[1];
+		let birthDay = strBirthdayArr[2];
 
 		d = new Date();
-		var nowYear = d.getFullYear();
-		var nowMonth = d.getMonth() + 1;
-		var nowDay = d.getDate();
+		let nowYear = d.getFullYear();
+		let nowMonth = d.getMonth() + 1;
+		let nowDay = d.getDate();
 
 		if (nowYear == birthYear) {
 			returnAge = 0;//同年 则为0岁
 		} else {
-			var ageDiff = nowYear - birthYear; //年之差
+			let ageDiff = nowYear - birthYear; //年之差
 			if (ageDiff > 0) {
 				if (nowMonth == birthMonth) {
-					var dayDiff = nowDay - birthDay;//日之差
+					let dayDiff = nowDay - birthDay;//日之差
 					if (dayDiff < 0) {
 						returnAge = ageDiff - 1;
 					} else {
 						returnAge = ageDiff;
 					}
 				} else {
-					var monthDiff = nowMonth - birthMonth;//月之差
+					let monthDiff = nowMonth - birthMonth;//月之差
 					if (monthDiff < 0) {
 						returnAge = ageDiff - 1;
 					} else {
@@ -100,20 +100,20 @@
 	}
 	/*date转字符串*/
 	function formatDate(date) {
-		var y = date.getFullYear();
-		var m = date.getMonth() + 1;
+		let y = date.getFullYear();
+		let m = date.getMonth() + 1;
 		m = m < 10 ? ('0' + m) : m;
-		var d = date.getDate();
+		let d = date.getDate();
 		d = d < 10 ? ('0' + d) : d;
-		// var h = date.getHours();
-		// var minute = date.getMinutes();
+		// let h = date.getHours();
+		// let minute = date.getMinutes();
 		// minute = minute < 10 ? ('0' + minute) : minute;
-		// var second= date.getSeconds();
+		// let second= date.getSeconds();
 		// second = minute < 10 ? ('0' + second) : second;
 		return y + '-' + m + '-' + d/*+' '+h+':'+minute+':'+ second*/;
 	}
 	layui.use(['form','layer','tree','table','laytpl'],function(){
-		var form = layui.form,
+		let form = layui.form,
 				layer = parent.layer === undefined ? layui.layer : top.layer,
 				$ = layui.jquery,
 				tree = layui.tree,
@@ -121,7 +121,7 @@
 				table = layui.table;
 		//获取菜单树
 		function getData(ids){
-			var data = [];
+			let data = [];
 			$.ajax({
 				url: "/busCen/treeLoad?"+ids,    //后台数据请求地址
 				async:false,
@@ -131,13 +131,13 @@
 			});
 			return data;
 		}
-		var ids="";
+		let ids="";
 		<c:forEach items="${roles}" var="role">
 			ids+=("roleIds="+${role.roleId})+"&";
 		</c:forEach>
 		ids=ids.substr(0,ids.length-1);
 		//树形图
-		var treeIns=tree.render({
+		let treeIns=tree.render({
 			elem:"#treeDiv",
 			accordion: true,
 			showLine:false,
@@ -156,7 +156,7 @@
 			}
 		});
 		//用户列表
-		var tableIns = table.render({
+		let tableIns = table.render({
 			elem: '#userList',
 			url : '${pageContext.request.contextPath}/user/list',
 			height:480,
@@ -173,19 +173,19 @@
 				{field: 'username', title: '用户名称',align:'center'},
 				{field: 'userDesc',width:200, title: '用户描述', align:'center'},
 				{field: 'locked', title: '是否锁定', align:'center', templet:function(d){
-						var status=d.locked==1?"":"checked";
+						let status=d.locked==1?"":"checked";
 						return '<input type="checkbox" name="locked" lay-filter="locked" lay-skin="switch" lay-text="是|否" '+status+'>'
 				}},
 				{field:'birthday',title:'年龄',align:'center',templet:function (d) {
 					if (d.birthday != null) {
-						var date=new Date(d.birthday);
-						var str=formatDate(date);
+						let date=new Date(d.birthday);
+						let str=formatDate(date);
 						return jsGetAge(str);
 					}
 					return "没有数据";
 				}},
 				{field:'sex',title:'性别',align:'center',templet:function(d){
-					var sex='保密';
+					let sex='保密';
 					if (d.sex==1){
 						sex='男';
 					} else if(d.sex==2){
@@ -201,14 +201,14 @@
 		});
 		//是否锁定
 		form.on('switch(locked)', function(data){
-			var isLocked;
+			let isLocked;
 			if(data.elem.checked){
 				isLocked=0;
 			}else {
 				isLocked=1;
 			}
-			var userId=$(this).parents("tr").children("td[data-field=id]").children()[0].innerText;
-			var index = layer.msg('修改中，请稍候',{icon: 16,time:false,shade:0.8});
+			let userId=$(this).parents("tr").children("td[data-field=id]").children()[0].innerText;
+			let index = layer.msg('修改中，请稍候',{icon: 16,time:false,shade:0.8});
 			$.get("/user/updateLocked",{
 				id:userId,
 				isLocked:isLocked
@@ -240,7 +240,7 @@
 
 		//添加用户
 		$(".addUser_btn").click(function(){
-			var index = layui.layer.open({
+			let index = layui.layer.open({
 				title : "添加用户",
 				type : 2,
 				content : "/user/userAddPage",
@@ -261,11 +261,11 @@
 
 		//批量删除
 		$(".delAll_btn").click(function(){
-			var checkStatus = table.checkStatus('userListTable'),
+			let checkStatus = table.checkStatus('userListTable'),
 					data = checkStatus.data,
 					userId = [];
 			if(data.length > 0) {
-				for (var i in data) {
+				for (let i in data) {
 					userId.push(data[i].id);
 				}
 				layer.confirm('确定删除选中的用户？', {icon: 3, title: '提示信息'}, function (index) {
@@ -284,11 +284,11 @@
 
 		//列表操作
 		table.on('tool(userList)', function(obj){
-			var layEvent = obj.event,
+			let layEvent = obj.event,
 					data = obj.data;
 
 			if(layEvent === 'edit'){ //编辑
-				var index = layui.layer.open({
+				let index = layui.layer.open({
 					title : "编辑用户",
 					type : 2,
 					content : "/user/userEditPage?id="+data.id,

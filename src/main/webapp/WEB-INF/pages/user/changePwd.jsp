@@ -52,14 +52,14 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script type="text/javascript">
 	layui.use(['form','layer','laydate','table','laytpl'],function(){
-		var form = layui.form,
+		let form = layui.form,
 				layer = parent.layer === undefined ? layui.layer : top.layer,
 				$ = layui.jquery,
 				laydate = layui.laydate,
 				laytpl = layui.laytpl,
 				table = layui.table;
 		//添加验证规则
-		var bool=false;
+		let bool=false;
 		$("#oldPwd").blur(function () {
 			$.get("/user/verifyOldPwd", {
 				username:"${username}",
@@ -89,7 +89,7 @@
 		});
 		form.on("submit(changePwd)",function(data){
 			//弹出loading
-			var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+			let index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
 			// 实际使用时的提交信息
 			$.post("/user/changePwd",{
 				username : "${username}",  //登录名

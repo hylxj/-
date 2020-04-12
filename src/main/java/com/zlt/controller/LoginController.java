@@ -53,6 +53,7 @@ public class LoginController {
                 currentUser.login(token);
                 Session session=currentUser.getSession();
                 session.setAttribute("sessionUser",userService.findByUsername(token.getUsername()));
+                session.setAttribute("userName",userService.findByUsername(token.getUsername()).getUsername());
             }catch (AuthenticationException ae) {//所有以上异常的父类
                 return new ResultData(1002, "用户名或者密码错误，登录失败");
             }

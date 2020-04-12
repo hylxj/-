@@ -19,7 +19,7 @@
 		<form class="layui-form">
 			<div class="layui-inline">
 				<div class="layui-input-inline">
-					<input type="text" class="layui-input searchVal" placeholder="请输入搜索的内容" />
+					<input type="text" class="layui-input searchVal" placeholder="请输入公交车的名称" />
 				</div>
 				<a class="layui-btn search_btn" data-type="reload">搜索</a>
 			</div>
@@ -29,10 +29,6 @@
 			<div class="layui-inline">
 				<a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
 			</div>
-<%--			<div class=" layui-inline">--%>
-<%--				<input type="file" id="fileUpload" class="layui-btn" value="Excel导入" style="width: 109px">--%>
-<%--				<a class="layui-btn layui-btn-normal " href="/bus/excelExport">Excel导出</a>--%>
-<%--			</div>--%>
 			<div class=" layui-inline">
 				<button type="button" class="layui-btn" id="fileUpload">
 					<i class="layui-icon">&#xe67c;</i>Excel导入
@@ -47,29 +43,32 @@
 	<!--操作-->
 	<script type="text/html" id="newsListBar">
 		<a class="layui-btn layui-btn-xs editBus" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-xs fixBus" id="fixButton" lay-event="fixBus">报修</a>
 		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
 	</script>
 </form>
+
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script type="text/javascript">
     function formatDate(date) {
-        var y = date.getFullYear();
-        var m = date.getMonth() + 1;
+        let y = date.getFullYear();
+        let m = date.getMonth() + 1;
         m = m < 10 ? ('0' + m) : m;
-        var d = date.getDate();
+        let d = date.getDate();
         d = d < 10 ? ('0' + d) : d;
-        // var h = date.getHours();
-        // var minute = date.getMinutes();
+        // let h = date.getHours();
+        // let minute = date.getMinutes();
         // minute = minute < 10 ? ('0' + minute) : minute;
-        // var second= date.getSeconds();
+        // let second= date.getSeconds();
         // second = minute < 10 ? ('0' + second) : second;
         return y + '-' + m + '-' + d/*+' '+h+':'+minute+':'+ second*/;
     }
-    var idandname;//全局变量 驾驶员姓名
-    var lineN;//全局变量 线路的名称
+    let idandname;//全局变量 驾驶员姓名
+    let lineN;//全局变量 线路的名称
 
     layui.use(['form','layer','laydate','table','laytpl','upload'],function(){
-		var form = layui.form,
+		let form = layui.form,
 				layer = parent.layer === undefined ? layui.layer : top.layer,
 				$ = layui.jquery,
 				laydate = layui.laydate,
@@ -79,6 +78,7 @@
 			url:"/bus/findDriverName",
             async:false,
 			success:function (data) {
+                console.log(data);
                 idandname = data.data;
             }
         });
@@ -89,9 +89,8 @@
                 lineN = data.data;
             }
         });
-        console.log(idandname);
 		//公交车列表
-		var tableIns = table.render({
+		let tableIns = table.render({
 			elem: '#newsList',
 			url : '/bus/tableData',
 			cellMinWidth : 95,
@@ -106,26 +105,28 @@
 				{field: 'busPlate', title: '车牌号', width:150, align:"center"},
 				{field: 'busName', title: '公交车名称', width:100},
 				{field: 'busdriverName', title: '驾驶员', align:'center',templet:function (d) {
-					console.log(d)
 							return d.busdriverName;
                     }},
-				{field: 'busLineId', title: '线路',  align:'center',templet:function(d){
-							return lineN[d.busLineId];
-					}},
+				{field: 'lineName', title: '线路',  align:'center'},
 				{field: 'busCreatetime', title: '公交车服役时间', align:'center',templet:function (d) {
 						if(d.busCreatetime!=null){
-						    var date = new Date(d.busCreatetime);
-						    var  str = formatDate(date);
+						    let date = new Date(d.busCreatetime);
+						    let  str = formatDate(date);
 						    return str;
 						}
 						return "没有数据";
                     }},
 				{field: 'busStatus', title: '公交车的状态', align:'center', templet:function(d){
 						if(d.busStatus==1){
-						    return "正常";
-						}else {
-						    return "维修";
-						}
+                            $("#fixButton").css('display','none')
+                            return "正常";
+						}else if(d.busStatus==2) {
+						    return "待维修";
+						}else if(d.busStatus==3) {
+                            return "维修中";
+                        }else if(d.busStatus==4) {
+                            return "报废";
+                        }
 					}},
 				{title: '操作', width:170, templet:'#newsListBar',fixed:"right",align:"center"}
 			]]
@@ -134,7 +135,8 @@
 
 		//搜索【此功能需要后台配合，所以暂时没有动态效果演示】
 		$(".search_btn").on("click",function(){
-			if($(".searchVal").val() != ''){
+            console.log($(".search_btn").context.getElementById("fixButton"));
+            if($(".searchVal").val() != ''){
 				table.reload("newsListTable",{
 				    url:'/bus/search',
 					page: {
@@ -145,15 +147,14 @@
 					}
 				})
 			}else{
-				layer.msg("请输入搜索的内容");
+				layer.msg("请输入公交车的名称");
 			}
 		});
 
-		//添加车辆
 
 		//增加车辆
 		$(".addNews_btn").click(function(){
-                var index = layui.layer.open({
+                let index = layui.layer.open({
                     title : "添加车辆",
                     type : 2,
                     content : "/bus/addPage",
@@ -171,33 +172,13 @@
                     layui.layer.full(index);
                 })
 		})
-        //修改车辆
-        $(".editBu").click(function(){
-            var index = layui.layer.open({
-                title : "添加车辆",
-                type : 2,
-                content : "/bus/editPage",
-                success : function(layero, index){
-                    setTimeout(function(){
-                        layui.layer.tips('点击此处返回公交车列表', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 3
-                        });
-                    },500)
-                }
-            })
-            layui.layer.full(index);
-            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-            $(window).on("resize",function(){
-                layui.layer.full(index);
-            })
-        })
 		//批量删除
 		$(".delAll_btn").click(function(){
-			var checkStatus = table.checkStatus('newsListTable'),
+			let checkStatus = table.checkStatus('newsListTable'),
 				data = checkStatus.data,
                 busIds = [];
 			if(data.length > 0) {
-				for (var i in data) {
+				for (let i in data) {
                     busIds.push(data[i].busId);
 				}
 				console.log(busIds);
@@ -216,11 +197,11 @@
 
 		//列表操作
 		table.on('tool(newsList)', function(obj){
-			var layEvent = obj.event,
+			let layEvent = obj.event,
 					data = obj.data;
 
 			if(layEvent === 'edit'){ //编辑
-                var index = layui.layer.open({
+                let index = layui.layer.open({
                     title : "修改车辆",
                     type : 2,
                     content : "/bus/editPage?id="+data.busId,
@@ -241,19 +222,42 @@
 				layer.confirm('确定删除此公交车吗？',{icon:3, title:'提示信息'},function(index){
 					$.get("/bus/del",{
 					    busId : data.busId  //将需要删除的newsId作为参数传入
-					},function(data){
-					tableIns.reload();
-					layer.close(index);
-					})
+					},function(res){
+                        setTimeout(function(){
+                            if(res.code==200){
+                                top.layer.msg("删除数据成功！");
+                            }else{
+                                top.layer.msg("删除数据失败！");
+                            }
+                            tableIns.reload();
+                            layer.close(index);
+                        },500);
+                    })
 				});
-			} else if(layEvent === 'look'){ //预览
-				layer.alert("此功能需要前台展示，实际开发中传入对应的必要参数进行文章内容页面访问")
+			} else if(layEvent === 'fixBus'){ //预览
+                let index = layui.layer.open({
+                    title : "报修车辆",
+                    type : 2,
+                    content : "/bus/fixPage?id="+data.busId,
+                    success : function(){
+                        setTimeout(function(){
+                            layui.layer.tips('点击此处返回公交车列表', '.layui-layer-setwin .layui-layer-close', {
+                                tips: 3
+                            });
+                        },500)
+                    }
+                })
+                layui.layer.full(index);
+                //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+                $(window).on("resize",function(){
+                    layui.layer.full(index);
+                })
 			}
 		});
 		//文件上传
         // $("#fileUpload").change(function () {
-        //     var fileData = this.files[0];
-        //     var formData = new FormData();
+        //     let fileData = this.files[0];
+        //     let formData = new FormData();
         //     formData.append("upload",fileData);
         //     $.ajax({
         //         type:"POST",
@@ -270,9 +274,9 @@
         // })
 
 		//layui 文件上传
-		var upload = layui.upload;
+		let upload = layui.upload;
 		//执行实例
-		var uploadInst = upload.render({
+		let uploadInst = upload.render({
 			elem: '#fileUpload' //绑定元素
 			,url: '/bus/fileUpload' //上传接口
 			,accept: 'file'

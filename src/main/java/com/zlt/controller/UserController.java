@@ -34,10 +34,13 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleDao roleDao;
+    private final UserService userService;
+    private final RoleDao roleDao;
+
+    public UserController(UserService userService, RoleDao roleDao) {
+        this.userService = userService;
+        this.roleDao = roleDao;
+    }
 
     @RequiresRoles(value = {"admin","gxadmin","sladmin"},logical = Logical.OR)
     @RequestMapping("/userList")

@@ -40,12 +40,12 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script type="text/javascript">
 	layui.use(['form','layer','table'],function(){
-		var form = layui.form,
+		let form = layui.form,
 				layer = parent.layer === undefined ? layui.layer : top.layer,
 				$ = layui.jquery,
 				table = layui.table;
 		//用户列表
-		var tableIns = table.render({
+		let tableIns = table.render({
 			elem: '#roleList',
 			url : '/role/roleList',
 			height:480,
@@ -59,7 +59,7 @@
 				{field: 'roleName', title: '角色名称',align:'center'},
 				{field: 'roleDesc',width:400, title: '角色描述', align:'center'},
 				{field: 'available', title: '是否禁用', align:'center', templet:function(d){
-						var status=d.available==1?"":"checked";
+						let status=d.available==1?"":"checked";
 						return '<input type="checkbox" name="available" lay-filter="available" lay-skin="switch" lay-text="是|否" '+status+'>'
 				}},
 				{title: '操作', width:200, templet:'#roleListBar',fixed:"right",align:"center"}
@@ -67,14 +67,14 @@
 		});
 		//是否锁定
 		form.on('switch(available)', function(data){
-			var isAvailable;
+			let isAvailable;
 			if(data.elem.checked){
 				isAvailable=0;
 			}else {
 				isAvailable=1;
 			}
-			var roleId=$(this).parents("tr").children("td[data-field=roleId]").children()[0].innerText;
-			var index = layer.msg('修改中，请稍候',{icon: 16,time:false,shade:0.8});
+			let roleId=$(this).parents("tr").children("td[data-field=roleId]").children()[0].innerText;
+			let index = layer.msg('修改中，请稍候',{icon: 16,time:false,shade:0.8});
 			$.get("/role/updateRole",{
 				roleId:roleId,
 				available:isAvailable
@@ -106,7 +106,7 @@
 
 		//添加角色
 		$(".addRole_btn").click(function(){
-			var index = layui.layer.open({
+			let index = layui.layer.open({
 				title : "添加角色",
 				type : 2,
 				content : "/role/roleAddPage",
@@ -127,11 +127,11 @@
 
 		//列表操作
 		table.on('tool(roleList)', function(obj){
-			var layEvent = obj.event,
+			let layEvent = obj.event,
 					data = obj.data;
 
 			if(layEvent === 'edit'){ //编辑
-				var index = layui.layer.open({
+				let index = layui.layer.open({
 					title : "编辑角色",
 					type : 2,
 					content : "/role/roleEditPage?roleId="+data.roleId,
@@ -159,7 +159,7 @@
 					})
 				});
 			}else if(layEvent === 'distributed'){ //删除
-				var index = layui.layer.open({
+				let index = layui.layer.open({
 					title : "已分配用户",
 					type : 2,
 					content : "/role/roleUserPage?roleId="+data.roleId,

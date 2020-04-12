@@ -1,11 +1,9 @@
 package com.zlt.service;
 
-import com.zlt.pojo.Bus;
-import com.zlt.pojo.BusLineDriver;
-import com.zlt.pojo.IdAndName;
-import com.zlt.pojo.TableData;
+import com.zlt.pojo.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * bus的service
@@ -35,4 +33,34 @@ public interface BusService {
     List<IdAndName> findAllIdAndName();
     //通过线路的Id查询线路的名称
     List<IdAndName> findAllLineIdAndName();
+/**
+ * @Description: 报修车辆信息的保存
+ * @Param: [busId, busFixReason]
+ * @Return: void
+**/
+    void fixBus(int busId, String busFixReason);
+    /**
+     * @Description: 查询维修信息
+     * @Param: []
+     * @Return: com.zlt.pojo.TableData
+    **/
+    TableData findFixBus(int page, int pageSize);
+    /**
+     * @Description: 查询维修车辆信息
+     * @Param: [id]
+     * @Return: com.zlt.pojo.HarmBus
+    **/
+    Map findFixBusById(int id);
+    /**
+     * @Description: 添加维修车辆信息记录
+     * @Param: [fixBusLog]
+     * @Return: void
+    **/
+    void addFixBusLog(int busId,int fixId,String fixMoney);
+    /**
+     * @Description: 查询维修记录
+     * @Param: [page, limit]
+     * @Return: com.zlt.pojo.TableData
+    **/
+    TableData fixLogList(int page, int limit);
 }

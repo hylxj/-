@@ -3,7 +3,22 @@
 <mapper namespace="com.zlt.dao.BusDao">
     <!--查询所有的bus-->
     <select id="findAll" resultType="com.zlt.pojo.BusLineDriver">
-        select * from bus_line_driver_1
+        select
+    a.busId,
+    a.busPlate,
+    a.busCreatetime,
+    a.busStatus,
+    a.busName,
+    b.busdriverId,
+    b.busdriverName,
+    c.lineId,
+    c.lineName
+ FROM bus a
+ left JOIN busdriver b on a.busDriverid = b.busdriverId
+ left JOIN busline c on a.busLineid = c.lineId
+ where
+        <![CDATA[a.busStatus != 4]]>
+ order by a.busId desc
     </select>
     <!--查询所有的buslinedriver-->
     <select id="getBusList" resultType="com.zlt.pojo.BusLineDriver">
@@ -15,16 +30,28 @@
         insert into bus (busPlate,busName,busDriverId,busLineId,busCreateTime) values (#{busPlate},#{busName},#{busDriverId},#{busLineId},#{busCreateTime})
     </insert>
     <!--通过公交车的名称查找公交车-->
-    <select id="findByBusName" parameterType="String" resultType="com.zlt.pojo.Bus">
-        select * from bus  where  busName like #{key}
+    <select id="findByBusName" parameterType="String" resultType="java.util.Map">
+    select
+        a.busId,
+        a.busPlate,
+        a.busCreatetime,
+        a.busStatus,
+        a.busName,
+        b.busdriverName,
+        c.lineName
+     FROM bus a
+     left JOIN busdriver b on a.busDriverid = b.busdriverId
+     left JOIN busline c on a.busLineid = c.lineId
+     WHERE busName like #{key}
+
     </select>
     <!--通过公交车的id删除公交车-->
     <update id="delBus" parameterType="Integer">
-        update bus set busStatus = 3 where busId  =#{busId}
+        update bus set busStatus = 4 where busId  =#{busId}
     </update>
     <!--//通过公交车的id数组批量删除公交车-->
     <update id="delAllBus" parameterType="long">
-        update bus  set busStatus = 3  where busId  in
+        update bus  set busStatus = 4  where busId  in
         <!-- 动态SQL语句-->
         <foreach collection="array" item="id" open="(" separator="," close=")">
             #{id}
@@ -32,7 +59,22 @@
     </update>
     <!--修改车辆信息的保存-->
     <update id="updateBus" parameterType="com.zlt.pojo.Bus">
-        update bus set busName=#{busName},busDriverId=#{busDriverId},busLineId=#{busLineId},busStatus=#{busStatus} where busId=#{busId}
+        update bus
+        <trim prefix="set" suffixOverrides=",">
+            <if test="busName != null and busName != ''">
+                busName=#{busName},
+            </if>
+            <if test="busDriverId != null and busDriverId != ''">
+                busDriverId=#{busDriverId},
+            </if>
+            <if test="busLineId != null and busLineId != ''">
+                busLineId=#{busLineId},
+            </if>
+            <if test="busStatus != null and busStatus != ''">
+                busStatus=#{busStatus}
+            </if>
+        </trim>
+        where busId=#{busId}
     </update>
     <!--查询线路的名称-->
     <select id="findLineName"  resultType="IdAndName">
@@ -46,10 +88,10 @@
     <select id="findByBusId" parameterType="int" resultType="Bus">
         select * from bus  where  busId =#{busId}
     </select>
-    <!--根据驾驶员ID查询驾驶员的姓名-->
-    <select id="findDriverNameById"  parameterType="int" resultType="String">
-        select busdriverName  from busdriver where busdriverId = #{busDriverId}
-    </select>
+<!--    &lt;!&ndash;根据驾驶员ID查询驾驶员的姓名&ndash;&gt;-->
+<!--    <select id="findDriverNameById"  parameterType="int" resultType="String">-->
+<!--        select busdriverName  from busdriver where busdriverId = #{busDriverId}-->
+<!--    </select>-->
 
     <!--根据线路ID查询线路的名称-->
     <select id="findAllLineIdAndName"  resultType="IdAndName">
@@ -59,5 +101,81 @@
     <!--根据线路ID查询线路的名称-->
     <select id="findAllIdAndName"   resultType="IdAndName">
         select busdriverId as id,busdriverName as name  from busdriver
+    </select>
+
+    <insert id="insertHarmBus" parameterType="com.zlt.pojo.HarmBus">
+        insert into harmBus(busId,fixReason,fixTime) values (#{busId},#{fixReason},#{fixTime})
+    </insert>
+    <select id="findFixBus" resultType="java.util.Map">
+        SELECT
+            a.busId,
+            a.busPlate,
+            a.busCreatetime,
+            a.busStatus,
+            a.busName,
+            b.busdriverId,
+            b.busdriverName,
+            c.lineId,
+            c.lineName,
+            d.fixReason,
+            d.fixtime,
+            d.fixId
+        FROM
+          harmBus d
+            LEFT JOIN    bus a on a.busId = d.busId
+            LEFT JOIN busdriver b ON a.busDriverid = b.busdriverId
+            LEFT JOIN busline c ON a.busLineid = c.lineId
+        WHERE
+            a.busStatus = 2
+        ORDER BY
+            a.busId DESC
+    </select>
+
+    <select id="findFixBusById" resultType="java.util.Map">
+    SELECT
+        d.fixReason,
+        d.fixtime,
+        d.fixId,
+        a.busId,
+        a.busPlate,
+        a.busCreatetime,
+        a.busStatus,
+        a.busName
+    FROM
+      harmBus d
+      left join  bus a on d.busId = a.busId
+    WHERE
+        d.fixId = #{id}
+    </select>
+    <insert id="fixBusLog" parameterType="com.zlt.pojo.FixBusLog">
+        insert into fixLog(harmId,fixer,fixLogTime,fixMoney) values (#{harmId},#{fixer},#{fixLogTime},#{fixMoney})
+    </insert>
+    <select id="fixLogList" resultType="java.util.Map">
+     SELECT
+            a.busId,
+            a.busPlate,
+            a.busCreatetime,
+            a.busStatus,
+            a.busName,
+            b.busdriverId,
+            b.busdriverName,
+            c.lineId,
+            c.lineName,
+            d.fixLogId,
+            d.harmId,
+            d.fixer,
+			d.fixLogTime,
+			d.fixMoney,
+			e.busId,
+			e.fixTime,
+			e.fixReason
+        FROM
+          fixLog d
+            LEFT JOIN harmBus e on d.harmId = e.fixId
+			LEFT JOIN bus a on a.busId = e.busId
+            LEFT JOIN busdriver b ON a.busDriverid = b.busdriverId
+            LEFT JOIN busline c ON a.busLineid = c.lineId
+        ORDER BY
+            a.busId DESC
     </select>
 </mapper>

@@ -1,9 +1,11 @@
 package com.zlt.service;
 
 import com.zlt.pojo.Expense;
+import com.zlt.pojo.FundOut;
 import com.zlt.pojo.Income;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FinanceService {
     /**
@@ -86,5 +88,16 @@ public interface FinanceService {
      * 删除支出表数据
      */
     void expenseDel(Integer id);
-
+    /**
+     * @Description: 增加支出记录
+     * @Param: [fundOut]
+     * @Return: void
+    **/
+    void insertOutFund(FundOut fundOut);
+    /**
+     * @Description: 查询收入的详情信息
+     * @Param: [fundId]
+     * @Return: java.util.Map<java.lang.String,java.lang.String>
+    **/
+    Map<String, Object> fundDetail(String fundId);
 }

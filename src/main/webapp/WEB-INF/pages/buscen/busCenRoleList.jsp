@@ -32,12 +32,12 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script type="text/javascript">
 	layui.use(['form','layer','table'],function(){
-		var form = layui.form,
+		let form = layui.form,
 				layer = parent.layer === undefined ? layui.layer : top.layer,
 				$ = layui.jquery,
 				table = layui.table;
 		//角色列表
-		var tableIns = table.render({
+		let tableIns = table.render({
 			elem: '#busCenList',
 			url : '/busCen/busCenRoleList?buscenId=${buscenId}',
 			height:480,
@@ -59,7 +59,7 @@
 
 		//添加角色
 		$(".addBusCen_btn").click(function(){
-			var index = layui.layer.open({
+			let index = layui.layer.open({
 				title : "添加角色",
 				type : 2,
 				offset: 'auto',
@@ -70,7 +70,7 @@
 
 		//列表操作
 		table.on('tool(busCenList)', function(obj){
-			var layEvent = obj.event,
+			let layEvent = obj.event,
 					data = obj.data;
 
 			if(layEvent === 'status'){

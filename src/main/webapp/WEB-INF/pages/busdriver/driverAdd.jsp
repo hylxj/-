@@ -19,15 +19,20 @@
         <div class="layui-row layui-col-space10">
             <div class="layui-col-md9 layui-col-xs7">
                 <div class="layui-form-item magt3">
-                    <label class="layui-form-label">司机姓名</label>
+                    <label class="layui-form-label">姓名</label>
                     <div class="layui-input-block">
                         <input type="text" class="layui-input busdriverName" lay-verify="required"
                                placeholder="请输入司机姓名">
                     </div>
                 </div>
-
                 <div class="layui-form-item magt3">
-                    <label class="layui-form-label">司机年龄</label>
+                    <label class="layui-form-label">身份证号</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input driverIdCard" lay-verify="number" placeholder="请输入司机年龄">
+                    </div>
+                </div>
+                <div class="layui-form-item magt3">
+                    <label class="layui-form-label">年龄</label>
                     <div class="layui-input-block">
                         <input type="text" class="layui-input busdriverAge" lay-verify="number" placeholder="请输入司机年龄">
                     </div>
@@ -40,7 +45,7 @@
                     </div>
                 </div>
                 <div class="layui-form-item magt3">
-                    <label class="layui-form-label">司机联系方式</label>
+                    <label class="layui-form-label">联系方式</label>
                     <div class="layui-input-block">
                         <input type="text" class="layui-input busdriverPhone" lay-verify="required"
                                placeholder="请输入司机联系方式">
@@ -48,7 +53,7 @@
                 </div>
 
                 <div class="layui-form-item magt3">
-                    <label class="layui-form-label">司机驾驶公交编号</label>
+                    <label class="layui-form-label">驾驶车辆</label>
                     <div class="layui-input-block">
                         <input type="text" class="layui-input busdriverBusid" lay-verify="number"
                                placeholder="请输入司机驾驶公交编号">
@@ -56,26 +61,10 @@
                 </div>
 
                 <div class="layui-form-item magt3">
-                    <label class="layui-form-label">司机所属调度中心</label>
+                    <label class="layui-form-label">所属调度中心</label>
                     <div class="layui-input-block">
                         <input type="text" class="layui-input busdriverBelongid" lay-verify="number"
                                placeholder="请输入司机所属调度中心">
-                    </div>
-                </div>
-
-                <div class="layui-form-item magt3">
-                    <label class="layui-form-label">司机添加时间</label>
-                    <div class="layui-input-block">
-                        <input type="text" class="layui-input busdriverInitime" id="expenseTime" lay-verify="time"
-                               placeholder="请输入司机工作年限">
-                    </div>
-                </div>
-
-                <div class="layui-form-item magt3">
-                    <label class="layui-form-label">司机状态</label>
-                    <div class="layui-input-block">
-                        <input type="text" class="layui-input busdriverStatus" lay-verify="number"
-                               placeholder="请输入司机状态">
                     </div>
                 </div>
             </div>
@@ -83,7 +72,7 @@
 
             <hr class="layui-bg-gray"/>
             <div class="layui-right">
-                <a class="layui-btn layui-btn-sm" lay-filter="addNews" lay-submit><i
+                <a class="layui-btn layui-btn-sm" lay-filter="addDriver" lay-submit><i
                         class="layui-icon">&#xe609;</i>提交</a>
                 <a class="layui-btn layui-btn-sm" lay-filter="addNews" lay-submit><i
                         class="layui-icon">&#xe61c;</i>重置</a>
@@ -94,7 +83,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script type="text/javascript">
     layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function () {
-        var form = layui.form
+        let form = layui.form
         layer = parent.layer === undefined ? layui.layer : top.layer,
             laypage = layui.laypage,
             upload = layui.upload,
@@ -118,17 +107,15 @@
 
         form.on("submit(addNews)", function (data) {
             //弹出loading
-            var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
+            let index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
             //实际使用时的提交信息
             $.post("/driverAdd", {
                 busdriverName: $(".busdriverName").val(),  //司机姓名
                 busdriverAge: $(".busdriverAge").val(),  //司机年龄
                 busdriverSex: data.field.sex,  //司机性别
                 busdriverPhone: $(".busdriverPhone").val(),  //司机联系方式
-                busdriverBusid: $(".busdriverBusid").val(),  //司机驾驶公交编号
-                busdriverBelongid: $(".busdriverBelongid").val(),  //司机所属站点
-                busdriverInitime: $(".busdriverInitime").val(),  //司机工作年限
-                busdriverStatus: $(".busdriverStatus").val(),  //司机状态
+                busdriverBusid: $(".busdriverBusid").val(),  //司机驾驶公交
+                busdriverBelongid: $(".busdriverBelongid").val(),  //司机所属调度区
             }, function (res) {
 
             });

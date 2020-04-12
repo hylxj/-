@@ -4,24 +4,29 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zlt.dao.BusDao;
 
-import com.zlt.pojo.Bus;
-import com.zlt.pojo.BusLineDriver;
-import com.zlt.pojo.IdAndName;
-import com.zlt.pojo.TableData;
+import com.zlt.pojo.*;
 import com.zlt.service.BusService;
+import com.zlt.service.FinanceService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 公交车的serviceImpl
  */
 @Service
 public class BusServiceImpl implements BusService {
-    @Autowired
+    @Resource
     private BusDao busDao;
 
+    @Resource
+    private FinanceService financeService;
 
 
     //获取bus的所有数据
@@ -41,8 +46,8 @@ public class BusServiceImpl implements BusService {
     @Override
     public TableData findByBusName(String key,int page,int pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<Bus> buses = busDao.findByBusName(key);
-        PageInfo<Bus> pageInfo = new PageInfo<>(buses);
+        List<Map> buses = busDao.findByBusName(key);
+        PageInfo<Map> pageInfo = new PageInfo<>(buses);
         return new TableData(0,"查询数据成功",(int)pageInfo.getTotal(),pageInfo.getList());
     }
     //通过公交车的id删除公交车
@@ -87,6 +92,70 @@ public class BusServiceImpl implements BusService {
     public List<IdAndName> findAllLineIdAndName() {
         return busDao.findAllLineIdAndName();
     }
+    /**
+     * @Description: 报修车辆信息的保存
+     * @Param: [busId, busFixReason]
+     * @Return: void
+    **/
+    @Override
+    public void fixBus(int busId, String busFixReason) {
+        Bus bus = new Bus();
+        HarmBus harmBus = new HarmBus();
+        harmBus.setBusId(busId);
+        harmBus.setFixReason(busFixReason);
+        harmBus.setFixTime(new Date());
+        bus.setBusId(busId);
+        bus.setBusStatus(2);
+        busDao.updateBus(bus);
+        busDao.insertHarmBus(harmBus);
+    }
+
+    @Override
+    public TableData findFixBus(int page, int pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<Map> maps = busDao.findFixBus();
+        PageInfo<Map> pageInfo = new PageInfo<>(maps);
+        return new TableData(0,"查询数据成功",(int)pageInfo.getTotal(),pageInfo.getList());
+    }
+
+    @Override
+    public Map findFixBusById(int id) {
+        return busDao.findFixBusById(id);
+    }
+
+    @Override
+    public void addFixBusLog(int busId,int fixId,String fixMoney) {
+        Subject currentUser = SecurityUtils.getSubject();
+        Object sessionUser = currentUser.getSession().getAttribute("userName");
+        FixBusLog fixBusLog = new FixBusLog();
+        fixBusLog.setFixMoney(fixMoney);
+        fixBusLog.setFixLogTime(new Date());
+        fixBusLog.setFixer((String)sessionUser);
+        fixBusLog.setHarmId(fixId);
+        Bus bus = new Bus();
+        FundOut fundOut = new FundOut();
+        fundOut.setType(1);
+        fundOut.setFundOutMoney(fixMoney);
+        fundOut.setFundOutTime(new Date());
+        fundOut.setOperator((String) sessionUser);
+        fundOut.setStatus(1);
+        fundOut.setHarmId(fixId);
+        financeService.insertOutFund(fundOut);
+        bus.setBusStatus(3);
+        bus.setBusId(busId);
+        System.out.println(sessionUser);
+        busDao.updateBus(bus);
+        busDao.fixBusLog(fixBusLog);
+    }
+
+    @Override
+    public TableData fixLogList(int page, int limit) {
+        PageHelper.startPage(page,limit);
+        List<Map> maps = busDao.fixLogList();
+        PageInfo<Map> pageInfo = new PageInfo<>(maps);
+        return new TableData(0,"查询数据成功",(int)pageInfo.getTotal(),pageInfo.getList());
+    }
+
     //找到驾驶员的ID和名字
     @Override
     public List<IdAndName> findAllIdAndName() {

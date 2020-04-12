@@ -20,7 +20,7 @@
 <h2 id="lineName" style="margin-left: 80px;color:deepskyblue;padding: 10px">${lineStaList[1].lineName}</h2>
 <div style="width: 20%;" class="layui-show-lg-inline-block">
 	<ul class="layui-timeline" style="width: 280px">
-		<c:forEach items="${lineStaList}" var="sta" >
+		<c:forEach items="${lineStaList}" let="sta" >
 			<li class="layui-timeline-item" style="width: 250px">
 				<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
 				<div class="layui-timeline-content layui-text">
@@ -42,12 +42,12 @@
 </body>
 <script type="text/javascript">
     // 百度地图API功能
-    var map = new BMap.Map("l-map");            // 创建Map实例
+    let map = new BMap.Map("l-map");            // 创建Map实例
 	console.log(map)
     map.centerAndZoom("成都", 12);
-	// var map = new BMap.Map("l-map"); //"map"为用于展示地图的div的id
-	// var city;
-	// var myCity = new BMap.LocalCity();
+	// let map = new BMap.Map("l-map"); //"map"为用于展示地图的div的id
+	// let city;
+	// let myCity = new BMap.LocalCity();
 	// myCity.get(getCity);
 	// function getCity (res) {
 	// 	if (res) {
@@ -65,7 +65,7 @@
 	// 		alert("该路线已添加");
 	// 	}
 	// }
-	// var getPolylineOptions = function getPolylineOptions () { //线路样式配置
+	// let getPolylineOptions = function getPolylineOptions () { //线路样式配置
 	// 	return {
 	// 		strokeColor: $("#strokeColor").val(),
 	// 		strokeWeight: $("#strokeWeight").val(),
@@ -73,20 +73,20 @@
 	// 		strokeStyle: $("#strokeStyle").val()
 	// 	}
 	// };
-	// var bus = new BMap.BusLineSearch(map, {
-	// 	onGetBusListCompvare: function onGetBusListCompvare (result) {
-	// 		var busListItem = $("#busListItem").val(); //公交上下行
-	// 		var fstLine = result.getBusListItem(busListItem);
+	// let bus = new BMap.BusLineSearch(map, {
+	// 	onGetBusListComplete: function onGetBusListComplete (result) {
+	// 		let busListItem = $("#busListItem").val(); //公交上下行
+	// 		let fstLine = result.getBusListItem(busListItem);
 	// 		bus.getBusLine(fstLine);
 	// 	},
-	// 	onGetBusLineCompvare: function onGetBusLineCompvare (busline) {
+	// 	onGetBusLineComplete: function onGetBusLineComplete (busline) {
 	// 		polyline = new BMap.Polyline(busline.getPath(), getPolylineOptions());
-	// 		var lineName = busline.name.substr(0, busline.name.indexOf("(")); //提取线路名
+	// 		let lineName = busline.name.substr(0, busline.name.indexOf("(")); //提取线路名
 	// 		map.addOverlay(polyline); //添加折线覆盖物
-	// 		var stationList = []; //获取站点
-	// 		for (var i = 0, len = busline.getNumBusStations(); i < len; i++) {
-	// 			var busStation = busline.getBusStation(i);
-	// 			var marker = new BMap.Marker(busStation.position, {
+	// 		let stationList = []; //获取站点
+	// 		for (let i = 0, len = busline.getNumBusStations(); i < len; i++) {
+	// 			let busStation = busline.getBusStation(i);
+	// 			let marker = new BMap.Marker(busStation.position, {
 	// 				icon: stationIcon
 	// 			});
 	// 			stationList.push(new BMap.Point(busStation.position.lng, busStation.position.lat));
@@ -94,25 +94,25 @@
 	// 				map.addOverlay(marker);
 	// 				marker.setTitle(lineName + ":" + busStation.name);
 	// 				marker.addEventListener("click", function (e) { //单击站点显示信息
-	// 					var opts = {
+	// 					let opts = {
 	// 						width: 250,
 	// 						height: 80,
 	// 						title: e.target.getTitle().substr(e.target.getTitle().indexOf(":") + 1)
 	// 					};
-	// 					var content = busline.name;
-	// 					var infoWindow = new BMap.InfoWindow(content, opts);
-	// 					var point = new BMap.Point(e.target.getPosition().lng, e.target.getPosition().lat);
+	// 					let content = busline.name;
+	// 					let infoWindow = new BMap.InfoWindow(content, opts);
+	// 					let point = new BMap.Point(e.target.getPosition().lng, e.target.getPosition().lat);
 	// 					map.openInfoWindow(infoWindow, point);
 	// 				});
 	// 			}
 	// 		}
 	// 		if (enableAutoViewport) {
-	// 			var view = map.getViewport(eval(stationList));
+	// 			let view = map.getViewport(eval(stationList));
 	// 			map.centerAndZoom(view.center, view.zoom);
 	// 		}
 	// 		polyline.addEventListener("dblclick", function (e) { //双击线路删除路径
-	// 			var allOverlay = map.getOverlays();
-	// 			for (var i = 0, len = allOverlay.length; i < len; i++) {
+	// 			let allOverlay = map.getOverlays();
+	// 			for (let i = 0, len = allOverlay.length; i < len; i++) {
 	// 				if (allOverlay[i].toString() == "[object Marker]") {
 	// 					if (allOverlay[i].getTitle().substr(0, allOverlay[i].getTitle().indexOf(":")) == lineName) {
 	// 						allOverlay[i].enableMassClear();
@@ -125,7 +125,7 @@
 	// 			}
 	// 			e.target.enableMassClear();
 	// 			map.clearOverlays();
-	// 			var index = readyAdd.indexOf(lineName);
+	// 			let index = readyAdd.indexOf(lineName);
 	// 			readyAdd.splice(index, 1);
 	// 		});
 	// 		polyline.addEventListener("mouseover", function (e) { //移向线路高亮路径
@@ -141,18 +141,18 @@
 	// 		})
 	// 	}
 	// });
-    var busline = new BMap.BusLineSearch(map,{
+    let busline = new BMap.BusLineSearch(map,{
         renderOptions:{map:map,panel:"r-result"},
-        onGetBusListCompvare: function(result){
+        onGetBusListComplete: function(result){
             if(result) {
             	console.log(busline)
-                var fstLine = result.getBusListItem(0);//获取第一个公交列表显示到map上
+                let fstLine = result.getBusListItem(0);//获取第一个公交列表显示到map上
                 busline.getBusLine(fstLine);
             }
         }
     });
     function busSearch(){
-        var busName = document.getElementById(	"lineName").innerText;
+        let busName = document.getElementById(	"lineName").innerText;
         busline.getBusList(busName);
     }
     setTimeout(function(){

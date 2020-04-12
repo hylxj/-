@@ -50,7 +50,7 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-test:5.0.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:5.0.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:5.0.2.RELEASE" />
-          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.16" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.15" />
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.6.1" />
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
           <element id="library" level="project" name="Maven: log4j:log4j:1.2.12" />

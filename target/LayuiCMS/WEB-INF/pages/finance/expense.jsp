@@ -45,7 +45,7 @@
 
 	<!--操作-->
 	<script type="text/html" id="newsListBar">
-		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-xs" lay-event="showDetail">查看详情</a>
 		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
 	</script>
 </form>
@@ -53,20 +53,20 @@
 <script type="text/javascript">
 	/*date转字符串*/
 	function formatDate(date) {
-		var y = date.getFullYear();
-		var m = date.getMonth() + 1;
+		let y = date.getFullYear();
+		let m = date.getMonth() + 1;
 		m = m < 10 ? ('0' + m) : m;
-		var d = date.getDate();
+		let d = date.getDate();
 		d = d < 10 ? ('0' + d) : d;
-		// var h = date.getHours();
-		// var minute = date.getMinutes();
+		// let h = date.getHours();
+		// let minute = date.getMinutes();
 		// minute = minute < 10 ? ('0' + minute) : minute;
-		// var second= date.getSeconds();
+		// let second= date.getSeconds();
 		// second = minute < 10 ? ('0' + second) : second;
 		return y + '-' + m + '-' + d/*+' '+h+':'+minute+':'+ second*/;
 	}
 	layui.use(['form','layer','laydate','table','laytpl'],function(){
-		var form = layui.form,
+		let form = layui.form,
 				layer = parent.layer === undefined ? layui.layer : top.layer,
 				$ = layui.jquery,
 				laydate = layui.laydate,
@@ -74,7 +74,7 @@
 				table = layui.table;
 
 		//新闻列表
-		var tableIns = table.render({
+		let tableIns = table.render({
 			elem: '#newsList',
 			url : 'expense',
 			cellMinWidth : 95,
@@ -85,16 +85,25 @@
 			id : "newsListTable",
 			cols : [[
 				{type: "checkbox", fixed:"left", width:50},
-				{field: 'expenseId', title: 'ID', width:60, align:"center"},
-				{field: 'expenseSalary', title: '员工工资', align:'center'},
-				{field: 'expenseFix', title: '车辆维修费用', align:'center'},
-				{field: 'expenseDaily', title: '日常支出',  align:'center'},
-				{field: 'expenseTime', title: '支出时间', align:'center',width:200,templet:function (d) {
-						return formatDate(new Date(d.expenseTime));
-					}},
-				{field: 'expenseStaId', title: '支出站点', align:'center'},
-				{field: 'expenseHendler', title: '经手人', align:'center'},
-				{field: 'expanseTotal', title: '支出总额', align:'center'},
+				{field: 'fundOutId', title: 'ID', width:60, hide: true,align:"center"},
+				{field: 'type', title: '支出类型', align:'center', templet:function(d){
+                        if(d.type==1){
+                            return "车辆维修费用";
+                        }else if(d.type==2) {
+                            return "其他";
+                        }
+                    }},
+				{field: 'fundOutTime', title: '支出时间', align:'center',templet:function (d){
+                        if(d.fundOutTime!=null){
+                            let date = new Date(d.fundOutTime);
+                            let  str = formatDate(date);
+                            return str;
+                        }
+                        return "没有数据";
+                    }},
+
+				{field: 'fundOutMoney', title: '支出金额',  align:'center'},
+				{field: 'operator', title: '操作人', align:'center'},
 				{title: '操作', width:170, templet:'#newsListBar',fixed:"right",align:"center"}
 			]]
 		});
@@ -116,48 +125,13 @@
 			}
 		});
 
-		//添加文章
-		function addNews(edit){
-			var index = layui.layer.open({
-				title : "添加支出信息",
-				type : 2,
-				content : "/expenseAddPage",
-				success : function(layero, index){
-					var body = layui.layer.getChildFrame('body', index);
-					if(edit){
-						body.find(".newsName").val(edit.newsName);
-						body.find(".abstract").val(edit.abstract);
-						body.find(".thumbImg").attr("src",edit.newsImg);
-						body.find("#news_content").val(edit.content);
-						body.find(".newsStatus select").val(edit.newsStatus);
-						body.find(".openness input[name='openness'][title='"+edit.newsLook+"']").prop("checked","checked");
-						body.find(".newsTop input[name='newsTop']").prop("checked",edit.newsTop);
-						form.render();
-					}
-					setTimeout(function(){
-						layui.layer.tips('点击此处返回支出列表', '.layui-layer-setwin .layui-layer-close', {
-							tips: 3
-						});
-					},500)
-				}
-			})
-			layui.layer.full(index);
-			//改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-			$(window).on("resize",function(){
-				layui.layer.full(index);
-			})
-		}
-		$(".addNews_btn").click(function(){
-			addNews();
-		})
-
 		//批量删除
 		$(".delAll_btn").click(function(){
-			var checkStatus = table.checkStatus('newsListTable'),
+			let checkStatus = table.checkStatus('newsListTable'),
 					data = checkStatus.data,
 					newsId = [];
 			if(data.length > 0) {
-				for (var i in data) {
+				for (let i in data) {
 					newsId.push(data[i].expenseId);
 				}
 				layer.confirm('确定删除选中的信息？', {icon: 3, title: '提示信息'}, function (index) {
@@ -175,26 +149,15 @@
 
 		//列表操作
 		table.on('tool(newsList)', function(obj){
-			var layEvent = obj.event,
+			let layEvent = obj.event,
 					data = obj.data;
 
-			if(layEvent === 'edit'){ //编辑
-				var index = layui.layer.open({
-					title : "编辑收入信息",
+			if(layEvent === 'showDetail'){ //编辑
+				let index = layui.layer.open({
+					title : "查看收入信息详情",
 					type : 2,
-					content : "/expenseUpdatePage?id="+data.expenseId,
+					content : "/expenseShowDetail?id="+data.fundOutId,
 					success : function(layero, index) {
-						// var body = layui.layer.getChildFrame('body', index);
-						// if(edit){
-						// 	body.find(".newsName").val(edit.newsName);
-						// 	body.find(".abstract").val(edit.abstract);
-						// 	body.find(".thumbImg").attr("src",edit.newsImg);
-						// 	body.find("#news_content").val(edit.content);
-						// 	body.find(".newsStatus select").val(edit.newsStatus);
-						// 	body.find(".openness input[name='openness'][title='"+edit.newsLook+"']").prop("checked","checked");
-						// 	body.find(".newsTop input[name='newsTop']").prop("checked",edit.newsTop);
-						// 	form.render();
-						// }
 						setTimeout(function () {
 							layui.layer.tips('点击此处返回收入列表', '.layui-layer-setwin .layui-layer-close', {
 								tips: 3

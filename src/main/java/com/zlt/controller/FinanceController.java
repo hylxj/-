@@ -13,9 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 @Controller
 public class FinanceController {
     @Autowired
@@ -67,12 +70,16 @@ public class FinanceController {
     }
 
     /**
-     * 请求添加支出页面
+     * 返回查看支出详情页面和数据
      * @return
      */
-    @RequestMapping("/expenseAddPage")
-    public String expenseAddPage(){
-        return "finance/expenseAdd";
+    @RequestMapping("/expenseShowDetail")
+    public ModelAndView expenseShowDetail(String id){
+        Map<String ,Object> map = financeService.fundDetail(id);
+        ModelAndView mv =  new ModelAndView();
+        mv.addObject("map",map);
+        mv.setViewName("finance/expenseDetail");
+        return mv;
     }
     /**
      * 添加支出

@@ -15,21 +15,27 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/public.css" media="all" />
 </head>
 <body class="childrenBody">
-<form class="layui-form layui-row layui-col-space10" style="width: 500px; margin-left: 300px">
+<form class="layui-form layui-row layui-col-space10" style="width: 500px; margin-left: 500px">
 	<div class="layui-col-md9 layui-col-xs12">
 		<div class="layui-row layui-col-space10">
 			<div class="layui-col-md9 layui-col-xs7">
 				<input type="text" class="layui-input busId" lay-verify="busId" style="width: 300px;display: none" placeholder="" value="${bus.busId}" >
-				<div class="layui-form-item magt3">
-					<label class="layui-form-label">公交车名称</label>
+                <div class="layui-form-item magt3">
+                    <label class="layui-form-label">公交车名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" disabled="true" class="layui-input busName" lay-verify="busName" style="width: 300px" placeholder="" value="${bus.busName}">
+                    </div>
+                </div>
+                <div class="layui-form-item magt3">
+					<label class="layui-form-label">车牌号</label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input busName" lay-verify="busName" style="width: 300px" placeholder="" value="${bus.busName}">
+						<input type="text" disabled="true" class="layui-input busPlate" lay-verify="busPlate" style="width: 300px" placeholder="" value="${bus.busPlate}">
 					</div>
 				</div>
                 <div class="layui-form-item magt3">
                     <label class="layui-form-label">驾驶员</label>
                     <div class="layui-input-block">
-                        <select name="driver" value="${bus.busDriverId}" lay-verify="">
+                        <select name="driver" value="${bus.busDriverId}" lay-verify="" disabled="true">
                             <c:forEach  items="${driverName}" var="dName" >
                                 <option value="${dName.id}" ${bus.busDriverId == dName.id ?"selected":""}>${dName.name}</option>
                             </c:forEach>
@@ -39,7 +45,7 @@
                 <div class="layui-form-item magt3">
                     <label class="layui-form-label">线路</label>
                     <div class="layui-input-block">
-                        <select name="line" lay-verify="">
+                        <select name="line" lay-verify="" style="" disabled="true">
                             <c:forEach  items="${lineName}" var="lName" >
                                 <option value="${lName.id}"  ${bus.busLineId == lName.id ?"selected":""} >${lName.name}</option>
                             </c:forEach>
@@ -47,22 +53,19 @@
                     </div>
                 </div>
 
-				<div class="layui-form-item magt3">
-					<label class="layui-form-label">公交车状态</label>
-					<div class="layui-input-block">
-						<select name="status" lay-verify="">
-							<option value="1" ${bus.busStatus==1?"selected":""}>正常</option>
-							<option value="2" ${bus.busStatus==2?"selected":""}>维修</option>
-						</select>
-					</div>
-				</div>
+                <div class="layui-form-item magt3">
+                    <label class="layui-form-label">报修原因</label>
+                    <div class="layui-input-block">
+                        <input type="textarea" class="layui-input busFixReason" lay-verify="busFixReason" style="width: 300px" placeholder="" value="">
+                    </div>
+                </div>
 			</div>
 		</div>
 		<div class="layui-inline layui-center" style="margin-left: 180px" >
-			<a class="layui-btn layui-btn-normal addBus"  lay-filter="addBus" lay-submit>确认</a>
+			<a class="layui-btn layui-btn-normal fixBus"  lay-filter="fixBus" lay-submit>确认</a>
 		</div>
 		<div class="layui-inline">
-			<button type="reset" class="layui-btn layui-btn-danger layui-btn-normal cancel" style="width: 60px">重置</button>
+			<button type="reset" class="layui-btn layui-btn-danger layui-btn-normal cancel" style="width: 60px">取消</button>
 		</div>
 	</div>
 
@@ -72,7 +75,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script>
     layui.use(['form','layer','layedit','laydate','upload'],function(){
-        var form = layui.form
+        let form = layui.form
         layer = parent.layer === undefined ? layui.layer : top.layer,
             laypage = layui.laypage,
             upload = layui.upload,
@@ -80,7 +83,10 @@
             laydate = layui.laydate,
             $ = layui.jquery;
         $(".cancel").on("click",function () {
-			layer.close(this);
+            // top.layer.close(index);
+            layer.closeAll("iframe");
+            //刷新父页面
+            parent.location.reload();
         })
 
         form.verify({
@@ -95,16 +101,14 @@
                 }
             }
         })
-        form.on("submit(addBus)",function(data){
+        form.on("submit(fixBus)",function(data){
             //弹出loading
-            var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+            let index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
             // 实际使用时的提交信息
-            $.post("/bus/updateBus",{
+            console.log(data);
+            $.post("/bus/fixBusInfo",{
                 busId:$(".busId").val(),
-                busName : $(".busName").val(),  //文章摘要
-                busDriverId : data.field.driver,  //文章摘要
-                busLineId : data.field.line,  //文章摘要
-                busStatus : data.field.status,  //文章摘要
+                busFixReason : $(".busFixReason").val(),
 
             },function(res){
                 setTimeout(function(){

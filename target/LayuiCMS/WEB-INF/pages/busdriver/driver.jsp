@@ -51,8 +51,21 @@
 </form>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script type="text/javascript">
+    function formatDate(date) {
+        let y = date.getFullYear();
+        let m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        let d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        // let h = date.getHours();
+        // let minute = date.getMinutes();
+        // minute = minute < 10 ? ('0' + minute) : minute;
+        // let second= date.getSeconds();
+        // second = minute < 10 ? ('0' + second) : second;
+        return y
+    }
 	layui.use(['form','layer','laydate','table','laytpl'],function(){
-		var form = layui.form,
+		let form = layui.form,
 				layer = parent.layer === undefined ? layui.layer : top.layer,
 				$ = layui.jquery,
 				laydate = layui.laydate,
@@ -60,7 +73,7 @@
 				table = layui.table;
 
 		//新闻列表
-		var tableIns = table.render({
+		let tableIns = table.render({
 			elem: '#newsList',
 			url : 'driver',
 			cellMinWidth : 95,
@@ -71,15 +84,44 @@
 			id : "newsListTable",
 			cols : [[
 				{type: "checkbox", fixed:"left", width:50},
-				{field: 'busdriverId', title: 'ID', width:60, align:"center"},
-				{field: 'busdriverName', title: '司机姓名', align:'center'},
-				{field: 'busdriverAge', title: '司机年龄', align:'center'},
-				{field: 'busdriverSex', title: '司机性别',  align:'center'},
-				{field: 'busdriverPhone', title: '司机联系方式', align:'center'},
-				{field: 'busdriverBusid', title: '司机驾驶车辆编号', align:'center'},
-				{field: 'busdriverBelongid', title: '司机所属调度中心', align:'center'},
-				{field: 'busdriverInitime', title: '司机工作年限', align:'center',width:200},
-				{field: 'busdriverStatus', title: '司机状态', align:'center'},
+				{field: 'busdriverId', title: 'ID', hide:true,width:60, align:"center"},
+				{field: 'busdriverName', title: '姓名', align:'center'},
+				{field: 'driverIdCard', title: '身份证号', align:'center'},
+				{field: 'busdriverAge', title: '年龄', align:'center'},
+				{field: 'busdriverSex', title: '性别',  align:'center',templet: function(d){
+				    return d.busdriverSex ===1 ? '男':'女'
+                    }},
+				{field: 'busdriverPhone', title: '联系方式', align:'center'},
+				{field: 'busdriverBusid', title: '驾驶车辆车牌号', align:'center'},
+				{field: 'busdriverBelongid', title: '所属调度中心', align:'center'},
+				{field: 'busdriverInitime', title: '入职时间(年)', align:'center',width:200,templet: function (d) {
+                        if(d.busdriverInitime!=null){
+                            let date = new Date(d.busdriverInitime);
+                            let now = new Date();
+                            let  datePer = formatDate(date);
+                            let newYear = formatDate(now)
+                            return newYear-datePer;
+                        }
+                        return "没有数据";
+                    }},
+				{field: 'busdriverStatus', title: '状态', align:'center',templet: function(d){
+				    let status = ''
+				    switch (d.busdriverStatus) {
+                        case  1:
+                            status = '在岗';
+                            break;
+                        case  2:
+                            status = '矿工';
+                            break;
+                        case  3:
+                            status = '请假';
+                            break;
+                        default:
+                            status = '离职';
+                            break;
+                    }
+                    return status
+                    }},
 				{title: '操作', width:170, templet:'#newsListBar',fixed:"right",align:"center"}
 			]]
 		});
@@ -103,12 +145,12 @@
 
 		//添加司机
 		function addNews(edit){
-			var index = layui.layer.open({
+			let index = layui.layer.open({
 				title : "添加司机信息",
 				type : 2,
 				content : "/driverAddPage",
 				success : function(layero, index){
-					var body = layui.layer.getChildFrame('body', index);
+					let body = layui.layer.getChildFrame('body', index);
 					if(edit){
 						body.find(".newsName").val(edit.newsName);
 						body.find(".abstract").val(edit.abstract);
@@ -138,11 +180,11 @@
 
 		//批量删除
 		$(".delAll_btn").click(function(){
-			var checkStatus = table.checkStatus('newsListTable'),
+			let checkStatus = table.checkStatus('newsListTable'),
 					data = checkStatus.data,
 					newsId = [];
 			if(data.length > 0) {
-				for (var i in data) {
+				for (let i in data) {
 					newsId.push(data[i].busdriverId);
 				}
 				layer.confirm('确定删除选中的信息？', {icon: 3, title: '提示信息'}, function (index) {
@@ -160,16 +202,16 @@
 
 		//列表操作
 		table.on('tool(newsList)', function(obj){
-			var layEvent = obj.event,
+			let layEvent = obj.event,
 					data = obj.data;
 
 			if(layEvent === 'edit'){ //编辑
-				var index = layui.layer.open({
+				let index = layui.layer.open({
 					title : "编辑司机信息",
 					type : 2,
 					content : "/driverUpdatePage?id="+data.busdriverId,
 					success : function(layero, index) {
-						// var body = layui.layer.getChildFrame('body', index);
+						// let body = layui.layer.getChildFrame('body', index);
 						// if(edit){
 						// 	body.find(".newsName").val(edit.newsName);
 						// 	body.find(".abstract").val(edit.abstract);

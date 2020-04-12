@@ -26,18 +26,26 @@
 						<input type="text" class="layui-input busName" lay-verify="busName" style="width: 300px" placeholder="" value="${bus.busName}">
 					</div>
 				</div>
-				<div class="layui-form-item magt3">
-					<label class="layui-form-label">驾驶员</label>
-					<div class="layui-input-block">
-						<input type="text" class="layui-input busDriverId" lay-verify="busDriverId" style="width: 300px" placeholder=""value="${bus.busDriverId}">
-					</div>
-				</div>
-				<div class="layui-form-item magt3">
-					<label class="layui-form-label">线路</label>
-					<div class="layui-input-block">
-						<input type="text" class="layui-input busLineId" lay-verify="busLineId" style="width: 300px" placeholder=""value="${bus.busLineId}" >
-					</div>
-				</div>
+                <div class="layui-form-item magt3">
+                    <label class="layui-form-label">驾驶员</label>
+                    <div class="layui-input-block">
+                        <select name="driver" value="${bus.busDriverId}" lay-verify="">
+                            <c:forEach  items="${driverName}" var="dName" >
+                                <option value="${dName.id}" ${bus.busDriverId == dName.id ?"selected":""}>${dName.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item magt3">
+                    <label class="layui-form-label">线路</label>
+                    <div class="layui-input-block">
+                        <select name="line" lay-verify="">
+                            <c:forEach  items="${lineName}" var="lName" >
+                                <option value="${lName.id}"  ${bus.busLineId == lName.id ?"selected":""} >${lName.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
 
 				<div class="layui-form-item magt3">
 					<label class="layui-form-label">公交车状态</label>
@@ -64,7 +72,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script>
     layui.use(['form','layer','layedit','laydate','upload'],function(){
-        var form = layui.form
+        let form = layui.form
         layer = parent.layer === undefined ? layui.layer : top.layer,
             laypage = layui.laypage,
             upload = layui.upload,
@@ -74,6 +82,7 @@
         $(".cancel").on("click",function () {
 			layer.close(this);
         })
+
         form.verify({
             busPlate : function(val){
                 if(val == ''){
@@ -88,13 +97,13 @@
         })
         form.on("submit(addBus)",function(data){
             //弹出loading
-            var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+            let index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
             // 实际使用时的提交信息
             $.post("/bus/updateBus",{
                 busId:$(".busId").val(),
                 busName : $(".busName").val(),  //文章摘要
-                busDriverId : $(".busDriverId").val(),  //文章摘要
-                busLineId : $(".busLineId").val(),  //文章摘要
+                busDriverId : data.field.driver,  //文章摘要
+                busLineId : data.field.line,  //文章摘要
                 busStatus : data.field.status,  //文章摘要
 
             },function(res){

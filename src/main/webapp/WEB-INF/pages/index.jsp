@@ -104,18 +104,18 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/cache.js"></script>
 	<script type="text/javascript">
-		var $,tab,dataStr,layer;
+		let $,tab,dataStr,layer;
 		layui.config({
 			base : "static/js/"
 		}).extend({
 			"bodyTab" : "bodyTab"
 		});
 		layui.use(['bodyTab','form','element','layer','jquery'],function(){
-			var form = layui.form,
+			let form = layui.form,
 					element = layui.element;
 			$ = layui.$;
 			layer = parent.layer === undefined ? layui.layer : top.layer;
-			var ids="";
+			let ids="";
 			<c:forEach items="${roles}" var="role">
 				ids+=("roleIds="+${role.getRoleId()})+"&";
 			</c:forEach>
@@ -183,7 +183,7 @@
 			$(".clearCache").click(function(){
 				window.sessionStorage.clear();
 				window.localStorage.clear();
-				var index = layer.msg('清除缓存中，请稍候',{icon: 16,time:false,shade:0.8});
+				let index = layer.msg('清除缓存中，请稍候',{icon: 16,time:false,shade:0.8});
 				setTimeout(function(){
 					layer.close(index);
 					layer.msg("缓存清除成功！");
@@ -195,8 +195,8 @@
 				if (window.sessionStorage.getItem("menu") != null) {
 					menu = JSON.parse(window.sessionStorage.getItem("menu"));
 					curmenu = window.sessionStorage.getItem("curmenu");
-					var openTitle = '';
-					for (var i = 0; i < menu.length; i++) {
+					let openTitle = '';
+					for (let i = 0; i < menu.length; i++) {
 						openTitle = '';
 						if (menu[i].icon) {
 							if (menu[i].icon.split("-")[0] == 'icon') {

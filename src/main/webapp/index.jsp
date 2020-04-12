@@ -38,7 +38,7 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/cache.js"></script>
 	<script type="text/javascript">
 		layui.use(['form','layer','jquery'],function(){
-			var form = layui.form,
+			let form = layui.form,
 					layer = parent.layer === undefined ? layui.layer : top.layer
 			$ = layui.jquery;
 

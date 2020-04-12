@@ -24,13 +24,13 @@
 <script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
 <script type="text/javascript">
     // 百度地图API功能
-    var map = new BMap.Map("allmap");
+    let map = new BMap.Map("allmap");
     //地图中心
     map.centerAndZoom(new BMap.Point(104.062419,30.544198), 20);
     // 左上角，添加比例尺
-    var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});
+    let top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});
     //左上角，添加默认缩放平移控件
-    var top_left_navigation = new BMap.NavigationControl();
+    let top_left_navigation = new BMap.NavigationControl();
     //添加控件和比例尺
     map.addControl(top_left_control);
     map.addControl(top_left_navigation);
@@ -40,7 +40,7 @@
 
     //1号线 起点火车站
     function huoChe() {
-        var p1 = new BMap.Point(104.062419,30.544198);
+        let p1 = new BMap.Point(104.062419,30.544198);
             p22 = new BMap.Point(104.062419,30.544198),
             p23 = new BMap.Point(104.06333,30.544136),
             p24 = new BMap.Point(104.06333,30.545812),
@@ -66,7 +66,7 @@
 
 
         //1号线 起点火车站 存到数组里
-        var arrayList = [];
+        let arrayList = [];
         arrayList.push(p1);
         arrayList.push(p22);
         arrayList.push(p23);
@@ -95,14 +95,14 @@
         // marker=new BMap.Marker(arrayList[0],{
         //   icon  : new BMap.Icon('http://developer.baidu.com/map/jsdemo/img/car.png', new BMap.Size(52,26),{anchor : new BMap.Size(27, 13)})
         // });
-        // var label = new BMap.Label("湘U16888",{offset:new BMap.Size(0,-30)});
+        // let label = new BMap.Label("湘U16888",{offset:new BMap.Size(0,-30)});
         // label.setStyle({border:"1px solid rgb(204, 204, 204)",color: "rgb(0, 0, 0)",borderRadius:"10px",padding:"5px",background:"rgb(255, 255, 255)",});
         //         marker.setLabel(label);
 
         //  map.addOverlay(marker);
         BMapLib.LuShu.prototype._move = function (initPos, targetPos, effect) {
-            var pointsArr = [initPos, targetPos];  //点数组
-            var me = this,
+            let pointsArr = [initPos, targetPos];  //点数组
+            let me = this,
                 //当前的帧数
                 currentCount = 0,
                 //步长，米/秒
@@ -137,12 +137,12 @@
                     me._moveNext(++me.i);
                 } else {
                     currentCount++;
-                    var x = effect(init_pos.x, target_pos.x, currentCount, count),
+                    let x = effect(init_pos.x, target_pos.x, currentCount, count),
                         y = effect(init_pos.y, target_pos.y, currentCount, count),
                         pos = me._projection.pointToLngLat(new BMap.Pixel(x, y));
                     //设置marker
                     if (currentCount == 1) {
-                        var proPos = null;
+                        let proPos = null;
                         if (me.i - 1 >= 0) {
                             proPos = me._path[me.i - 1];
                         }

@@ -40,12 +40,12 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script type="text/javascript">
 	layui.use(['form','layer','table'],function(){
-		var form = layui.form,
+		let form = layui.form,
 				layer = parent.layer === undefined ? layui.layer : top.layer,
 				$ = layui.jquery,
 				table = layui.table;
 		//用户列表
-		var tableIns = table.render({
+		let tableIns = table.render({
 			elem: '#menuList',
 			url : '/menu/menuList',
 			height:480,
@@ -66,7 +66,7 @@
 					return d.spread==1?"展开":"收起";
 				}},
 				{field: 'available', title: '是否禁用', align:'center', templet:function(d){
-						var status=d.available==1?"":"checked";
+						let status=d.available==1?"":"checked";
 						return '<input type="checkbox" name="available" lay-filter="available" lay-skin="switch" lay-text="是|否" '+status+'>'
 				}},
 				{title: '操作', width:200, templet:'#menuListBar',fixed:"right",align:"center"}
@@ -74,14 +74,14 @@
 		});
 		//是否锁定
 		form.on('switch(available)', function(data){
-			var isAvailable;
+			let isAvailable;
 			if(data.elem.checked){
 				isAvailable=2;
 			}else {
 				isAvailable=1;
 			}
-			var menuId=$(this).parents("tr").children("td[data-field=menuId]").children()[0].innerText;
-			var index = layer.msg('修改中，请稍候',{icon: 16,time:false,shade:0.8});
+			let menuId=$(this).parents("tr").children("td[data-field=menuId]").children()[0].innerText;
+			let index = layer.msg('修改中，请稍候',{icon: 16,time:false,shade:0.8});
 			$.get("/menu/updateMenu",{
 				menuId:menuId,
 				available:isAvailable
@@ -113,7 +113,7 @@
 
 		//添加菜单
 		$(".addMenu_btn").click(function(){
-			var index = layui.layer.open({
+			let index = layui.layer.open({
 				title : "添加菜单",
 				type : 2,
 				content : "/menu/menuAddPage",
@@ -134,11 +134,11 @@
 
 		//列表操作
 		table.on('tool(menuList)', function(obj){
-			var layEvent = obj.event,
+			let layEvent = obj.event,
 					data = obj.data;
 
 			if(layEvent === 'edit'){ //编辑
-				var index = layui.layer.open({
+				let index = layui.layer.open({
 					title : "编辑菜单",
 					type : 2,
 					content : "/menu/menuEditPage?menuId="+data.menuId,
@@ -166,7 +166,7 @@
 					})
 				});
 			}else if(layEvent === 'distributed'){ //删除
-				var index = layui.layer.open({
+				let index = layui.layer.open({
 					title : "已分配角色",
 					type : 2,
 					content : "/menu/menuRolePage?menuId="+data.menuId,

@@ -30,29 +30,11 @@
 <script src="${pageContext.request.contextPath}/static/layui/echarts.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     $(function () {
-        // var $, tab, dataStr, layer;
-        // layui.config({
-        //     base: "static/js/"
-        // }).extend({
-        //     "bodyTab": "bodyTab"
-        // })
-        // layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery','echarts'], function () {
-        //     var form = layui.form,
-        //         element = layui.element;
-        //     $ = layui.$;
-        //     layer = parent.layer === undefined ? layui.layer : top.layer;
-        //     tab = layui.bodyTab({
-        //         openTabNum: "50",  //最大可打开窗口数量
-        //         url: "static/json/navs.json" //获取菜单json地址
-        //     });
-        //     //打开新窗口
-        //     function addTab(_this){
-        //         tab.tabAdd(_this);
-        //     }
+
 
 
         //散点相关信息
-        var mapData = [
+        let mapData = [
             {
                 'latitude': 30.657689,
                 'longitude': 104.080989,
@@ -129,15 +111,16 @@
                 'name': '郫都区公交总站<br>地址：成都市郫都区解放路309号',
                 'value': 10,
                 'color': '#ECEA1F'
-            },//郫都区公交总站
+            }//郫都区公交总站
 
         ]
 
-        var dom = document.getElementById("map");
+        let dom = document.getElementById("map");
         console.log(dom);
-        var myChart = echarts.init(dom);
+        console.log(echarts)
+        let myChart = echarts.init(dom);
         console.log(myChart)
-        var option1 = null;
+        let option1 = null;
         myChart.showLoading(); //加载动画
 
         $.get('static/json/chengdu.json', function (result) {

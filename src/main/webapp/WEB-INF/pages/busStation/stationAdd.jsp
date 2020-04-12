@@ -42,7 +42,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script>
     layui.use('laydate', function(){
-        var laydate = layui.laydate;
+        let laydate = layui.laydate;
 
         //执行一个laydate实例
         laydate.render({
@@ -54,7 +54,7 @@
 <script>
 
     layui.use(['form','layer','layedit','laydate','upload'],function(){
-        var form = layui.form
+        let form = layui.form
         layer = parent.layer === undefined ? layui.layer : top.layer,
             laypage = layui.laypage,
             upload = layui.upload,
@@ -74,11 +74,11 @@
                 }
             }
         })
-        var staString = "" ;
+        let staString = "" ;
 		//获取下拉框的值
 
             form.on("select",function (data) {
-                var sta = parseInt(data.value);
+                let sta = parseInt(data.value);
                 staString =staString+sta +",";
                 $("#showSta").append(data.elem[data.elem.selectedIndex].text+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                 console.log(staString);
@@ -86,7 +86,7 @@
 
         form.on("submit(addStation)",function(data){
             //弹出loading
-            var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+            let index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
             // 实际使用时的提交信息
             $.post("/BusStation/addStation",{
                 staName : $(".staName").val(),  //文章标题

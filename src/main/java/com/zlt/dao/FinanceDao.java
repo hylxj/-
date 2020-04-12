@@ -1,9 +1,11 @@
 package com.zlt.dao;
 
 import com.zlt.pojo.Expense;
+import com.zlt.pojo.FundOut;
 import com.zlt.pojo.Income;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FinanceDao {
     /**
@@ -80,4 +82,12 @@ public interface FinanceDao {
      * 删除支出表数据
      */
     void expenseDel(Integer id);
+
+    void insertOutFund(FundOut fundOut);
+    /**
+     * @Description: 查询支出的详情
+     * @Param: [fundId]
+     * @Return: java.util.Map<java.lang.String,java.lang.String>
+    **/
+    Map<String, Object> fundDetail(String fundId);
 }

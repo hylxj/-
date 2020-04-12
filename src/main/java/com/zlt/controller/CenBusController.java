@@ -17,8 +17,11 @@ import java.util.List;
 
 @Controller
 public class CenBusController {
-    @Autowired
-    private CenBusService cenBusService;
+    private final CenBusService cenBusService;
+
+    public CenBusController(CenBusService cenBusService) {
+        this.cenBusService = cenBusService;
+    }
 
     /**
      * 请求锦江页面

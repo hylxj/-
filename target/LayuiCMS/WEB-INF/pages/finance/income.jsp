@@ -43,20 +43,20 @@
 <script type="text/javascript">
 	/*date转字符串*/
 	function formatDate(date) {
-		var y = date.getFullYear();
-		var m = date.getMonth() + 1;
+		let y = date.getFullYear();
+		let m = date.getMonth() + 1;
 		m = m < 10 ? ('0' + m) : m;
-		var d = date.getDate();
+		let d = date.getDate();
 		d = d < 10 ? ('0' + d) : d;
-		// var h = date.getHours();
-		// var minute = date.getMinutes();
+		// let h = date.getHours();
+		// let minute = date.getMinutes();
 		// minute = minute < 10 ? ('0' + minute) : minute;
-		// var second= date.getSeconds();
+		// let second= date.getSeconds();
 		// second = minute < 10 ? ('0' + second) : second;
 		return y + '-' + m + '-' + d/*+' '+h+':'+minute+':'+ second*/;
 	}
 	layui.use(['form','layer','laydate','table','laytpl'],function(){
-		var form = layui.form,
+		let form = layui.form,
 				layer = parent.layer === undefined ? layui.layer : top.layer,
 				$ = layui.jquery,
 				laydate = layui.laydate,
@@ -64,7 +64,7 @@
 				table = layui.table;
 
 		//信息列表
-		var tableIns = table.render({
+		let tableIns = table.render({
 			elem: '#newsList',
 			url : 'income',
 			page : true,
@@ -74,15 +74,15 @@
 			id : "newsListTable",
 			cols : [[
 				{type: "checkbox", fixed:"left", width:50},
-				{field: 'incomeId', title: 'ID', width:60, align:"center"},
+				{field: 'incomeId', title: 'ID',hide:true, width:60, align:"center"},
 				{field: 'busPlate', title: '车牌号', align:'center'},
 				{field: 'incomeTime', title: '车辆收入结算时间', align:'center',templet:function (d) {
 						return formatDate(new Date(d.incomeTime));
 					}},
-				{field: 'incomeCash', title: '现金收入',  align:'center'},
-				{field: 'incomeOnline', title: '线上收入', align:'center'},
-				{field: 'incomeCard', title: '刷卡收入', align:'center'},
-				{field: 'incomedayTotal', title: '每日总额', align:'center'},
+				{field: 'incomeCash', title: '现金收入(元)',  align:'center'},
+				{field: 'incomeOnline', title: '线上收入(元)', align:'center'},
+				{field: 'incomeCard', title: '刷卡收入(元)', align:'center'},
+				{field: 'incomedayTotal', title: '每日总额(元)', align:'center'},
 				{title: '操作', width:170, templet:'#newsListBar',fixed:"right",align:"center"}
 			]]
 		});
@@ -106,12 +106,12 @@
 
 		//添加收入信息
 		function addNews(edit){
-			var index = layui.layer.open({
+			let index = layui.layer.open({
 				title : "添加收入信息",
 				type : 2,
 				content : "/incomeAddPage",
 				success : function(layero, index){
-					// var body = layui.layer.getChildFrame('body', index);
+					// let body = layui.layer.getChildFrame('body', index);
 					// if(edit){
 					// 	body.find(".newsName").val(edit.newsName);
 					// 	body.find(".abstract").val(edit.abstract);
@@ -141,11 +141,11 @@
 
 		//批量删除
 		$(".delAll_btn").click(function(){
-			var checkStatus = table.checkStatus('newsListTable'),
+			let checkStatus = table.checkStatus('newsListTable'),
 					data = checkStatus.data,
 					newsId = [];
 			if(data.length > 0) {
-				for (var i in data) {
+				for (let i in data) {
 					newsId.push(data[i].incomeId);
 				}
 				layer.confirm('确定删除选中的信息？', {icon: 3, title: '提示信息'}, function (index) {
@@ -163,16 +163,16 @@
 
 		//列表操作
 		table.on('tool(newsList)', function(obj){
-			var layEvent = obj.event,
+			let layEvent = obj.event,
 					data = obj.data;
 
 			if(layEvent === 'edit'){ //编辑
-				var index = layui.layer.open({
+				let index = layui.layer.open({
 					title : "编辑收入信息",
 					type : 2,
 					content : "/incomeUpdatePage?id="+data.incomeId,
 					success : function(layero, index) {
-						// var body = layui.layer.getChildFrame('body', index);
+						// let body = layui.layer.getChildFrame('body', index);
 						// if(edit){
 						// 	body.find(".newsName").val(edit.newsName);
 						// 	body.find(".abstract").val(edit.abstract);

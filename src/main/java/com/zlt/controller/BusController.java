@@ -32,9 +32,11 @@ import java.util.Map;
 @Controller
 @RequestMapping("bus")
 public class BusController {
-    @Autowired
-    private BusService busService;
+    private final BusService busService;
 
+    public BusController(BusService busService) {
+        this.busService = busService;
+    }
     //返回公交车数据列表页面
     @RequestMapping("/tablePage")
     public String tablePage() {
@@ -55,8 +57,6 @@ public class BusController {
         List<IdAndName> driverName = busService.findDriverName();
         List<IdAndName> lineName = busService.findLineName();
         ModelAndView mv = new ModelAndView("bus/busAdd");
-        System.out.println(driverName.toString());
-        System.out.println(lineName.toString());
         mv.addObject("driverName", driverName);
         mv.addObject("lineName", lineName);
         return mv;
@@ -92,10 +92,10 @@ public class BusController {
         //捕获异常，有异常则删除失败，无异常删除成功
         try {
             busService.delBus(busId);
-            return new ResultData(200, "添加成功");
+            return new ResultData(200, "删除成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultData(3000, "添加失败");
+            return new ResultData(3000, "删除失败");
         }
 
     }
@@ -117,8 +117,24 @@ public class BusController {
     //修改车辆信息返回的页面数据
     @RequestMapping("/editPage")
     public ModelAndView editPage(int id) {
-        Bus bus = busService.findByBusId(id);
+        List<IdAndName> driverName = busService.findDriverName();
+        List<IdAndName> lineName = busService.findLineName();
         ModelAndView mv = new ModelAndView("bus/editBus");
+        mv.addObject("driverName", driverName);
+        mv.addObject("lineName", lineName);
+        Bus bus = busService.findByBusId(id);
+        mv.addObject("bus", bus);
+        return mv;
+    }
+    //修改车辆信息返回的页面数据
+    @RequestMapping("/fixPage")
+    public ModelAndView fixPage(int id) {
+        List<IdAndName> driverName = busService.findDriverName();
+        List<IdAndName> lineName = busService.findLineName();
+        ModelAndView mv = new ModelAndView("bus/fixBus");
+        mv.addObject("driverName", driverName);
+        mv.addObject("lineName", lineName);
+        Bus bus = busService.findByBusId(id);
         mv.addObject("bus", bus);
         return mv;
     }
@@ -128,6 +144,13 @@ public class BusController {
     @ResponseBody
     public ResultData updateBus(Bus bus) {
         busService.updateBus(bus);
+        return new ResultData(200, "修改成功");
+    }
+    //报修车辆信息的保存
+    @RequestMapping("/fixBusInfo")
+    @ResponseBody
+    public ResultData fixBusInfo(@RequestParam(value = "busId") int busId,@RequestParam(value = "busFixReason") String busFixReason) {
+        busService.fixBus(busId,busFixReason);
         return new ResultData(200, "修改成功");
     }
 
@@ -199,4 +222,6 @@ public class BusController {
         }
         return  new ResultData(200,"ok",idAndName);
     }
+
+
 }

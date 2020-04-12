@@ -71,7 +71,7 @@
 		<div class="layui-input-block">
 			<select name="busCen" class="busCen" lay-filter="busCen">
 				<option value="0" ${user.belongId==0?"selected":""}>超级管理员</option>
-				<c:forEach items="${busCens}" var="busCen">
+				<c:forEach items="${busCens}" let="busCen">
 					<option value="${busCen.id}" ${user.belongId==busCen.id?"selected":""}>${busCen.title}</option>
 				</c:forEach>
 			</select>
@@ -93,7 +93,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script type="text/javascript">
 	layui.use(['form','layer','laydate'],function(){
-		var form = layui.form,
+		let form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : top.layer,
 		$ = layui.jquery,
 		laydate=layui.laydate;
@@ -103,7 +103,7 @@
 		});
 		form.on("submit(editUser)",function(data){
 			//弹出loading
-			var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+			let index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
 			// 实际使用时的提交信息
 			$.post("/user/userEdit",{
 				id:${user.id},
@@ -138,8 +138,8 @@
 			}
 		}
 		//定时发布
-		var time = new Date();
-		var submitTime = time.getFullYear()+'-'+filterTime(time.getMonth()+1)+'-'+filterTime(time.getDate())+' '+filterTime(time.getHours())+':'+filterTime(time.getMinutes())+':'+filterTime(time.getSeconds());
+		let time = new Date();
+		let submitTime = time.getFullYear()+'-'+filterTime(time.getMonth()+1)+'-'+filterTime(time.getDate())+' '+filterTime(time.getHours())+':'+filterTime(time.getMinutes())+':'+filterTime(time.getSeconds());
 
 	})
 </script>
