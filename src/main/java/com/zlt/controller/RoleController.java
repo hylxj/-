@@ -1,11 +1,9 @@
 package com.zlt.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.zlt.dao.MenuDao;
 import com.zlt.dao.UserDao;
-import com.zlt.pojo.ResultData;
-import com.zlt.pojo.ResultTable;
-import com.zlt.pojo.Role;
-import com.zlt.pojo.User;
+import com.zlt.pojo.*;
 import com.zlt.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author huangyu
@@ -23,10 +22,14 @@ import java.util.List;
 @Controller
 @RequestMapping("/role")
 public class RoleController {
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private UserDao userDao;
+    private final RoleService roleService;
+    private final UserDao userDao;
+    private final MenuDao menuDao;
+    public RoleController(RoleService roleService, UserDao userDao, MenuDao menuDao) {
+        this.roleService = roleService;
+        this.userDao = userDao;
+        this.menuDao = menuDao;
+    }
 
     @RequestMapping("/roleListPage")
     public String roleListPage(){
@@ -100,34 +103,54 @@ public class RoleController {
         }
         return new ResultData(200,"角色添加成功");
     }
-    @RequestMapping("/roleUserPage")
-    public String roleUserPage(Integer roleId,Model model){
+    /**
+     * @Description: 添加菜单页面
+     * @Param: [roleId, model]
+     * @Return: java.lang.String
+     **/
+    @RequestMapping("/roleMeanAddPage")
+    public String roleMeanAddPage(Integer roleId,Model model) {
+        List<Menu> menus=menuDao.findAllMenu();
+        model.addAttribute("roleId", roleId);
+        model.addAttribute("menus", menus);
+        return "/role/roleMeanAdd";
+    }
+        /**
+         * @Description: 角色菜单页面
+         * @Param: [roleId, model]
+         * @Return: java.lang.String
+        **/
+    @RequestMapping("/roleMeanPage")
+    public String roleMeanPage(Integer roleId,Model model){
         model.addAttribute("roleId",roleId);
-        return "/role/roleUserList";
+        return "/role/roleMeanList";
     }
-    @RequestMapping("/roleUserList")
+    /**
+     * @Description: 角色菜单列表
+     * @Param: [id]
+     * @Return: com.zlt.pojo.ResultTable
+    **/
+    @RequestMapping("/roleMeanList")
     @ResponseBody
-    public ResultTable roleUserList(Integer roleId){
-        List<User> users=roleService.findUserByRoleId(roleId);
-        return new ResultTable(0,"",users.size(),users);
+    public ResultTable roleUserList(Integer page,Integer limit,Integer roleId){
+        PageInfo<Menu> pageInfo=roleService.findMeanByRoleId(page, limit, roleId);
+
+        if (pageInfo.getTotal()>0){
+            return new ResultTable(0,"",(int)pageInfo.getTotal(),pageInfo.getList());
+        }
+        return new ResultTable(6001,"没有找到数据");
     }
-    @RequestMapping("/deleteUserByRoleId")
+    @RequestMapping("/deleteMeanByRoleId")
     @ResponseBody
-    public ResultData deleteUserByRoleId(Integer roleId,Integer userId){
-        roleService.deleteUserByRoleId(roleId,userId);
+    public ResultData deleteMeanByRoleId(Integer roleId,Integer menuId){
+        roleService.deleteMeanByRoleId(roleId,menuId);
         return new ResultData(200,"取消授权成功");
     }
-    @RequestMapping("/roleUserAddPage")
-    public String roleUserAddPage(Integer roleId,Model model){
-        List<User> users = userDao.findAllUser();
-        model.addAttribute("roleId",roleId);
-        model.addAttribute("users",users);
-        return "/role/roleUserAdd";
-    }
-    @RequestMapping("/roleUserAdd")
+
+    @RequestMapping("/roleMenuAdd")
     @ResponseBody
-    public ResultData roleUserAdd(Integer userId,Integer roleId){
-        roleService.insertRoleUser(roleId,userId);
-        return new ResultData(200,"添加用户成功");
+    public ResultData roleMenuAdd(Integer menuId,Integer roleId){
+        roleService.insertRoleMean(roleId,menuId);
+        return new ResultData(200,"添加菜单成功");
     }
 }

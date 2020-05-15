@@ -33,7 +33,7 @@
 	<!--操作-->
 	<script type="text/html" id="roleListBar">
 		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-		<a class="layui-btn layui-btn-xs layui-btn-green" lay-event="distributed">已分配用户</a>
+		<a class="layui-btn layui-btn-xs layui-btn-green" lay-event="distributed">已分配菜单</a>
 		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
 	</script>
 </form>
@@ -158,11 +158,11 @@
                         layer.close(index);
 					})
 				});
-			}else if(layEvent === 'distributed'){ //删除
+			}else if(layEvent === 'distributed'){
 				let index = layui.layer.open({
-					title : "已分配用户",
+					title : "已分配菜单",
 					type : 2,
-					content : "/role/roleUserPage?roleId="+data.roleId,
+					content : "/role/roleMeanPage?roleId="+data.roleId,
 					success : function(){
 						setTimeout(function(){
 							layui.layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {

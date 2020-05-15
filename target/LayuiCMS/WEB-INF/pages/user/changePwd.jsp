@@ -65,7 +65,8 @@
 				username:"${username}",
 				password:$(this).val()
 			},function (data) {
-				if(data.code===200){
+                console.log(data);
+                if(data.code===200){
 					bool=true;
 				}
 			});
@@ -95,15 +96,15 @@
 				username : "${username}",  //登录名
 				password:$('#newPwd').val()
 			},function(res){
-				top.layer.close(index);
-				if (res.code===200){
-					top.layer.msg(res.msg);
-				}else {
-					top.layer.msg(res.msg);
-				}
-				layer.closeAll("iframe");
-				//刷新父页面
-				parent.location.reload();
+                layer.msg(res.msg, {
+                    icon: 1,
+                    time: 1000
+                }, function(){
+                    layer.closeAll("iframe");
+                    //刷新父页面
+                    parent.location.reload();
+                });
+
 			});
 			return false;
 		});

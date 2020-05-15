@@ -91,17 +91,15 @@
             $.post("/BusStation/addStation",{
                 staName : $(".staName").val(),  //文章标题
             },function(res){
-                setTimeout(function(){
-                    if(res.code==200){
-                        top.layer.msg(res.msg);
-                    }else{
-                        top.layer.msg(res.msg);
-                    }
+                    layer.msg(res.msg, {
+                        icon: 1,
+                        time: 6000
+                    }, function(){
+                        layer.closeAll("iframe");
+                        //刷新父页面
+                        parent.location.reload();
+                    });
                     top.layer.close(index);
-                    layer.closeAll("iframe");
-                    //刷新父页面
-                    parent.location.reload();
-                },500);
             })
 	            return false;
         })

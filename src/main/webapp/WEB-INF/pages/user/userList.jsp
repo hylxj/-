@@ -51,6 +51,7 @@
 	<!--操作-->
 	<script type="text/html" id="userListBar">
 		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs layui-btn-green" lay-event="distributed">已分配角色</a>
         <shiro:hasRole name="admin">
             <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
         </shiro:hasRole>
@@ -169,7 +170,7 @@
 			id : "userListTable",
 			cols : [[
 				{type: "checkbox", fixed:"left", width:50},
-				{field: 'id', title: 'ID', align:"center",width:50},
+				{field: 'id', title: 'ID', align:"center",hide:true,width:50},
 				{field: 'username', title: '用户名称',align:'center'},
 				{field: 'userDesc',width:200, title: '用户描述', align:'center'},
 				{field: 'locked', title: '是否锁定', align:'center', templet:function(d){
@@ -196,7 +197,7 @@
 				{field:'phone',title:'电话',minWidth:150,align:'center'},
 				{field:'type',title:'员工类型',align:'center'},
 				{field:'belongId',title:'所属总站',align:'center'},
-				{title: '操作', width:120, templet:'#userListBar',fixed:"right",align:"center"}
+				{title: '操作', width:200, templet:'#userListBar',fixed:"right",align:"center"}
 			]]
 		});
 		//是否锁定
@@ -315,7 +316,25 @@
                         layer.close(index);
 					})
 				});
-			}
+			}else if(layEvent === 'distributed'){
+                let index = layui.layer.open({
+                    title : "已分配角色",
+                    type : 2,
+                    content : "/user/roleUserPage?id="+data.id,
+                    success : function(){
+                        setTimeout(function(){
+                            layui.layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {
+                                tips: 3
+                            });
+                        },500)
+                    }
+                })
+                layui.layer.full(index);
+                //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+                $(window).on("resize",function(){
+                    layui.layer.full(index);
+                })
+            }
 		});
 
 	})

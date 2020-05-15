@@ -124,17 +124,16 @@
                 fixMoney:$(".fixMoney").val(),
 
             },function(res){
-                setTimeout(function(){
-                    if(res.code==200){
-                        top.layer.msg("修改数据成功！");
-                    }else{
-                        top.layer.msg("修改数据失败！");
-                    }
-                    top.layer.close(index);
+
+                layer.msg("维修车辆成功", {
+                    icon: 1,
+                    time: 5000
+                }, function(){
                     layer.closeAll("iframe");
                     //刷新父页面
                     parent.location.reload();
-                },500);
+                });
+                top.layer.close(index);
             })
 
             return false;

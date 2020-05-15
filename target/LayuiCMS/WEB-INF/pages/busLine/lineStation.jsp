@@ -20,7 +20,7 @@
 <h2 id="lineName" style="margin-left: 80px;color:deepskyblue;padding: 10px">${lineStaList[1].lineName}</h2>
 <div style="width: 20%;" class="layui-show-lg-inline-block">
 	<ul class="layui-timeline" style="width: 280px">
-		<c:forEach items="${lineStaList}" let="sta" >
+		<c:forEach items="${lineStaList}" var="sta" >
 			<li class="layui-timeline-item" style="width: 250px">
 				<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
 				<div class="layui-timeline-content layui-text">

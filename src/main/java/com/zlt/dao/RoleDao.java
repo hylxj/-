@@ -1,10 +1,12 @@
 package com.zlt.dao;
 
+import com.zlt.pojo.Menu;
 import com.zlt.pojo.Role;
 import com.zlt.pojo.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author huangyu
@@ -24,9 +26,15 @@ public interface RoleDao {
 
     Role findRoleById(Integer roleId);
 
-    List<User> findUserByRoleId(Integer roleId);
+    List<Role> findUserByRoleId(Integer roleId);
 
-    void deleteUserByRoleId(@Param("roleId") Integer roleId,@Param("userId") Integer userId);
+    void deleteUserByRoleId(@Param("userId") Integer userId,@Param("roleId") Integer roleId);
 
     void insertRoleUser(@Param("roleId") Integer roleId,@Param("userId") Integer userId);
+
+    List<Menu> findMeanByRoleId(Integer id);
+
+    void insertRoleMean(@Param("roleId") Integer roleId,@Param("menuId") Integer menuId);
+
+    void deleteMeanByRoleId(@Param("roleId") Integer roleId,@Param("menuId") Integer menuId);
 }

@@ -4,7 +4,9 @@ import com.github.pagehelper.PageInfo;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.zlt.dao.RoleDao;
+import com.zlt.dao.UserDao;
 import com.zlt.pojo.*;
+import com.zlt.service.RoleService;
 import com.zlt.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
@@ -36,10 +38,13 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
     private final RoleDao roleDao;
-
-    public UserController(UserService userService, RoleDao roleDao) {
+    private final RoleService roleService;
+    private final UserDao userDao;
+    public UserController(UserService userService, RoleDao roleDao, RoleService roleService, UserDao userDao) {
         this.userService = userService;
         this.roleDao = roleDao;
+        this.roleService = roleService;
+        this.userDao = userDao;
     }
 
     @RequiresRoles(value = {"admin","gxadmin","sladmin"},logical = Logical.OR)
@@ -90,7 +95,51 @@ public class UserController {
         mv.setViewName("user/userAdd");
         return mv;
     }
-
+    @RequestMapping("/roleUserPage")
+    public String roleUserPage(Integer id,Model model){
+        model.addAttribute("id",id);
+        return "/user/roleUserList";
+    }
+    @RequestMapping("/roleUserList")
+    @ResponseBody
+    public ResultTable roleUserList(Integer id){
+        List<Role> roles=roleService.findUserByRoleId(id);
+        return new ResultTable(0,"",roles.size(),roles);
+    }
+    /**
+     * @Description: 删除该用户拥有的角色
+     * @Param: [roleId, userId]
+     * @Return: com.zlt.pojo.ResultData
+    **/
+    @RequestMapping("/deleteUserByRoleId")
+    @ResponseBody
+    public ResultData deleteUserByRoleId(Integer roleId,Integer userId){
+        roleService.deleteUserByRoleId(roleId,userId);
+        return new ResultData(200,"删除角色成功");
+    }
+    /**
+     * @Description: 添加角色页面
+     * @Param: [roleId, model]
+     * @Return: java.lang.String
+    **/
+    @RequestMapping("/roleUserAddPage")
+    public String roleUserAddPage(Integer userId,Model model){
+        List<Role> roles= roleDao.findAllRole();
+        model.addAttribute("userId",userId);
+        model.addAttribute("roles",roles);
+        return "/user/roleUserAdd";
+    }
+    /**
+     * @Description: 为用户添加角色
+     * @Param: [userId, roleId]
+     * @Return: com.zlt.pojo.ResultData
+    **/
+    @RequestMapping("/roleUserAdd")
+    @ResponseBody
+    public ResultData roleUserAdd(Integer userId,Integer roleId){
+        roleService.insertRoleUser(roleId,userId);
+        return new ResultData(200,"添加角色成功");
+    }
     /**
      * 添加用户
      *

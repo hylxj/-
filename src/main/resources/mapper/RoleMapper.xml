@@ -25,8 +25,11 @@
     <select id="findRoleById" parameterType="int" resultType="Role">
         select * from role where roleId=#{roleId} and available=1
     </select>
-    <select id="findUserByRoleId" parameterType="int" resultType="User">
-        select `user`.* from `user`,userrole where `user`.id=userId and roleId=#{roleId} and `user`.userStatus!=4
+    <select id="findUserByRoleId" parameterType="int" resultType="Role">
+        select a.*
+        from role a
+        left join userrole b on a.roleId = b.roleId
+        where b.userId = #{id} and a.available =1
     </select>
     <delete id="deleteUserByRoleId">
         delete from userrole where userId=#{userId} and roleId=#{roleId}
@@ -34,4 +37,16 @@
     <insert id="insertRoleUser">
         insert into userrole(userId, roleId) values(#{userId},#{roleId})
     </insert>
+    <select id="findMeanByRoleId" parameterType="int" resultType="Menu">
+        select b.* from rolemenu a
+         left join menu b on a.menuId =  b.menuId
+         where a.roleId = #{roleId}
+         and b.available = 1
+    </select>
+    <insert id="insertRoleMean">
+        insert into rolemenu(roleId, menuId) value (#{roleId},#{menuId})
+    </insert>
+    <delete id="deleteMeanByRoleId">
+        delete  from rolemenu where roleId = #{roleId} and menuId = #{menuId}
+    </delete>
 </mapper>

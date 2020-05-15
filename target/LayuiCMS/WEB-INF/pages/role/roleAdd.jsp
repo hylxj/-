@@ -61,14 +61,15 @@
                 available: data.field.available    //角色状态
             }, function (res) {
                 top.layer.close(index);
-                if (res.code === 200) {
-                    top.layer.msg(res.msg);
-                } else {
-                    top.layer.msg(res.msg);
-                }
-                layer.closeAll("iframe");
-                //刷新父页面
-                parent.location.reload();
+
+                layer.msg(res.msg, {
+                    icon: 1,
+                    time: 6000
+                }, function(){
+                    layer.closeAll("iframe");
+                    //刷新父页面
+                    parent.location.reload();
+                });
             });
             return false;
         });

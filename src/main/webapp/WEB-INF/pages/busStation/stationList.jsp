@@ -166,7 +166,7 @@
                     busIds.push(data[i].busId);
 				}
 				alert(busIds);
-				layer.confirm('确定删除选中的线路？', {icon: 3, title: '提示信息'}, function (index) {
+				layer.confirm('确定删除选中的站点？', {icon: 3, title: '提示信息'}, function (index) {
 					$.get("/busLine/delAll",{
                         ids : busIds  //将需要删除的newsId作为参数传入
 					},function(data){
@@ -203,7 +203,7 @@
                     layui.layer.full(index);
                 })
 			} else if(layEvent === 'del'){ //删除
-				layer.confirm('确定删除此线路？',{icon:3, title:'提示信息'},function(index){
+				layer.confirm('确定删除此站点？',{icon:3, title:'提示信息'},function(index){
 					$.get("/BusStation/del",{
                         staId : data.staId  //将需要删除的newsId作为参数传入
 					},function(data){

@@ -3,6 +3,7 @@ package com.zlt.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zlt.dao.RoleDao;
+import com.zlt.pojo.Menu;
 import com.zlt.pojo.ResultData;
 import com.zlt.pojo.Role;
 import com.zlt.pojo.User;
@@ -12,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author huangyu
@@ -67,17 +69,46 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<User> findUserByRoleId(Integer roleId) {
-        return roleDao.findUserByRoleId(roleId);
+    public List<Role> findUserByRoleId(Integer id) {
+        return roleDao.findUserByRoleId(id);
     }
 
     @Override
-    public void deleteUserByRoleId(Integer roleId, Integer userId) {
+    public void deleteUserByRoleId(Integer userId, Integer roleId) {
         roleDao.deleteUserByRoleId(roleId,userId);
     }
 
     @Override
     public void insertRoleUser(Integer roleId, Integer userId) {
         roleDao.insertRoleUser(roleId,userId);
+    }
+    /**
+     * @Description: 通过roleId 来查找meanList
+     * @Param: [id]
+     * @Return: java.util.List<com.zlt.pojo.Menu>
+    **/
+    @Override
+    public PageInfo<Menu> findMeanByRoleId(Integer page, Integer limit,Integer id) {
+        PageHelper.startPage(page,limit);
+        List<Menu> menus = roleDao.findMeanByRoleId(id);
+        return new PageInfo<Menu>(menus);
+    }
+    /**
+     * @Description:  添加角色菜单
+     * @Param: [roleId, meunId]
+     * @Return: void
+    **/
+    @Override
+    public void insertRoleMean(Integer roleId, Integer meunId) {
+        roleDao.insertRoleMean(roleId,meunId);
+    }
+    /**
+     * @Description: 删除该角色的菜单
+     * @Param: [roleId, menuId]
+     * @Return: void
+    **/
+    @Override
+    public void deleteMeanByRoleId(Integer roleId, Integer menuId) {
+        roleDao.deleteMeanByRoleId(roleId,menuId);
     }
 }

@@ -71,7 +71,7 @@
 		<div class="layui-input-block">
 			<select name="busCen" class="busCen" lay-filter="busCen">
 				<option value="0" ${user.belongId==0?"selected":""}>超级管理员</option>
-				<c:forEach items="${busCens}" let="busCen">
+				<c:forEach items="${busCens}" var="busCen">
 					<option value="${busCen.id}" ${user.belongId==busCen.id?"selected":""}>${busCen.title}</option>
 				</c:forEach>
 			</select>

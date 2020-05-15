@@ -33,7 +33,7 @@
 	<!--操作-->
 	<script type="text/html" id="menuListBar">
 		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-		<a class="layui-btn layui-btn-xs layui-btn-green" lay-event="distributed">已分配角色</a>
+<%--		<a class="layui-btn layui-btn-xs layui-btn-green" lay-event="distributed">已分配角色</a>--%>
 		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
 	</script>
 </form>

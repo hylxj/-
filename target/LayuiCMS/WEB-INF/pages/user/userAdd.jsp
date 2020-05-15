@@ -25,7 +25,7 @@
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">初始密码</label>
 		<div class="layui-input-block">
-			<input type="password" class="layui-input password" lay-verify="password" placeholder="请输入初始密码">
+			<input type="password" class="layui-input password" lay-verify="required" placeholder="请输入初始密码">
 		</div>
 	</div>
 	<div class="layui-form-item layui-row layui-col-xs12">
@@ -120,14 +120,16 @@
 			    userDesc : $(".userDesc").val()   //用户简介
 			},function(res){
 				top.layer.close(index);
-				if (res.code===200){
-					top.layer.msg(res.msg);
-				}else {
-					top.layer.msg(res.msg);
-				}
-				layer.closeAll("iframe");
-				//刷新父页面
-				parent.location.reload();
+
+                layer.msg(res.msg, {
+                    icon: 1,
+                    time: 5000
+                }, function(){
+                    layer.closeAll("iframe");
+                    //刷新父页面
+                    parent.location.reload();
+                });
+
 			});
 			return false;
 		});

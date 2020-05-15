@@ -1,11 +1,13 @@
 package com.zlt.service;
 
 import com.github.pagehelper.PageInfo;
+import com.zlt.pojo.Menu;
 import com.zlt.pojo.ResultData;
 import com.zlt.pojo.Role;
 import com.zlt.pojo.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author huangyu
@@ -27,9 +29,15 @@ public interface RoleService {
 
     void roleAdd(Role role);
 
-    List<User> findUserByRoleId(Integer roleId);
+    List<Role> findUserByRoleId(Integer roleId);
 
-    void deleteUserByRoleId(Integer roleId, Integer userId);
+    void deleteUserByRoleId(Integer userId, Integer roleId);
 
     void insertRoleUser(Integer roleId, Integer userId);
+
+    PageInfo<Menu> findMeanByRoleId(Integer page, Integer limit,Integer id);
+
+    void insertRoleMean(Integer roleId, Integer meunId);
+
+    void deleteMeanByRoleId(Integer roleId, Integer menuId);
 }
