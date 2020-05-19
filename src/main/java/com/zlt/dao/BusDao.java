@@ -64,4 +64,10 @@ public interface BusDao {
      * @Return: java.util.List<java.util.Map>
     **/
     List<Map> fixLogList();
+    /**
+     * @Description: 查询需要导出的车辆信息
+     * @Param: [busIds]
+     * @Return: java.util.List<com.zlt.pojo.BusLineDriver>
+    **/
+    List<BusLineDriver> findExportBus(long[] busIds);
 }

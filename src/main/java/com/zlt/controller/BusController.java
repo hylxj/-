@@ -6,6 +6,7 @@ import com.zlt.service.BusService;
 import com.zlt.utils.ExcelUtil;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +32,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("bus")
+@SuppressWarnings("all")
 public class BusController {
     private final BusService busService;
 
@@ -184,9 +186,14 @@ public class BusController {
 
     //excel数据的导出
     @RequestMapping("/excelExport")
-    public void excelExport(HttpServletResponse response) throws IOException {
+    public void excelExport(HttpServletResponse response, @RequestParam("ids") String ids) throws IOException {
         //获取公交车数据
-        List<BusLineDriver> list = busService.getBusList();
+        String[] split = ids.split(",");
+        long [] ids1 = new long [split.length];
+        for (int i = 0; i < split.length; i++) {
+            ids1[i] = Long.parseLong(split[i]);
+        }
+        List<BusLineDriver> list = busService.getExportBus(ids1);
         //创建导出工具
         Workbook workbook = ExcelUtil.exportExcel(list);
         //告诉浏览器需要下载文件

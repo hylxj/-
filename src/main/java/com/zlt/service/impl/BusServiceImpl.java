@@ -156,6 +156,11 @@ public class BusServiceImpl implements BusService {
         return new TableData(0,"查询数据成功",(int)pageInfo.getTotal(),pageInfo.getList());
     }
 
+    @Override
+    public List<BusLineDriver> getExportBus(long [] busIds) {
+        return busDao.findExportBus(busIds);
+    }
+
     //找到驾驶员的ID和名字
     @Override
     public List<IdAndName> findAllIdAndName() {

@@ -17,8 +17,11 @@ import java.util.List;
 
 @Controller
 public class BusDriverController {
-    @Autowired
-    private BusDriverService busDriverService;
+    private final BusDriverService busDriverService;
+
+    public BusDriverController(BusDriverService busDriverService) {
+        this.busDriverService = busDriverService;
+    }
 
     /**
      * 请求司机信息页面

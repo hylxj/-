@@ -63,4 +63,10 @@ public interface BusService {
      * @Return: com.zlt.pojo.TableData
     **/
     TableData fixLogList(int page, int limit);
+    /**
+     * @Description: 获取导出的车辆信息
+     * @Param: []
+     * @Return: java.util.List<com.zlt.pojo.BusLineDriver>
+    **/
+    List<BusLineDriver> getExportBus(long [] busIds);
 }

@@ -108,12 +108,10 @@ public class ExcelUtil {
         // 依次创建列
         row.createCell(0).setCellValue("车牌号");
         row.createCell(1).setCellValue("公交车名称");
-        row.createCell(2).setCellValue("驾驶员id");
-        row.createCell(3).setCellValue("驾驶员");
-        row.createCell(4).setCellValue("线路id");
-        row.createCell(5).setCellValue("线路");
-        row.createCell(6).setCellValue("公交车服役时间");
-        row.createCell(7).setCellValue("公交车的状态");
+        row.createCell(2).setCellValue("驾驶员");
+        row.createCell(3).setCellValue("线路");
+        row.createCell(4).setCellValue("公交车服役时间");
+        row.createCell(5).setCellValue("公交车的状态");
         // 遍历数据创建对应的行
         int create = 1;
         for (BusLineDriver bus : busList) {
@@ -121,12 +119,10 @@ public class ExcelUtil {
             // 依次创建列
             row1.createCell(0).setCellValue(bus.getBusPlate());
             row1.createCell(1).setCellValue(bus.getBusName());
-            row1.createCell(2).setCellValue(bus.getBusdriverId());
-            row1.createCell(3).setCellValue(bus.getBusdriverName());
-            row1.createCell(4).setCellValue(bus.getBusLineId());
-            row1.createCell(5).setCellValue(bus.getLineName());
-            row1.createCell(6).setCellValue((new SimpleDateFormat("yyyy/MM/dd").format(bus.getBusCreatetime())));
-            row1.createCell(7).setCellValue(bus.getBusStatus() == 1 ? "正常" : "维修");
+            row1.createCell(2).setCellValue(bus.getBusdriverName());
+            row1.createCell(3).setCellValue(bus.getLineName());
+            row1.createCell(4).setCellValue((new SimpleDateFormat("yyyy/MM/dd").format(bus.getBusCreatetime())));
+            row1.createCell(5).setCellValue(bus.getBusStatus() == 1 ? "正常" : "维修");
             // 行数+1
             create++;
         }
