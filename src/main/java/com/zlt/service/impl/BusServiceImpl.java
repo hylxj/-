@@ -139,7 +139,7 @@ public class BusServiceImpl implements BusService {
         fundOut.setFundOutTime(new Date());
         fundOut.setOperator((String) sessionUser);
         fundOut.setStatus(1);
-        fundOut.setHarmId(fixId);
+        fundOut.setFixId(fixId);
         financeService.insertOutFund(fundOut);
         bus.setBusStatus(3);
         bus.setBusId(busId);
