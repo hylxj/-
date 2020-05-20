@@ -177,11 +177,15 @@ public class BusController {
         //数据导入
         FileInputStream inputStream = new FileInputStream(file2);
         List<List<String>> lists = ExcelUtil.parseExcel(inputStream);
+        String message = null;
         for (List<String> list : lists) {
-            Bus bus = new Bus(list.get(0), list.get(1), Integer.valueOf(list.get(2)), Integer.valueOf(list.get(4)), (new SimpleDateFormat("yyyy/MM/dd")).parse(list.get(6)), "正常".equals(list.get(7)) ? 1 : 2);
-            addBus(bus);
+            UploadBus bus = new UploadBus(list.get(0), list.get(1), list.get(2), list.get(3),(new SimpleDateFormat("yyyy/MM/dd")).parse(list.get(4)), "正常".equals(list.get(5)) ? 1 : 2);
+            message = busService.addUploadBus(bus);
+            if(!"导入成功".equals(message)){
+                break;
+            }
         }
-        return new ResultData(200, "上传成功");
+        return new ResultData(200, message);
     }
 
     //excel数据的导出

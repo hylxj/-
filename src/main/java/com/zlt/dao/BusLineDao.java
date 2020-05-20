@@ -7,6 +7,7 @@ import com.zlt.pojo.LineStaView;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 公交车线路管理
@@ -30,4 +31,10 @@ public interface BusLineDao {
     List<BusStation> findAllStation();
     //保存线路的站台
     void saveLineSta(List<LineSta> lineStas);
+    /**
+     * @Description: 根据线路名称查询ID
+     * @Param: [lineName]
+     * @Return: java.util.List<java.lang.Integer>
+    **/
+    Map<String,Integer> findIdByName(String lineName);
 }

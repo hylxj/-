@@ -3,6 +3,7 @@ package com.zlt.dao;
 import com.zlt.pojo.BusDriver;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BusDriverDao {
     /**
@@ -40,5 +41,10 @@ public interface BusDriverDao {
      * 删除数据
      */
     void driverDel(Integer id);
-
+    /**
+     * @Description: 通过司机姓名查询司机ID
+     * @Param: [busdriverName]
+     * @Return: void
+    **/
+    Map<String,Integer> findIdByname(String busdriverName);
 }

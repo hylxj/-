@@ -1,14 +1,14 @@
 {
 	"cmsName": "layuiCMS后台管理模版",
 	"version": "v2.0",
-	"author": "公交系统项目组",
+	"author": "黄宇",
 	"homePage": "index.jsp",
 	"server": "windows",
 	"dataBase": "8.00.2039",
 	"maxUpload": "2M",
 	"userRights": "超级管理员",
-	"description": "成都公共交通系统欢迎你",
-	"powerby": "copyright @2019 公交系统项目组",
+	"description": "公共交通信息系统欢迎你",
+	"powerby": "copyright @2020 黄宇",
 	"record": "京ICP备14040xxx号-1",
 	"keywords": "layuicms,马哥,layuicms2.0,后台模版,请叫我马哥,驊驊龔頾"
 }

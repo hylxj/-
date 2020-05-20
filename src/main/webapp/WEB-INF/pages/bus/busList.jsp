@@ -194,7 +194,7 @@
 				layer.msg("请选择需要删除的公交车");
 			}
 		})
-        // excel 数据导入
+        // excel 数据导出
         $(".exportData").click(function(){
             let checkStatus = table.checkStatus('newsListTable'),
                 data = checkStatus.data,
@@ -298,7 +298,8 @@
 			,url: '/bus/fileUpload' //上传接口
 			,accept: 'file'
 			,done: function(data){
-				layer.msg(data.msg,{icon:1});
+				data.msg=='导入成功' ? layer.msg(data.msg,{icon:1}) : layer.msg(data.msg,{icon:2})
+                tableIns.reload();
 			}
 			,error: function(){
 				layer.msg(data.msg,{icon:2});

@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>成都市公共交通信息管理平台</title>
+    <title>公共交通信息平台</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -154,7 +154,7 @@
         let second = dateObj.getSeconds(); //当前系统时间的秒钟值
         let timeValue = "" + ((hour >= 12) ? (hour >= 18) ? "晚上" : "下午" : "上午"); //当前时间属于上午、晚上还是下午
         newDate = dateFilter(year) + "年" + dateFilter(month) + "月" + dateFilter(date) + "日 " + " " + dateFilter(hour) + ":" + dateFilter(minute) + ":" + dateFilter(second);
-        document.getElementById("nowTime").innerHTML = "亲爱的${username}，" + timeValue + "好！ 欢迎使用成都市公共交通信息管理平台。当前时间为： " + newDate + "　" + week;
+        document.getElementById("nowTime").innerHTML = "亲爱的${username}，" + timeValue + "好！ 欢迎使用公共交通信息平台。当前时间为： " + newDate + "　" + week;
         setTimeout("getLangDate()", 1000);
     }
 

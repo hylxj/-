@@ -41,4 +41,12 @@
     <update id="driverDel" parameterType="com.zlt.pojo.BusDriver">
         update busdriver set driverStatus=2  where busdriverId=#{busdriverId}
     </update>
+    <select id="findIdByname" parameterType="string" resultType="java.util.Map">
+        select
+            a.busdriverId
+        from
+            busdriver a
+        where
+            a.busdriverName = #{name}
+    </select>
 </mapper>

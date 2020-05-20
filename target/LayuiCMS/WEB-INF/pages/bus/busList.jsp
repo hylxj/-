@@ -33,7 +33,7 @@
 				<button type="button" class="layui-btn" id="fileUpload">
 					<i class="layui-icon">&#xe67c;</i>Excel导入
 				</button>
-				<a class="layui-btn layui-btn-normal " href="/bus/excelExport" style="margin-left: 2px">Excel导出</a>
+				<a class="layui-btn layui-btn-normal exportData "  style="margin-left: 2px">Excel导出</a>
 			</div>
 		</form>
 	</blockquote>
@@ -194,7 +194,24 @@
 				layer.msg("请选择需要删除的公交车");
 			}
 		})
-
+        // excel 数据导出
+        $(".exportData").click(function(){
+            let checkStatus = table.checkStatus('newsListTable'),
+                data = checkStatus.data,
+                busIds = [];
+            if(data.length > 0) {
+                for (let i in data) {
+                    busIds.push(data[i].busId);
+                }
+                let ids = busIds.join()
+                layer.confirm('确定导出选中的车辆？', {icon: 3, title: '提示信息'}, function (index) {
+                    window.location.href = "/bus/excelExport?ids="+ids;
+                    layer.close(index);
+                })
+            }else{
+                layer.msg("请选择需要导出的公交车");
+            }
+        })
 		//列表操作
 		table.on('tool(newsList)', function(obj){
 			let layEvent = obj.event,
@@ -281,7 +298,8 @@
 			,url: '/bus/fileUpload' //上传接口
 			,accept: 'file'
 			,done: function(data){
-				layer.msg(data.msg,{icon:1});
+				data.msg=='导入成功' ? layer.msg(data.msg,{icon:1}) : layer.msg(data.msg,{icon:2})
+                tableIns.reload();
 			}
 			,error: function(){
 				layer.msg(data.msg,{icon:2});

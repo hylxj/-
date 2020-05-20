@@ -69,4 +69,10 @@ public interface BusService {
      * @Return: java.util.List<com.zlt.pojo.BusLineDriver>
     **/
     List<BusLineDriver> getExportBus(long [] busIds);
+    /**
+     * @Description:添加Excel导入的数据
+     * @Param: [bus]
+     * @Return: void
+    **/
+    String addUploadBus(UploadBus bus) ;
 }

@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>成都市公共交通信息管理平台</title>
+	<title>公共交通信息平台</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -21,7 +21,7 @@
 		<!-- 顶部 -->
 		<div class="layui-header header">
 			<div class="layui-main mag0">
-				<a href="#" class="logo" style="font-size: 11px">成都市公共交通信息管理平台</a>
+				<a href="#" class="logo" style="font-size: 15px">公共交通信息平台</a>
 				<!-- 显示/隐藏菜单 -->
 				<a href="javascript:;" class="seraph hideMenu icon-caidan"></a>
 			    <!-- 顶部右侧菜单 -->
