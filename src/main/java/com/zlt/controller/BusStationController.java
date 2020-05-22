@@ -103,7 +103,6 @@ public class BusStationController {
     @ResponseBody
     public TableData showLinesTable (HttpServletRequest request,int page, int limit){
         int staId = (int)request.getSession().getAttribute("staId");
-        System.out.println("============================================"+staId);
         TableData resultData = busStationService.findLines(staId,page, limit);
         return resultData;
     }

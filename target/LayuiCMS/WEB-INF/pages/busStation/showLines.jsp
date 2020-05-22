@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="../404.jsp" isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +24,7 @@
 				<a class="layui-btn search_btn" data-type="reload">搜索</a>
 			</div>
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-normal addNews_btn">添加路线</a>
+				<a class="layui-btn layui-btn-normal addNews_btn">添加站点</a>
 			</div>
 		</form>
 	</blockquote>

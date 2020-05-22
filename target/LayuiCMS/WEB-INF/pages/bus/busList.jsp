@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"  language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +38,6 @@
 		</form>
 	</blockquote>
 	<table id="newsList" lay-filter="newsList"></table>
-
 
 	<!--操作-->
 	<script type="text/html" id="newsListBar">
@@ -271,26 +270,8 @@
                 })
 			}
 		});
-		//文件上传
-        // $("#fileUpload").change(function () {
-        //     let fileData = this.files[0];
-        //     let formData = new FormData();
-        //     formData.append("upload",fileData);
-        //     $.ajax({
-        //         type:"POST",
-        //         url:'/bus/fileUpload',
-        //         data:formData,
-        //         cache:false,//不缓存
-        //         processData:false,
-        //         contentType:false,
-        //         dataType:'json',
-        //         success:function (data) {
-        //             layer.msg(data.msg,{icon:1});
-        //         }
-        //     })
-        // })
 
-		//layui 文件上传
+		//layui Excel导入
 		let upload = layui.upload;
 		//执行实例
 		let uploadInst = upload.render({
