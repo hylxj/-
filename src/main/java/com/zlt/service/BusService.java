@@ -75,4 +75,6 @@ public interface BusService {
      * @Return: void
     **/
     String addUploadBus(UploadBus bus) ;
+
+    void delFixBus(int busId);
 }

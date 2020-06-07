@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="../404.jsp" isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -111,7 +111,7 @@
                             status = '在岗';
                             break;
                         case  2:
-                            status = '矿工';
+                            status = '旷工';
                             break;
                         case  3:
                             status = '请假';
@@ -211,17 +211,6 @@
 					type : 2,
 					content : "/driverUpdatePage?id="+data.busdriverId,
 					success : function(layero, index) {
-						// let body = layui.layer.getChildFrame('body', index);
-						// if(edit){
-						// 	body.find(".newsName").val(edit.newsName);
-						// 	body.find(".abstract").val(edit.abstract);
-						// 	body.find(".thumbImg").attr("src",edit.newsImg);
-						// 	body.find("#news_content").val(edit.content);
-						// 	body.find(".newsStatus select").val(edit.newsStatus);
-						// 	body.find(".openness input[name='openness'][title='"+edit.newsLook+"']").prop("checked","checked");
-						// 	body.find(".newsTop input[name='newsTop']").prop("checked",edit.newsTop);
-						// 	form.render();
-						// }
 						setTimeout(function () {
 							layui.layer.tips('点击此处返回司机列表', '.layui-layer-setwin .layui-layer-close', {
 								tips: 3

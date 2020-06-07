@@ -123,7 +123,7 @@
 
                 layer.msg(res.msg, {
                     icon: 1,
-                    time: 5000
+                    time: 2000
                 }, function(){
                     layer.closeAll("iframe");
                     //刷新父页面

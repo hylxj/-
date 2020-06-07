@@ -3,7 +3,7 @@
 <mapper namespace="com.zlt.dao.BusLineDao">
     <!--查询所有的线路-->
     <select id="findAll" resultType="BusLine">
-        select * from busline where lineStatus in (1,2)
+        select * from busline where lineStatus in (1,2) order by lineId desc
     </select>
     <!--添加线路-->
     <insert id="saveLine" parameterType="BusLine">

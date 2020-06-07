@@ -70,4 +70,6 @@ public interface BusDao {
      * @Return: java.util.List<com.zlt.pojo.BusLineDriver>
     **/
     List<BusLineDriver> findExportBus(long[] busIds);
+
+    void delLogBux(int busId);
 }

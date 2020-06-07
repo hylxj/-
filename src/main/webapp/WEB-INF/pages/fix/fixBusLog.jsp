@@ -183,7 +183,7 @@
 			} else if(layEvent === 'del'){ //删除
 				layer.confirm('确定删除此维修记录吗？',{icon:3, title:'提示信息'},function(index){
 					$.get("/fix/del",{
-					    busId : data.busId  //将需要删除的newsId作为参数传入
+					    busId : data.fixLogId  //将需要删除的newsId作为参数传入
 					},function(res){
                         setTimeout(function(){
                             if(res.code==200){

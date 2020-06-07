@@ -69,5 +69,10 @@ public class FixController {
         busService.addFixBusLog(busId,fixId,fixMoney);
         return new ResultData(200, "修改成功");
     }
-
+    @RequestMapping("/del")
+    @ResponseBody
+    public ResultData delBusCen(int busId) {
+        busService.delFixBus(busId);
+        return new ResultData(200, "删除成功");
+    }
 }

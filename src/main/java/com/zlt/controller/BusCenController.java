@@ -24,10 +24,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/busCen")
 public class BusCenController {
-    @Autowired
-    BusCenService busCenService;
-    @Autowired
-    RoleDao roleDao;
+    final BusCenService busCenService;
+    final RoleDao roleDao;
+
+    public BusCenController(BusCenService busCenService, RoleDao roleDao) {
+        this.busCenService = busCenService;
+        this.roleDao = roleDao;
+    }
 
     @RequestMapping("/treeLoad")
     @ResponseBody

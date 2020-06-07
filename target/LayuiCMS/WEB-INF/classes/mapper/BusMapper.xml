@@ -203,4 +203,7 @@
                 </foreach>
            order by a.busId desc
     </select>
+    <delete id="delLogBux" parameterType="int">
+        delete from fixLog where fixLogId = #{busId}
+    </delete>
 </mapper>

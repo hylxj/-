@@ -214,4 +214,9 @@ public class BusServiceImpl implements BusService {
         busDao.saveBus(bus1);
         return "导入成功";
     }
+
+    @Override
+    public void delFixBus(int busId) {
+        busDao.delLogBux(busId);
+    }
 }
